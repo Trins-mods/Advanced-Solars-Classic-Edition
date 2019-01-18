@@ -37,10 +37,12 @@ public class ContainerAdvancedSolarPanel extends ContainerTileComponent<TileEnti
         this.addSlotToContainer(new SlotCharge(tile, tile.tier, 2, 53, 59));
         this.addSlotToContainer(new SlotCharge(tile, tile.tier, 3, 71, 59));
 
-        if (tile.isSunVisible(tile.getWorld(), tile.getPos().up()) && !tile.getWorld().isDaytime()){
+        if (tile.isSunVisible(tile.getWorld(), tile.getPos().up())){
             this.addComponent(new AdvancedSolarPanelComp(tile, solarPanelLightBox, daySolarLightPos));
         }else {
-            this.addComponent(new AdvancedSolarPanelComp(tile, solarPanelLightBox, nightSolarLightPos));
+            if (tile.getWorld().canBlockSeeSky(tile.getPos().up())){
+                this.addComponent(new AdvancedSolarPanelComp(tile, solarPanelLightBox, nightSolarLightPos));
+            }
         }
         this.addComponent(new SolarChargeComponent(tile, chargeBox, chargePos));
 
