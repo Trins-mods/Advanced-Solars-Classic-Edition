@@ -14,7 +14,7 @@ public class Icons {
     @SideOnly(Side.CLIENT)
     public static void loadSprites()
     {
-        addSprite(new SpriteData("advancedsolarpanel", "advancedsolars:textures/sprites/advancedsolarpanel.png", new SpriteInfo(2, 2)));
+        addSprite(new SpriteData("advancedsolarpanel", "advancedsolars:textures/sprites/advancedsolarpanel.png", new SpriteInfo(1, 12)));
         addSprite(new SpriteData("hybridsolarpanel", "advancedsolars:textures/sprites/hybridsolarpanel.png", new SpriteInfo(1, 12)));
         addSprite(new SpriteData("ultimatesolarpanel", "advancedsolars:textures/sprites/ultimatesolarpanel.png", new SpriteInfo(1, 12)));
         addSprite(new SpriteData("advancedsolars_items", "advancedsolars:textures/sprites/adv_items.png", new SpriteInfo(16, 1)));

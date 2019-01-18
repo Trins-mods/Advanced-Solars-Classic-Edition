@@ -40,6 +40,10 @@ public class BlockAdvancedSolarPanels extends BlockMultiID {
     {
         if (this == Registry.advancedSolarPanel) {
             return new TileEntityAdvancedSolarPanel();
+        }else if (this == Registry.hybridSolarPanel){
+            return new TileEntityAdvancedSolarPanel.TileEntityHybridSolarPanel();
+        }else if (this == Registry.ultimateSolarPanel){
+            return new TileEntityAdvancedSolarPanel.TileEntityUltimateHybridSolarPanel();
         }else {
             return new TileEntityBlock();
         }

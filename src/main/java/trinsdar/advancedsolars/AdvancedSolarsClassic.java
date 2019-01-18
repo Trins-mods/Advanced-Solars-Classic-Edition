@@ -22,6 +22,7 @@ public class AdvancedSolarsClassic {
 
     @Mod.Instance
     public static AdvancedSolarsClassic instance;
+
     public static Logger logger;
 
     @Mod.EventHandler

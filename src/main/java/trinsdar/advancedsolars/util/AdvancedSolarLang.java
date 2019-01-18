@@ -7,5 +7,5 @@ import trinsdar.advancedsolars.AdvancedSolarsClassic;
 public class AdvancedSolarLang {
     public static LocaleComp advancedSolarPanel = new LangComponentHolder.LocaleBlockComp("tile." + AdvancedSolarsClassic.MODID + ".advancedSolarPanel");
     public static LocaleComp hybridSolarPanel = new LangComponentHolder.LocaleBlockComp("tile." + AdvancedSolarsClassic.MODID + ".hybridSolarPanel");
-    public static LocaleComp ultimateSolarPanel = new LangComponentHolder.LocaleBlockComp("tile." + AdvancedSolarsClassic.MODID + ".ultimateSolarPanel");
+    public static LocaleComp ultimateHybridSolarPanel = new LangComponentHolder.LocaleBlockComp("tile." + AdvancedSolarsClassic.MODID + ".ultimateSolarPanel");
 }
