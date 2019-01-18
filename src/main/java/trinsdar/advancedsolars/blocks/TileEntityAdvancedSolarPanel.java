@@ -31,7 +31,6 @@ import trinsdar.advancedsolars.util.AdvancedSolarLang;
 public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
     double config;
     int ticker;
-    int storage;
     protected double lowerProduction;
     public TileEntityAdvancedSolarPanel() {
         super(4);
@@ -60,7 +59,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
 
     @Override
     public Box2D getEnergyBox() {
-        return null;
+        return ContainerAdvancedSolarPanel.chargeBox;
     }
 
     @Override
@@ -81,19 +80,22 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
     @Override
     public void update() {
         if (this.ticker++ % 128 == 0) {
-            this.setActive(true);
+            this.setActive(this.getWorld().canBlockSeeSky(this.getPos().up()));
+
         }
 
         if (this.getActive()) {
             if (isSunVisible(this.getWorld(), this.getPos().up())){
                 this.storage = (int)(this.production * this.config);
             }else {
-                this.storage = (int)(this.lowerProduction * this.config);
+                if (this.getWorld().canBlockSeeSky(this.getPos().up())){
+                    this.storage = (int)(this.lowerProduction * this.config);
+                }
             }
 
         }
 
-        if (this.storage > 0 && !((ItemStack)this.inventory.get(0)).isEmpty()) {
+        if (this.storage > 0 && !(this.inventory.get(0)).isEmpty()) {
             this.storage = (int)((double)this.storage - ElectricItem.manager.charge((ItemStack)this.inventory.get(0), (double)this.storage, this.tier, false, false));
         }
 
