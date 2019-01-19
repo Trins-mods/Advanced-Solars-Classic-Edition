@@ -2,6 +2,18 @@ tile.advancedsolars.advancedSolarPanel.name=Advanced Solar Panel
 tile.advancedsolars.hybridSolarPanel.name=Hybrid Solar Panel
 tile.advancedsolars.ultimateSolarPanel.name=Ultimate Hybrid Solar Panel
 
+item.advancedsolars.sunnarium.name=Sunnarium
+item.advancedsolars.sunnarium_alloy.name=Sunnarium Alloy
+item.advancedsolars.irradiant_uranium.name=Irradiant Uranium
+item.advancedsolars.enriched_sunnarium.name=Enriched Sunnarium
+item.advancedsolars.enriched_sunnarium_alloy.name=Enriched Sunnarium Alloy
+item.advancedsolars.irradiant_glass_pane.name=Irradiant Glass Pane
+item.advancedsolars.iridium_iron_plate.name=Iridium Iron Plate
+item.advancedsolars.reinforced_iridium_iron_plate.name=Reinforced Iridium Iron Plate
+item.advancedsolars.irradiant_reinforced_plate.name=Irradiant Reinforced Plate
+item.advancedsolars.sunnarium_part.name=Sunnarium Part
+item.advancedsolars.iridium_ingot.name=Iridium Ingot
+
 tileInfo.storage.name=Stored: %1$s / %2$s
 tileInfo.maxOutput.name=Max Output: %1$s EU/t
 tileInfo.generating.name=Generating: %1$s EU/t
