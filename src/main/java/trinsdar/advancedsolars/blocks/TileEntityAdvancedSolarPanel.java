@@ -17,14 +17,18 @@ import ic2.core.platform.lang.components.base.LocaleComp;
 import ic2.core.platform.lang.storage.Ic2BlockLang;
 import ic2.core.platform.registry.Ic2Resources;
 import ic2.core.util.math.Box2D;
+import ic2.core.util.math.Vec2i;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
+import org.jetbrains.annotations.NotNull;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 import trinsdar.advancedsolars.util.AdvancedSolarLang;
 
@@ -58,8 +62,42 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
     }
 
     @Override
+    public boolean isConverting() {
+        if (isSunVisible()){
+            return this.storage + this.production <= this.maxStorage;
+        }else {
+            if (this.getWorld().canBlockSeeSky(this.getPos().up())){
+                return this.storage + this.lowerProduction <= this.maxStorage;
+            }else {
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public boolean gainEnergy() {
+        if (this.isConverting()) {
+            if (isSunVisible()){
+                this.storage += this.production;
+            }else {
+                if (this.getWorld().canBlockSeeSky(this.getPos().up())){
+                    this.storage += this.lowerProduction;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public Box2D getEnergyBox() {
         return ContainerAdvancedSolarPanel.chargeBox;
+    }
+
+    @Override
+    public Vec2i getEnergyPos() {
+        return ContainerAdvancedSolarPanel.chargePos;
     }
 
     @Override
@@ -69,35 +107,85 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
 
     @Override
     public double getOfferedEnergy() {
-        return (double)this.storage;
+        if (isSunVisible()){
+            return (double)Math.min(this.storage, this.production);
+        }else {
+            return (double)Math.min(this.storage, this.lowerProduction);
+        }
+
     }
 
-    @Override
-    public void drawEnergy(double amount) {
-        this.storage = (int)((double)this.storage - amount);
-    }
 
     @Override
     public void update() {
-        if (this.ticker++ % 128 == 0) {
-            this.setActive(this.getWorld().canBlockSeeSky(this.getPos().up()));
 
-        }
-
-        if (this.getActive()) {
-            if (isSunVisible(this.getWorld(), this.getPos().up())){
-                this.storage = (int)(this.production * this.config);
-            }else {
-                if (this.getWorld().canBlockSeeSky(this.getPos().up())){
-                    this.storage = (int)(this.lowerProduction * this.config);
-                }
+        int oldEnergy = this.storage;
+        boolean active = this.gainEnergy();
+        if (this.storage > 0) {
+            if (!(this.inventory.get(0)).isEmpty()) {
+                this.storage = (int)((double)this.storage - ElectricItem.manager.charge(this.inventory.get(0), (double)this.storage, this.tier, false, false));
+            }else if (!this.inventory.get(1).isEmpty()){
+                this.storage = (int)((double)this.storage - ElectricItem.manager.charge(this.inventory.get(1), (double)this.storage, this.tier, false, false));
+            }else if (!this.inventory.get(2).isEmpty()){
+                this.storage = (int)((double)this.storage - ElectricItem.manager.charge(this.inventory.get(2), (double)this.storage, this.tier, false, false));
+            }else if (!this.inventory.get(3).isEmpty()){
+                this.storage = (int)((double)this.storage - ElectricItem.manager.charge(this.inventory.get(3), (double)this.storage, this.tier, false, false));
             }
 
+            if (this.storage > this.maxStorage) {
+                this.storage = this.maxStorage;
+            }
         }
 
-        if (this.storage > 0 && !(this.inventory.get(0)).isEmpty()) {
-            this.storage = (int)((double)this.storage - ElectricItem.manager.charge((ItemStack)this.inventory.get(0), (double)this.storage, this.tier, false, false));
+        if (!this.delayActiveUpdate()) {
+            this.setActive(active);
+        } else {
+            if (this.ticksSinceLastActiveUpdate % this.getDelay() == 0) {
+                this.setActive(this.activityMeter > 0);
+                this.activityMeter = 0;
+            }
+
+            if (active) {
+                ++this.activityMeter;
+            } else {
+                --this.activityMeter;
+            }
+
+            ++this.ticksSinceLastActiveUpdate;
         }
+
+        if (oldEnergy != this.storage) {
+            this.getNetwork().updateTileGuiField(this, "storage");
+        }
+
+        this.updateComparators();
+//        if (this.ticker++ % 128 == 0) {
+//            this.setActive(this.getWorld().canBlockSeeSky(this.getPos().up()));
+//
+//        }
+//
+//        if (this.getActive()) {
+//            if (isSunVisible(this.getWorld(), this.getPos().up())){
+//                if (this.storage < this.maxStorage){
+//                    this.storage += (int)(this.production * this.config);
+//                }
+//
+//            }else {
+//                if (this.getWorld().canBlockSeeSky(this.getPos().up())){
+//                    if (this.storage < this.maxStorage){
+//                        this.storage += (int)(this.lowerProduction * this.config);
+//                    }
+//                }
+//            }
+//
+//        }
+//
+//        if (this.storage > 0 && (!(this.inventory.get(0)).isEmpty() || !(this.inventory.get(1)).isEmpty() || !(this.inventory.get(2)).isEmpty() || !(this.inventory.get(3)).isEmpty()) ) {
+//            this.storage = (int)((double)this.storage - ElectricItem.manager.charge((ItemStack)this.inventory.get(0), (double)this.storage, this.tier, false, false));
+//            if (this.storage > this.maxStorage){
+//                this.storage = this.maxStorage;
+//            }
+//        }
 
     }
 
@@ -108,7 +196,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
 
     @Override
     public int getOutput() {
-        if (isSunVisible(this.getWorld(), this.getPos().up())){
+        if (isSunVisible()){
             return (int)(this.production * this.config);
         }else {
             return (int)(this.lowerProduction * this.config);
@@ -116,21 +204,36 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
 
     }
 
-    public static boolean isSunVisible(World world, BlockPos pos) {
-        if (world.provider.hasSkyLight() && world.getWorldTime() < 12600) {
-            if (!world.canBlockSeeSky(pos)) {
-                return false;
-            } else {
-                Biome biome = world.getBiome(pos);
-                if (BiomeDictionary.hasType(biome, BiomeDictionary.Type.HOT) && !biome.canRain()) {
-                    return true;
-                } else {
-                    return !world.isRaining() && !world.isThundering();
-                }
-            }
-        } else {
+    public boolean isSunVisible(){
+        return isSunVisible(this.getWorld(), this.getPos().up());
+    }
+
+    public static boolean isSunVisible(@NotNull World world, BlockPos pos) {
+        if ((!world.provider.hasSkyLight()
+                && world.getWorldTime() > 13000)
+                || !world.canBlockSeeSky(pos)
+                || world.isRaining()
+                || world.isThundering()) {
             return false;
         }
+        return true;
+    }
+
+    public static float calculateLightRatio(World world) {
+        int lightValue = EnumSkyBlock.SKY.defaultLightValue - world.getSkylightSubtracted();
+        float sunAngle = world.getCelestialAngleRadians(1.0F);
+
+        if (sunAngle < (float) Math.PI) {
+            sunAngle += (0.0F - sunAngle) * 0.2F;
+        } else {
+            sunAngle += (((float) Math.PI * 2F) - sunAngle) * 0.2F;
+        }
+
+        lightValue = Math.round(lightValue * MathHelper.cos(sunAngle));
+
+        lightValue = MathHelper.clamp(lightValue, 0, 15);
+        float test = lightValue /15f;
+        return test;
     }
 
     public double getWrenchDropRate() {
