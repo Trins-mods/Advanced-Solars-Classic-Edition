@@ -1,3 +1,7 @@
 tile.advancedsolars.advancedSolarPanel.name=Advanced Solar Panel
 tile.advancedsolars.hybridSolarPanel.name=Hybrid Solar Panel
 tile.advancedsolars.ultimateSolarPanel.name=Ultimate Hybrid Solar Panel
+
+tileInfo.storage.name=Stored: %1$s / %2$s
+tileInfo.maxOutput.name=Max Output: %1$s EU/t
+tileInfo.generating.name=Generating: %1$s EU/t

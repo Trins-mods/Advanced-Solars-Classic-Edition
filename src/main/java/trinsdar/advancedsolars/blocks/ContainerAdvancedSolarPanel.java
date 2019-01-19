@@ -11,6 +11,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import trinsdar.advancedsolars.util.AdvancedSolarEnergyStringComp;
 import trinsdar.advancedsolars.util.AdvancedSolarPanelComp;
 
 public class ContainerAdvancedSolarPanel extends ContainerTileComponent<TileEntityAdvancedSolarPanel> {
@@ -35,6 +36,7 @@ public class ContainerAdvancedSolarPanel extends ContainerTileComponent<TileEnti
                 this.addComponent(new AdvancedSolarPanelComp(tile, solarPanelLightBox, nightSolarLightPos));
             }
         }
+        this.addComponent(new AdvancedSolarEnergyStringComp(tile));
         this.addComponent(new GeneratorChargeComp(tile, chargeBox, chargePos));
 
         this.addPlayerInventory(player, 9, 2);
@@ -45,6 +47,7 @@ public class ContainerAdvancedSolarPanel extends ContainerTileComponent<TileEnti
     public void onGuiLoaded(GuiIC2 gui) {
         gui.setMaxGuiX(194);
         gui.dissableInvName();
+        gui.disableName();
     }
 
     @Override

@@ -36,13 +36,15 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
     double config;
     int ticker;
     protected double lowerProduction;
+    int maxOutput;
     public TileEntityAdvancedSolarPanel() {
         super(4);
         this.tier = 1;
         this.ticker = 127;
         this.production = 8;
         this.lowerProduction = 1.0D;
-        this.maxStorage = 50000;
+        this.maxStorage = 32000;
+        this.maxOutput = 32;
         this.config = (double) IC2.config.getInt("energyGeneratorSolarLV") / 100.0D;
     }
 
@@ -59,6 +61,10 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
     @Override
     public ResourceLocation getTexture() {
         return new ResourceLocation(AdvancedSolarsClassic.MODID, "textures/sprites/guiadvancedsolarpanel.png");
+    }
+
+    public int getMaxOutput(){
+        return maxOutput;
     }
 
     @Override
@@ -159,34 +165,6 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
         }
 
         this.updateComparators();
-//        if (this.ticker++ % 128 == 0) {
-//            this.setActive(this.getWorld().canBlockSeeSky(this.getPos().up()));
-//
-//        }
-//
-//        if (this.getActive()) {
-//            if (isSunVisible(this.getWorld(), this.getPos().up())){
-//                if (this.storage < this.maxStorage){
-//                    this.storage += (int)(this.production * this.config);
-//                }
-//
-//            }else {
-//                if (this.getWorld().canBlockSeeSky(this.getPos().up())){
-//                    if (this.storage < this.maxStorage){
-//                        this.storage += (int)(this.lowerProduction * this.config);
-//                    }
-//                }
-//            }
-//
-//        }
-//
-//        if (this.storage > 0 && (!(this.inventory.get(0)).isEmpty() || !(this.inventory.get(1)).isEmpty() || !(this.inventory.get(2)).isEmpty() || !(this.inventory.get(3)).isEmpty()) ) {
-//            this.storage = (int)((double)this.storage - ElectricItem.manager.charge((ItemStack)this.inventory.get(0), (double)this.storage, this.tier, false, false));
-//            if (this.storage > this.maxStorage){
-//                this.storage = this.maxStorage;
-//            }
-//        }
-
     }
 
     @Override
@@ -246,6 +224,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
             this.production = 64;
             this.lowerProduction = 8.0D;
             this.maxStorage = 100000;
+            this.maxOutput = 128;
             this.config = (double) IC2.config.getInt("energyGeneratorSolarLV") / 100.0D;
         }
 
@@ -260,7 +239,8 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
             this.tier = 3;
             this.production =512;
             this.lowerProduction = 64.0D;
-            this.maxStorage = 6000000;
+            this.maxStorage = 1000000;
+            this.maxOutput = 512;
             this.config = (double) IC2.config.getInt("energyGeneratorSolarLV") / 100.0D;
         }
 
