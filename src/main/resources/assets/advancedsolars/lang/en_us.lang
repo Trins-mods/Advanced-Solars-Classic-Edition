@@ -14,6 +14,6 @@ item.advancedsolars.irradiant_reinforced_plate.name=Irradiant Reinforced Plate
 item.advancedsolars.sunnarium_part.name=Sunnarium Part
 item.advancedsolars.iridium_ingot.name=Iridium Ingot
 
-tileInfo.storage.name=Stored: %1$s / %2$s
-tileInfo.maxOutput.name=Max Output: %1$s EU/t
-tileInfo.generating.name=Generating: %1$s EU/t
+tileInfo.storage.name=Stored: %1$s
+tileInfo.maxOutput.name=Max Output:
+tileInfo.generating.name=Generating:

@@ -32,11 +32,11 @@ public class AdvancedSolarEnergyStringComp extends GuiComponent {
     @SideOnly(Side.CLIENT)
     public void drawFrontground(GuiIC2 gui, int mouseX, int mouseY) {
         if (block instanceof TileEntityAdvancedSolarPanel.TileEntityUltimateHybridSolarPanel){
-            gui.drawString(block.getBlockName(), 29, 8, 7718655);
+            gui.drawString(block.getBlockName(), 20, 5, 7718655);
         }else if (block instanceof TileEntityAdvancedSolarPanel.TileEntityHybridSolarPanel){
-            gui.drawString(block.getBlockName(), 50, 8, 7718655);
+            gui.drawString(block.getBlockName(), 41, 5, 7718655);
         }else {
-            gui.drawString(block.getBlockName(), 42, 8, 7718655);
+            gui.drawString(block.getBlockName(), 33, 5, 7718655);
         }
         int eu = this.block.getStoredEU();
         int max = this.block.getMaxEU();
@@ -44,10 +44,11 @@ public class AdvancedSolarEnergyStringComp extends GuiComponent {
             eu = max;
         }
 
-        gui.drawString(AdvancedSolarLang.storage.getLocalizedFormatted(eu, max), 50, 21, white);
-        gui.drawString(AdvancedSolarLang.maxOutput.getLocalizedFormatted(this.block.getMaxOutput()), 50, 31,
-                white);
-        gui.drawString(AdvancedSolarLang.generating.getLocalizedFormatted(this.block.getOutput()), 50, 41,
-                white);
+        gui.drawString(AdvancedSolarLang.storage.getLocalizedFormatted(eu), 7, 21, white);
+        gui.drawString("/" + max, 7, 31, white);
+        gui.drawString(AdvancedSolarLang.maxOutput, 7, 41, white);
+        gui.drawString("" + this.block.getMaxOutput() + " EU/t", 7, 51, white);
+        gui.drawString(AdvancedSolarLang.generating, 7, 61, white);
+        gui.drawString("" + this.block.getOutput() + " EU/t", 7, 71, white);
     }
 }

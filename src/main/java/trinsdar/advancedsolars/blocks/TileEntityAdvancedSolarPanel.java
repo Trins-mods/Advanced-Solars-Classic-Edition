@@ -187,8 +187,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
     }
 
     public static boolean isSunVisible(@NotNull World world, BlockPos pos) {
-        if ((!world.provider.hasSkyLight()
-                && world.getWorldTime() > 13000)
+        if ((world.getWorldTime() > 12700)
                 || !world.canBlockSeeSky(pos)
                 || world.isRaining()
                 || world.isThundering()) {
