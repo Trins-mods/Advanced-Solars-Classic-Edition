@@ -11,6 +11,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 import trinsdar.advancedsolars.blocks.BlockAdvancedSolarPanels;
 import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
+import trinsdar.advancedsolars.items.ItemArmorAdvancedSolarHelmet;
+import trinsdar.advancedsolars.items.ItemArmorAdvancedSolarHelmet.AdvancedSolarHelmetTypes;
 import trinsdar.advancedsolars.items.ItemMisc;
 import trinsdar.advancedsolars.items.ItemMisc.ItemMiscTypes;
 
@@ -33,6 +35,11 @@ public class Registry {
     sunnariumPart = new ItemMisc(ItemMiscTypes.SUNNARIUM_PART),
     iridiumIngot = new ItemMisc(ItemMiscTypes.IRIDIUM_INGOT);
 
+    public static final ItemArmorAdvancedSolarHelmet
+    advancedSolarHelmet = new ItemArmorAdvancedSolarHelmet(AdvancedSolarHelmetTypes.ADVANCED),
+    hybridSolarHelmet = new ItemArmorAdvancedSolarHelmet(AdvancedSolarHelmetTypes.HYBRID),
+    ultimateHybridSolarHelmet = new ItemArmorAdvancedSolarHelmet(AdvancedSolarHelmetTypes.ULTIMATE_HYBRID);
+
 
     public static final Block[] blocks =
             {
@@ -52,7 +59,11 @@ public class Registry {
             reinforcedIridiumIronPlate,
             irradiantReinforcedPlate,
             sunnariumPart,
-            iridiumIngot
+            iridiumIngot,
+
+            advancedSolarHelmet,
+            hybridSolarHelmet,
+            ultimateHybridSolarHelmet
     };
 
     @SubscribeEvent

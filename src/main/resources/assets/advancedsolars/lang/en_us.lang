@@ -13,7 +13,13 @@ item.advancedsolars.reinforced_iridium_iron_plate.name=Reinforced Iridium Iron P
 item.advancedsolars.irradiant_reinforced_plate.name=Irradiant Reinforced Plate
 item.advancedsolars.sunnarium_part.name=Sunnarium Part
 item.advancedsolars.iridium_ingot.name=Iridium Ingot
+item.advancedsolars.advanced_solar_helmet.name=Advanced Solar Helmet
+item.advancedsolars.hybrid_solar_helmet.name=Hybrid Solar Helmet
+item.advancedsolars.ultimate_hybrid_solar_helmet.name=Ultimate Hybrid Solar Helmet
 
 tileInfo.storage.name=Stored: %1$s
 tileInfo.maxOutput.name=Max Output:
 tileInfo.generating.name=Generating:
+
+itemInfo.helmetProduction.name=Produces %s EU/t while the sky is visible;
+itemInfo.helmetLowerProduction.name=Otherwise produces %s EU/t while the moon is visible or during rain
