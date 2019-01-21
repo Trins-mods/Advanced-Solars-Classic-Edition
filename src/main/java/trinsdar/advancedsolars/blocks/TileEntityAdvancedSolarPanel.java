@@ -48,6 +48,15 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
         this.config = (double) IC2.config.getInt("energyGeneratorSolarLV") / 100.0D;
     }
 
+    protected void addSlots(InventoryHandler handler) {
+        handler.registerDefaultSideAccess(AccessRule.None, RotationList.UP);
+        handler.registerDefaultSideAccess(AccessRule.Both, RotationList.UP.getOppositeList());
+        handler.registerDefaultSlotAccess(AccessRule.Both, 0, 1, 2, 3);
+        handler.registerDefaultSlotsForSide(RotationList.DOWN, 0, 1, 2, 3);
+        handler.registerInputFilter(CommonFilters.ChargeEU, 0, 1, 2, 3);
+        handler.registerSlotType(SlotType.Charge, 0, 1, 2, 3);
+    }
+
     @Override
     public ContainerIC2 getGuiContainer(EntityPlayer player) {
         return new ContainerAdvancedSolarPanel(player.inventory, this);
@@ -128,14 +137,11 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
         int oldEnergy = this.storage;
         boolean active = this.gainEnergy();
         if (this.storage > 0) {
-            if (!(this.inventory.get(0)).isEmpty()) {
-                this.storage = (int)((double)this.storage - ElectricItem.manager.charge(this.inventory.get(0), (double)this.storage, this.tier, false, false));
-            }else if (!this.inventory.get(1).isEmpty()){
-                this.storage = (int)((double)this.storage - ElectricItem.manager.charge(this.inventory.get(1), (double)this.storage, this.tier, false, false));
-            }else if (!this.inventory.get(2).isEmpty()){
-                this.storage = (int)((double)this.storage - ElectricItem.manager.charge(this.inventory.get(2), (double)this.storage, this.tier, false, false));
-            }else if (!this.inventory.get(3).isEmpty()){
-                this.storage = (int)((double)this.storage - ElectricItem.manager.charge(this.inventory.get(3), (double)this.storage, this.tier, false, false));
+            for (ItemStack tStack : this.inventory) {
+                if (this.storage <= 0) break;
+                if (tStack.isEmpty()) continue; // No item to charge
+                int charged = (int)(ElectricItem.manager.charge(tStack, (double)this.storage, this.tier, false, false));
+                this.storage -= charged;
             }
 
             if (this.storage > this.maxStorage) {
