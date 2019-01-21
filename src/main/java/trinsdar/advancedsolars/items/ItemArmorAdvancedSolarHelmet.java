@@ -1,7 +1,10 @@
 package trinsdar.advancedsolars.items;
 
+import ic2.api.item.ElectricItem;
+import ic2.api.item.IElectricItemManager;
 import ic2.core.IC2;
 import ic2.core.block.generator.tile.TileEntitySolarPanel;
+import ic2.core.item.armor.base.ItemElectricArmorBase;
 import ic2.core.item.armor.base.ItemIC2AdvArmorBase;
 import ic2.core.item.armor.electric.ItemArmorSolarHelmet;
 import ic2.core.item.manager.ElectricItemManager;
@@ -27,25 +30,36 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class ItemArmorAdvancedSolarHelmet extends ItemIC2AdvArmorBase implements IBootable {
+public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implements IBootable {
     @Override
     public void onLoad() {
 
     }
 
     public enum AdvancedSolarHelmetTypes{
-        ADVANCED(11, 8, 1),
-        HYBRID(12, 64, 8),
-        ULTIMATE_HYBRID(13, 512, 64);
+        ADVANCED(11, 8, 1, 100000, 100, 2, 800, 0.9D),
+        HYBRID(12, 64, 8, 1000000, 1000, 3, 900, 1.0D),
+        ULTIMATE_HYBRID(13, 512, 64, 1000000, 2000, 3, 900, 1.0D);
 
-        private int id;
-        private int production;
-        private int lowerProduction;
+        private int
+        id,
+        production,
+        lowerProduction,
+        maxCharge,
+        maxTransfer,
+        tier,
+        energyPerDamage;
+        double damageAbsorpationRatio;
 
-        AdvancedSolarHelmetTypes(int id, int pro, int lowPro){
+        AdvancedSolarHelmetTypes(int id, int pro, int lowPro, int maxCharge, int maxTransfer, int tier, int energyPerDamage, double damageAbsorpationRatio){
             this.id = id;
             this.production = pro;
             this.lowerProduction = lowPro;
+            this.maxCharge = maxCharge;
+            this.maxTransfer = maxTransfer;
+            this.tier = tier;
+            this.energyPerDamage = energyPerDamage;
+            this.damageAbsorpationRatio = damageAbsorpationRatio;
         }
 
         public int getId() {
@@ -59,11 +73,31 @@ public class ItemArmorAdvancedSolarHelmet extends ItemIC2AdvArmorBase implements
         public int getLowerProduction() {
             return lowerProduction;
         }
+
+        public int getMaxCharge(){
+            return maxCharge;
+        }
+
+        public int getMaxTransfer() {
+            return maxTransfer;
+        }
+
+        public int getTier() {
+            return tier;
+        }
+
+        public int getEnergyPerDamage() {
+            return energyPerDamage;
+        }
+
+        public double getDamageAbsorpationRatio() {
+            return damageAbsorpationRatio;
+        }
     }
     AdvancedSolarHelmetTypes variant;
 
     public ItemArmorAdvancedSolarHelmet(AdvancedSolarHelmetTypes variant) {
-        super(-1, EntityEquipmentSlot.HEAD);
+        super(-1, EntityEquipmentSlot.HEAD, variant.getMaxCharge(), variant.getMaxTransfer(), variant.getTier());
         this.variant = variant;
         String name = variant.toString().toLowerCase() + "_solar_helmet";
         this.setRegistryName(name);
@@ -84,6 +118,7 @@ public class ItemArmorAdvancedSolarHelmet extends ItemIC2AdvArmorBase implements
         if (!IC2.platform.isRendering()) {
             if (TileEntitySolarPanel.isSunVisible(world, player.getPosition())) {
                 ElectricItemManager.chargeArmor(player, variant.getProduction());
+
             }else {
                 ElectricItemManager.chargeArmor(player, variant.getLowerProduction());
             }
@@ -107,8 +142,37 @@ public class ItemArmorAdvancedSolarHelmet extends ItemIC2AdvArmorBase implements
     }
 
     @Override
+    public double getDamageAbsorptionRatio() {
+        return variant.getDamageAbsorpationRatio();
+    }
+
+    @Override
+    public int getEnergyPerDamage() {
+        return variant.getEnergyPerDamage();
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getTexture(int meta) {
         return Ic2Icons.getTextures("advancedsolars_items")[variant.getId()];
+    }
+
+    public static int chargeArmor(EntityPlayer player, int provided) {
+        EntityEquipmentSlot[] var2 = EntityEquipmentSlot.values();
+        int var3 = var2.length;
+
+        int i;
+        for(i = 0; i < var3; ++i) {
+            EntityEquipmentSlot slot = var2[i];
+            if (provided <= 0) {
+                break;
+            }
+
+            if (slot.getSlotType() != EntityEquipmentSlot.Type.HAND) {
+                provided = (int)((double)provided - ElectricItem.manager.charge(player.getItemStackFromSlot(slot), (double)provided, 2147483647, false, false));
+            }
+        }
+
+        return provided;
     }
 }
