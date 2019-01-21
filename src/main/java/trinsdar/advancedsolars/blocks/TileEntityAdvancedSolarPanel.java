@@ -195,29 +195,11 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
     }
 
     public static boolean isSunVisible(@NotNull World world, BlockPos pos) {
-        if ((world.getWorldTime() > 12700)
-                || world.isRaining()
-                || world.isThundering()) {
-            return false;
+        Biome biome = world.getBiome(pos);
+        if (world.getWorldTime() %24000  < 12600){
+            return BiomeDictionary.hasType(biome, BiomeDictionary.Type.HOT) && !biome.canRain() || !world.isRaining() && !world.isThundering();
         }
-        return true;
-    }
-
-    public static float calculateLightRatio(World world) {
-        int lightValue = EnumSkyBlock.SKY.defaultLightValue - world.getSkylightSubtracted();
-        float sunAngle = world.getCelestialAngleRadians(1.0F);
-
-        if (sunAngle < (float) Math.PI) {
-            sunAngle += (0.0F - sunAngle) * 0.2F;
-        } else {
-            sunAngle += (((float) Math.PI * 2F) - sunAngle) * 0.2F;
-        }
-
-        lightValue = Math.round(lightValue * MathHelper.cos(sunAngle));
-
-        lightValue = MathHelper.clamp(lightValue, 0, 15);
-        float test = lightValue /15f;
-        return test;
+        return false;
     }
 
     public double getWrenchDropRate() {
