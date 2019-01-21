@@ -14,13 +14,17 @@ import ic2.core.platform.registry.Ic2Items;
 import ic2.core.platform.textures.Ic2Icons;
 import ic2.core.util.obj.IBootable;
 import ic2.core.util.obj.ToolTipType;
+import ic2.core.util.obj.plugins.IBaublesPlugin;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.wrapper.PlayerMainInvWrapper;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
 import trinsdar.advancedsolars.util.AdvancedSolarLang;
@@ -116,11 +120,13 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
     @Override
     public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
         if (!IC2.platform.isRendering()) {
-            if (TileEntitySolarPanel.isSunVisible(world, player.getPosition())) {
-                ElectricItemManager.chargeArmor(player, variant.getProduction());
+            if (world.provider.hasSkyLight() && world.canBlockSeeSky(player.getPosition())){
+                if (TileEntitySolarPanel.isSunVisible(world, player.getPosition())) {
+                    chargeInventory(player, variant.getProduction(), variant.getTier());
 
-            }else {
-                ElectricItemManager.chargeArmor(player, variant.getLowerProduction());
+                }else {
+                    chargeInventory(player, variant.getLowerProduction(), variant.getTier());
+                }
             }
 
         }
@@ -157,20 +163,26 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
         return Ic2Icons.getTextures("advancedsolars_items")[variant.getId()];
     }
 
-    public static int chargeArmor(EntityPlayer player, int provided) {
-        EntityEquipmentSlot[] var2 = EntityEquipmentSlot.values();
-        int var3 = var2.length;
+    public static int getTotalInventory(EntityPlayer player){
+        IBaublesPlugin plugin = IC2.loader.getPlugin("baubles", IBaublesPlugin.class);
+        if (plugin != null){
+            return player.inventory.getSizeInventory() + plugin.getBaublesInventory(player).getSlotCount();
+        }else {
+            return player.inventory.getSizeInventory();
+        }
+    }
+
+
+
+    public int chargeInventory(EntityPlayer player, int provided, int tier) {
+        ElectricItemManager.chargeArmor(player, provided);
 
         int i;
-        for(i = 0; i < var3; ++i) {
-            EntityEquipmentSlot slot = var2[i];
+        for(i = 0; i < player.inventory.mainInventory.size(); ++i) {
             if (provided <= 0) {
                 break;
             }
-
-            if (slot.getSlotType() != EntityEquipmentSlot.Type.HAND) {
-                provided = (int)((double)provided - ElectricItem.manager.charge(player.getItemStackFromSlot(slot), (double)provided, 2147483647, false, false));
-            }
+            provided = (int)((double)provided - ElectricItem.manager.charge(player.inventory.mainInventory.get(i), (double)provided, tier, false, false));
         }
 
         return provided;

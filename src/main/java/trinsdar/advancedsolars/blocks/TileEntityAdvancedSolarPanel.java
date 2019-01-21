@@ -69,24 +69,24 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
 
     @Override
     public boolean isConverting() {
-        if (isSunVisible()){
-            return this.storage + this.production <= this.maxStorage;
-        }else {
-            if (this.getWorld().canBlockSeeSky(this.getPos().up())){
-                return this.storage + this.lowerProduction <= this.maxStorage;
+        if (this.skyBlockCheck()){
+            if (isSunVisible()){
+                return this.storage + this.production <= this.maxStorage;
             }else {
-                return false;
+                return this.storage + this.lowerProduction <= this.maxStorage;
             }
+        }else {
+            return false;
         }
     }
 
     @Override
     public boolean gainEnergy() {
         if (this.isConverting()) {
-            if (isSunVisible()){
-                this.storage += this.production;
-            }else {
-                if (this.getWorld().canBlockSeeSky(this.getPos().up())){
+            if (this.skyBlockCheck()){
+                if (isSunVisible()){
+                    this.storage += this.production;
+                }else {
                     this.storage += this.lowerProduction;
                 }
             }
@@ -116,7 +116,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
         if (isSunVisible()){
             return (double)Math.min(this.storage, this.production);
         }else {
-            return (double)Math.min(this.storage, this.lowerProduction);
+            return Math.min(this.storage, this.lowerProduction);
         }
 
     }
@@ -174,12 +174,20 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
 
     @Override
     public int getOutput() {
-        if (isSunVisible()){
-            return (int)(this.production * this.config);
+        if (skyBlockCheck()){
+            if (isSunVisible()){
+                return (int)(this.production * this.config);
+            }else {
+                return (int)(this.lowerProduction * this.config);
+            }
         }else {
-            return (int)(this.lowerProduction * this.config);
+            return 0;
         }
 
+    }
+
+    public boolean skyBlockCheck(){
+        return this.getWorld().canBlockSeeSky(this.getPos().up()) && this.getWorld().provider.hasSkyLight();
     }
 
     public boolean isSunVisible(){
@@ -188,7 +196,6 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
 
     public static boolean isSunVisible(@NotNull World world, BlockPos pos) {
         if ((world.getWorldTime() > 12700)
-                || !world.canBlockSeeSky(pos)
                 || world.isRaining()
                 || world.isThundering()) {
             return false;
