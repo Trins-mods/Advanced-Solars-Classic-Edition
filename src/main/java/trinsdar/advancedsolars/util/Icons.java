@@ -1,6 +1,5 @@
 package trinsdar.advancedsolars.util;
 
-import ic2.core.platform.textures.Sprites;
 import ic2.core.platform.textures.Sprites.SpriteData;
 import ic2.core.platform.textures.Sprites.SpriteInfo;
 import ic2.core.platform.textures.Sprites.TextureEntry;

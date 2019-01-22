@@ -1,11 +1,8 @@
 package trinsdar.advancedsolars.util;
 
-import ic2.core.block.base.tile.TileEntityElectricBlock;
 import ic2.core.inventory.gui.GuiIC2;
 import ic2.core.inventory.gui.components.GuiComponent;
-import ic2.core.platform.lang.storage.Ic2GuiLang;
 import ic2.core.platform.registry.Ic2GuiComp;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;

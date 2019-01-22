@@ -1,36 +1,24 @@
 package trinsdar.advancedsolars.items;
 
 import ic2.api.item.ElectricItem;
-import ic2.api.item.IElectricItemManager;
 import ic2.core.IC2;
 import ic2.core.block.generator.tile.TileEntitySolarPanel;
 import ic2.core.inventory.base.IHasInventory;
 import ic2.core.item.armor.base.ItemElectricArmorBase;
-import ic2.core.item.armor.base.ItemIC2AdvArmorBase;
-import ic2.core.item.armor.electric.ItemArmorSolarHelmet;
-import ic2.core.item.manager.ElectricItemManager;
-import ic2.core.platform.lang.storage.Ic2InfoLang;
-import ic2.core.platform.lang.storage.Ic2ItemLang;
-import ic2.core.platform.registry.Ic2Items;
 import ic2.core.platform.textures.Ic2Icons;
 import ic2.core.util.obj.IBootable;
 import ic2.core.util.obj.ToolTipType;
 import ic2.core.util.obj.plugins.IBaublesPlugin;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.wrapper.PlayerMainInvWrapper;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
-import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
 import trinsdar.advancedsolars.util.AdvancedSolarLang;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;

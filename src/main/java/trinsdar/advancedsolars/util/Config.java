@@ -1,9 +1,5 @@
 package trinsdar.advancedsolars.util;
 
-import ic2.core.IC2;
-import ic2.core.platform.config.ConfigEntry;
-import ic2.core.platform.config.IC2Config;
-import ic2.core.platform.config.components.IConfigNotify;
 import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.Level;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
@@ -13,7 +9,7 @@ public class Config {
 
 
     private static final String CATEGORY_GENERAL = "general";
-    
+
     public static float
     energyGeneratorSolarAdvanced = 1.0F,
     energyGeneratorSolarHybrid = 1.0F,
