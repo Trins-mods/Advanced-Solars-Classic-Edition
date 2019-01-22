@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Logger;
 import trinsdar.advancedsolars.proxy.CommonProxy;
+import trinsdar.advancedsolars.util.Config;
 
 @Mod(modid = AdvancedSolarsClassic.MODID, name = AdvancedSolarsClassic.MODNAME, version = AdvancedSolarsClassic.MODVERSION, dependencies = AdvancedSolarsClassic.DEPENDS)
 public class AdvancedSolarsClassic {

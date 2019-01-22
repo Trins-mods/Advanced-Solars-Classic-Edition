@@ -31,6 +31,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import org.jetbrains.annotations.NotNull;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 import trinsdar.advancedsolars.util.AdvancedSolarLang;
+import trinsdar.advancedsolars.util.Config;
 
 public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
     double config;
@@ -45,7 +46,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
         this.lowerProduction = 1.0D;
         this.maxStorage = 32000;
         this.maxOutput = 32;
-        this.config = (double) IC2.config.getInt("energyGeneratorSolarLV") / 100.0D;
+        this.config = (double)Config.energyGeneratorSolarAdvanced;
     }
 
     protected void addSlots(InventoryHandler handler) {
@@ -219,7 +220,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
             this.lowerProduction = 8.0D;
             this.maxStorage = 100000;
             this.maxOutput = 128;
-            this.config = (double) IC2.config.getInt("energyGeneratorSolarLV") / 100.0D;
+            this.config = (double)Config.energyGeneratorSolarHybrid;
         }
 
         @Override
@@ -235,7 +236,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
             this.lowerProduction = 64.0D;
             this.maxStorage = 1000000;
             this.maxOutput = 512;
-            this.config = (double) IC2.config.getInt("energyGeneratorSolarLV") / 100.0D;
+            this.config = (double)Config.energyGeneratorSolarUltimateHybrid;
         }
 
         @Override
