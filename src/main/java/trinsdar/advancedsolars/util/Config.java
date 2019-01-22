@@ -23,7 +23,7 @@ public class Config {
     // generation
     public static boolean classicRecipe= false;
     public static boolean ic2cRecipes = true;
-    public static boolean harderRecipes = false;
+    public static boolean harderRecipes = true;
 
     public static void readConfig() {
         Configuration cfg = CommonProxy.config;

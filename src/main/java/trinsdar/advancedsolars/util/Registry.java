@@ -20,7 +20,7 @@ public class Registry {
     public static final BlockAdvancedSolarPanels
     advancedSolarPanel = new BlockAdvancedSolarPanels("advancedSolarPanel"),
     hybridSolarPanel = new BlockAdvancedSolarPanels("hybridSolarPanel"),
-    ultimateSolarPanel = new BlockAdvancedSolarPanels("ultimateSolarPanel");
+    ultimateHybridSolarPanel = new BlockAdvancedSolarPanels("ultimateSolarPanel");
 
     public static final ItemMisc
     sunnarium = new ItemMisc(ItemMiscTypes.SUNNARIUM),
@@ -45,7 +45,7 @@ public class Registry {
             {
                     advancedSolarPanel,
                     hybridSolarPanel,
-                    ultimateSolarPanel
+                    ultimateHybridSolarPanel
             };
 
     public static final Item[] items = {

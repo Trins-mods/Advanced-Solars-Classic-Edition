@@ -42,7 +42,7 @@ public class BlockAdvancedSolarPanels extends BlockMultiID {
             return new TileEntityAdvancedSolarPanel();
         }else if (this == Registry.hybridSolarPanel){
             return new TileEntityAdvancedSolarPanel.TileEntityHybridSolarPanel();
-        }else if (this == Registry.ultimateSolarPanel){
+        }else if (this == Registry.ultimateHybridSolarPanel){
             return new TileEntityAdvancedSolarPanel.TileEntityUltimateHybridSolarPanel();
         }else {
             return new TileEntityBlock();
@@ -57,7 +57,7 @@ public class BlockAdvancedSolarPanels extends BlockMultiID {
             return Ic2Icons.getTextures("advancedsolarpanel");
         }else if (this == Registry.hybridSolarPanel){
             return Ic2Icons.getTextures("hybridsolarpanel");
-        }else if (this == Registry.ultimateSolarPanel){
+        }else if (this == Registry.ultimateHybridSolarPanel){
             return Ic2Icons.getTextures("ultimatesolarpanel");
         }else{
             return Ic2Icons.getTextures("advancedsolarpanel");
