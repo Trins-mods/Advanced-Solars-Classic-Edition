@@ -4,6 +4,7 @@ import ic2.api.item.ElectricItem;
 import ic2.api.item.IElectricItemManager;
 import ic2.core.IC2;
 import ic2.core.block.generator.tile.TileEntitySolarPanel;
+import ic2.core.inventory.base.IHasInventory;
 import ic2.core.item.armor.base.ItemElectricArmorBase;
 import ic2.core.item.armor.base.ItemIC2AdvArmorBase;
 import ic2.core.item.armor.electric.ItemArmorSolarHelmet;
@@ -123,7 +124,6 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
             if (world.provider.hasSkyLight() && world.canBlockSeeSky(player.getPosition())){
                 if (TileEntitySolarPanel.isSunVisible(world, player.getPosition())) {
                     chargeInventory(player, variant.getProduction(), variant.getTier());
-
                 }else {
                     chargeInventory(player, variant.getLowerProduction(), variant.getTier());
                 }
@@ -163,21 +163,34 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
         return Ic2Icons.getTextures("advancedsolars_items")[variant.getId()];
     }
 
-    public static int getTotalInventory(EntityPlayer player){
-        IBaublesPlugin plugin = IC2.loader.getPlugin("baubles", IBaublesPlugin.class);
-        if (plugin != null){
-            return player.inventory.getSizeInventory() + plugin.getBaublesInventory(player).getSlotCount();
-        }else {
-            return player.inventory.getSizeInventory();
-        }
-    }
-
 
 
     public int chargeInventory(EntityPlayer player, int provided, int tier) {
-        ElectricItemManager.chargeArmor(player, provided);
+        EntityEquipmentSlot[] var2 = EntityEquipmentSlot.values();
 
         int i;
+        for(i = 0; i < var2.length; ++i) {
+            EntityEquipmentSlot slot = var2[i];
+            if (provided <= 0) {
+                break;
+            }
+
+            if (slot.getSlotType() != EntityEquipmentSlot.Type.HAND) {
+                provided = (int)((double)provided - ElectricItem.manager.charge(player.getItemStackFromSlot(slot), (double)provided, tier, false, false));
+            }
+        }
+
+        IBaublesPlugin plugin = IC2.loader.getPlugin("baubles", IBaublesPlugin.class);
+        if (plugin != null) {
+            IHasInventory inv = plugin.getBaublesInventory(player);
+
+            for(i = 0; i < inv.getSlotCount(); ++i) {
+                if (provided <= 0) {
+                    break;
+                }
+                provided = (int)((double)provided - ElectricItem.manager.charge(inv.getStackInSlot(i), (double)provided, tier, false, false));
+            }
+        }
         for(i = 0; i < player.inventory.mainInventory.size(); ++i) {
             if (provided <= 0) {
                 break;
