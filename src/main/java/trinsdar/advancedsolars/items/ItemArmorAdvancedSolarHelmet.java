@@ -30,9 +30,9 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
     }
 
     public enum AdvancedSolarHelmetTypes{
-        ADVANCED(11, 8, 1, 100000, 100, 2, 800, 0.9D),
-        HYBRID(12, 64, 8, 1000000, 1000, 3, 900, 1.0D),
-        ULTIMATE_HYBRID(13, 512, 64, 1000000, 2000, 3, 900, 1.0D);
+        ADVANCED(11, 8, 1, 100000, 100, 2, 800, 0.9D, ":textures/models/advancedsolarhelmet"),
+        HYBRID(12, 64, 8, 1000000, 1000, 3, 900, 1.0D, ":textures/models/hybridsolarhelmet"),
+        ULTIMATE_HYBRID(13, 512, 64, 1000000, 2000, 3, 900, 1.0D, ":textures/models/ultimatesolarhelmet");
 
         private int
         id,
@@ -43,8 +43,9 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
         tier,
         energyPerDamage;
         double damageAbsorpationRatio;
+        String texture;
 
-        AdvancedSolarHelmetTypes(int id, int pro, int lowPro, int maxCharge, int maxTransfer, int tier, int energyPerDamage, double damageAbsorpationRatio){
+        AdvancedSolarHelmetTypes(int id, int pro, int lowPro, int maxCharge, int maxTransfer, int tier, int energyPerDamage, double damageAbsorpationRatio, String texture){
             this.id = id;
             this.production = pro;
             this.lowerProduction = lowPro;
@@ -53,6 +54,7 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
             this.tier = tier;
             this.energyPerDamage = energyPerDamage;
             this.damageAbsorpationRatio = damageAbsorpationRatio;
+            this.texture = texture;
         }
 
         public int getId() {
@@ -85,6 +87,10 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
 
         public double getDamageAbsorpationRatio() {
             return damageAbsorpationRatio;
+        }
+
+        public String getTexture() {
+            return texture;
         }
     }
     AdvancedSolarHelmetTypes variant;
@@ -127,7 +133,7 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
 
     @Override
     public String getTexture() {
-        return "ic2:textures/models/armor/solar";
+        return AdvancedSolarsClassic.MODID + variant.getTexture();
     }
 
     @Override
