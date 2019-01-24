@@ -23,7 +23,7 @@ public class AdvancedSolarsRecipes {
         recipes.addRecipe(new ItemStack(Registry.reinforcedIridiumIronPlate), "aca", "cic", "aca", 'a', Ic2Items.advancedAlloy, 'c', Ic2Items.carbonPlate, 'i', Registry.iridiumIronPlate);
         recipes.addRecipe(new ItemStack(Registry.irradiantReinforcedPlate), "rsr", "lRl", "rdr", 'r', "dustRedstone", 's', Registry.sunnariumPart, 'l', "dyeBlue", 'R', Registry.reinforcedIridiumIronPlate, 'd', "gemDiamond");
         recipes.addRecipe(new ItemStack(Registry.sunnariumPart), "ugu", 'u', Ic2Items.uuMatter, 'g', "dustGlowstone");
-        recipes.addRecipe(new ItemStack(Registry.advancedSolarHelmet), " a ", "cnc", "glg", 'a', Registry.advancedSolarPanel, 'c', "circuitAdvanced", 'n', Ic2Items.nanoHelmet, 'g', Ic2Items.doubleInsulatedGoldCable, 'l', Ic2Items.transformerLV);
+        recipes.addRecipe(new ItemStack(Registry.advancedSolarHelmet), "sas", "cnc", "glg", 's', Ic2Items.advSolarHelmet, 'a', Registry.advancedSolarPanel, 'c', "circuitAdvanced", 'n', Ic2Items.nanoHelmet, 'g', Ic2Items.doubleInsulatedGoldCable, 'l', Ic2Items.transformerLV);
         recipes.addRecipe(new ItemStack(Registry.hybridSolarHelmet), " H ", "cqc", "ghg", 'H', Registry.hybridSolarPanel, 'c', "circuitAdvanced", 'q', Ic2Items.quantumHelmet, 'g', Ic2Items.glassFiberCable, 'h', Ic2Items.transformerHV);
         recipes.addRecipe(new ItemStack(Registry.irradiantUranium), "ugu", "geg", "ugu", 'u', Ic2Items.uuMatter, 'e', Ic2Items.enderPearlUraniumIngot, 'g', "dustGlowstone");
         recipes.addRecipe(new ItemStack(Registry.enrichedSunnarium), "iii", "isi", "iii", 'i', Registry.irradiantUranium, 's', Registry.sunnarium);
@@ -31,11 +31,12 @@ public class AdvancedSolarsRecipes {
         recipes.addRecipe(new ItemStack(Registry.advancedSolarPanel), "rrr", "asa", "cic", 'r', Registry.irradiantGlassPane, 'a', Ic2Items.advancedAlloy, 's', Ic2Items.lvSolarPanel, 'c', "circuitAdvanced", 'i', Registry.irradiantReinforcedPlate);
         recipes.addRecipe(new ItemStack(Registry.hybridSolarPanel), "CmC", "iai", "csc", 'C', Ic2Items.carbonPlate, 'm', Ic2Items.mvSolarPanel, 'i', Ic2Items.iridiumPlate, 'a', Registry.advancedSolarPanel, 'c', "circuitAdvanced", 's', Registry.enrichedSunnarium);
         recipes.addRecipe(new ItemStack(Registry.ultimateHybridSolarPanel), " h ", "pHp", "scs", 'h', Ic2Items.hvSolarPanel, 'p', Ic2Items.plasmaCore, 'H', Registry.hybridSolarPanel, 's', Registry.enrichedSunnariumAlloy, 'c', Ic2Items.coalChunk);
-        recipes.addRecipe(new ItemStack(Registry.ultimateHybridSolarHelmet), " u ", "ihi", 'u', Registry.ultimateHybridSolarPanel, 'i', Ic2Items.iridiumPlate, 'h', Registry.hybridSolarHelmet);
         if (Loader.isModLoaded("gtclassic")){
             recipes.addRecipe(new ItemStack(Registry.enrichedSunnariumAlloy), "pep", "ese", "pep", 'p', "itemPlasma", 'e', Registry.enrichedSunnarium, 's', Registry.sunnariumAlloy);
+            recipes.addRecipe(new ItemStack(Registry.ultimateHybridSolarHelmet),  "ppp", "pup", "ihi", 'p', "itemPlasma", 'u', Registry.ultimateHybridSolarPanel, 'i', Ic2Items.iridiumPlate, 'h', Registry.hybridSolarHelmet);
         }else {
             recipes.addRecipe(new ItemStack(Registry.enrichedSunnariumAlloy), "pep", "ese", "pep", 'p', Ic2Items.plasmaCell, 'e', Registry.enrichedSunnarium, 's', Registry.sunnariumAlloy);
+            recipes.addRecipe(new ItemStack(Registry.ultimateHybridSolarHelmet), "ppp", "pup", "ihi", 'p', Ic2Items.plasmaCell, 'u', Registry.ultimateHybridSolarPanel, 'i', Ic2Items.iridiumPlate, 'h', Registry.hybridSolarHelmet);
         }
     }
 
