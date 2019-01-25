@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -160,17 +161,19 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
 
 
     public int chargeInventory(EntityPlayer player, int provided, int tier) {
-        EntityEquipmentSlot[] var2 = EntityEquipmentSlot.values();
 
         int i;
-        for(i = 0; i < var2.length; ++i) {
-            EntityEquipmentSlot slot = var2[i];
-            if (provided <= 0) {
-                break;
-            }
+        List<NonNullList<ItemStack>> invList = Arrays.asList(player.inventory.armorInventory, player.inventory.offHandInventory, player.inventory.mainInventory);
 
-            if (slot.getSlotType() != EntityEquipmentSlot.Type.HAND) {
-                provided = (int)((double)provided - ElectricItem.manager.charge(player.getItemStackFromSlot(slot), (double)provided, tier, false, false));
+        int meSlot = player.inventory.getSlotFor(player.inventory.getItemStack());
+        for (NonNullList inventory : invList) {
+            int inventorySize = inventory.size();
+            for (i=0; i < inventorySize && provided > 0; i++) {
+                if (i == meSlot) continue;
+                ItemStack tStack = (ItemStack)inventory.get(i);
+                if (tStack.isEmpty()) continue;
+                int charged = (int)(ElectricItem.manager.charge(tStack, (double)provided, this.tier, false, false));
+                provided -= charged;
             }
         }
 
@@ -184,12 +187,6 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
                 }
                 provided = (int)((double)provided - ElectricItem.manager.charge(inv.getStackInSlot(i), (double)provided, tier, false, false));
             }
-        }
-        for(i = 0; i < player.inventory.mainInventory.size(); ++i) {
-            if (provided <= 0) {
-                break;
-            }
-            provided = (int)((double)provided - ElectricItem.manager.charge(player.inventory.mainInventory.get(i), (double)provided, tier, false, false));
         }
 
         return provided;
