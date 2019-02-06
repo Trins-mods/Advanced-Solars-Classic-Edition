@@ -17,4 +17,5 @@ public class AdvancedSolarLang {
 
     public static LocaleComp helmetProduction = new LocaleItemInfoComp("itemInfo.helmetProduction.name");
     public static LocaleComp helmetLowerPorduction = new LocaleItemInfoComp("itemInfo.helmetLowerProduction.name");
+    public static LocaleComp electricLowerProduction = new LocaleItemInfoComp("itemInfo.electricLowerProduction.name");
 }

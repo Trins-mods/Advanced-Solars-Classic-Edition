@@ -13,36 +13,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ItemMisc extends Item implements IStaticTexturedItem {
-    public enum ItemMiscTypes {
-        SUNNARIUM(0),
-        SUNNARIUM_ALLOY(1),
-        IRRADIANT_URANIUM(2),
-        ENRICHED_SUNNARIUM(3),
-        ENRICHED_SUNNARIUM_ALLOY(4),
-        IRRADIANT_GLASS_PANE(5),
-        IRIDIUM_IRON_PLATE(6),
-        REINFORCED_IRIDIUM_IRON_PLATE(7),
-        IRRADIANT_REINFORCED_PLATE(8),
-        SUNNARIUM_PART(9),
-        IRIDIUM_INGOT(10);
 
-        private int id;
+    private int id;
 
-        ItemMiscTypes(int id) {
-            this.id = id;
-        }
-
-        public int getID() {
-            return id;
-        }
-    }
-
-    ItemMiscTypes variant;
-
-    public ItemMisc(ItemMiscTypes variant) {
-        this.variant = variant;
-        setRegistryName(variant.toString().toLowerCase());
-        setUnlocalizedName(AdvancedSolarsClassic.MODID + "." + variant.toString().toLowerCase());
+    public ItemMisc(String name, int id) {
+        this.id = id;
+        setUnlocalizedName(name);
         setCreativeTab(IC2.tabIC2);
     }
 
@@ -54,6 +30,6 @@ public class ItemMisc extends Item implements IStaticTexturedItem {
     @Override
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getTexture(int i) {
-        return Ic2Icons.getTextures("advancedsolars_items")[variant.getID()];
+        return Ic2Icons.getTextures("advancedsolars_items")[id];
     }
 }

@@ -27,8 +27,7 @@ public class BlockAdvancedSolarPanels extends BlockMultiID {
         this.setResistance(20.0F);
         this.setSoundType(SoundType.METAL);
         this.setCreativeTab(IC2.tabIC2);
-        this.setRegistryName(AdvancedSolarsClassic.MODID, blockName);
-        this.setUnlocalizedName(AdvancedSolarsClassic.MODID + "." + blockName);
+        this.setUnlocalizedName(blockName);
     }
 
     public List<Integer> getValidMetas() {
