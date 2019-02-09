@@ -24,7 +24,7 @@ public class Registry {
     public static final ItemMisc
     sunnarium = new ItemMisc("sunnarium", 0),
     sunnariumAlloy = new ItemMisc("sunnariumAlloy", 1),
-    irradiantUranium = new ItemMisc("iridiantUranium", 2),
+    irradiantUranium = new ItemMisc("irradiantUranium", 2),
     enrichedSunnarium = new ItemMisc("enrichedSunnarium", 3),
     enrichedSunnariumAlloy = new ItemMisc("enrichedSunnariumAlloy", 4),
     irradiantGlassPane = new ItemMisc("irradiantGlassPane", 5),
