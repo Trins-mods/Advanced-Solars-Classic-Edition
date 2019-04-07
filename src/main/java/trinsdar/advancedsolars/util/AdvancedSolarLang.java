@@ -7,9 +7,9 @@ import ic2.core.platform.lang.components.base.LocaleComp;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 
 public class AdvancedSolarLang {
-    public static LocaleComp advancedSolarPanel = new LangComponentHolder.LocaleBlockComp("tile." + AdvancedSolarsClassic.MODID + ".advancedSolarPanel");
-    public static LocaleComp hybridSolarPanel = new LangComponentHolder.LocaleBlockComp("tile." + AdvancedSolarsClassic.MODID + ".hybridSolarPanel");
-    public static LocaleComp ultimateHybridSolarPanel = new LangComponentHolder.LocaleBlockComp("tile." + AdvancedSolarsClassic.MODID + ".ultimateSolarPanel");
+    public static LocaleComp advancedSolarPanel = new LangComponentHolder.LocaleBlockComp("tile.advancedSolarPanel");
+    public static LocaleComp hybridSolarPanel = new LangComponentHolder.LocaleBlockComp("tile.hybridSolarPanel");
+    public static LocaleComp ultimateHybridSolarPanel = new LangComponentHolder.LocaleBlockComp("tile.ultimateSolarPanel");
 
     public static LocaleComp storage = new LocaleTileInfoComp("tileInfo.storage.name");
     public static LocaleComp maxOutput = new LocaleTileInfoComp("tileInfo.maxOutput.name");
