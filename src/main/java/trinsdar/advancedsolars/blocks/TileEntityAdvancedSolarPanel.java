@@ -43,7 +43,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
 
     protected void addSlots(InventoryHandler handler) {
         handler.registerDefaultSideAccess(AccessRule.None, RotationList.UP);
-        handler.registerDefaultSideAccess(AccessRule.Both, RotationList.UP.getOppositeList());
+        handler.registerDefaultSideAccess(AccessRule.Both, RotationList.UP.invert());
         handler.registerDefaultSlotAccess(AccessRule.Both, 0, 1, 2, 3);
         handler.registerDefaultSlotsForSide(RotationList.DOWN, 0, 1, 2, 3);
         handler.registerInputFilter(CommonFilters.ChargeEU, 0, 1, 2, 3);
