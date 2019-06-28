@@ -37,8 +37,14 @@ public class Registry {
     public static final ItemArmorAdvancedSolarHelmet
     advancedSolarHelmet = new ItemArmorAdvancedSolarHelmet("advanced", 11, 8, 1, Config.advancedSolarHelmetStorage, Config.advancedSolarHelmetTransfer, 2, 800, 0.9D, ":textures/models/advancedsolarhelmet"),
     hybridSolarHelmet = new ItemArmorAdvancedSolarHelmet("hybrid", 12, 64, 8, Config.hybridSolarHelmetStorage, Config.hybridSolarHelmetTransfer, 3, 900, 1.0D, ":textures/models/hybridsolarhelmet"),
-    ultimateHybridSolarHelmet = new ItemArmorAdvancedSolarHelmet("ultimateHybrid", 13, 512, 64,  Config.ultimateHybridSolarHelmetStorage, Config.ultimateHybridSolarHelmetTransfer, 3, 900, 1.0D, ":textures/models/ultimatesolarhelmet");
+    ultimateHybridSolarHelmet = new ItemArmorAdvancedSolarHelmet("ultimateHybrid", 13, 512, 64,  Config.ultimateHybridSolarHelmetStorage, Config.ultimateHybridSolarHelmetTransfer, getTier(Config.enableUltimateHybridSolarHelmetTier4), 900, 1.0D, ":textures/models/ultimatesolarhelmet");
 
+    public static int getTier(boolean config){
+        if (config){
+            return 4;
+        }
+        return 3;
+    }
 
     public static void init(){
         if (Config.enableAdvancedSolarPanel){
