@@ -17,9 +17,9 @@ import trinsdar.advancedsolars.items.ItemMisc;
 
 public class Registry {
     public static final BlockAdvancedSolarPanels
-    advancedSolarPanel = new BlockAdvancedSolarPanels("advancedSolarPanel"),
-    hybridSolarPanel = new BlockAdvancedSolarPanels("hybridSolarPanel"),
-    ultimateHybridSolarPanel = new BlockAdvancedSolarPanels("ultimateSolarPanel");
+    advancedSolarPanel = new BlockAdvancedSolarPanels("advancedSolarPanel", AdvancedSolarLang.advancedSolarPanel),
+    hybridSolarPanel = new BlockAdvancedSolarPanels("hybridSolarPanel", AdvancedSolarLang.hybridSolarPanel),
+    ultimateHybridSolarPanel = new BlockAdvancedSolarPanels("ultimateSolarPanel", AdvancedSolarLang.ultimateHybridSolarPanel);
 
     public static final ItemMisc
     sunnarium = new ItemMisc("sunnarium", 0),

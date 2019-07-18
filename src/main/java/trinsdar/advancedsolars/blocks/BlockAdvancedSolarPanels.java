@@ -3,6 +3,7 @@ package trinsdar.advancedsolars.blocks;
 import ic2.core.IC2;
 import ic2.core.block.base.BlockMultiID;
 import ic2.core.block.base.tile.TileEntityBlock;
+import ic2.core.platform.lang.components.base.LocaleComp;
 import ic2.core.platform.textures.Ic2Icons;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -20,14 +21,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BlockAdvancedSolarPanels extends BlockMultiID {
-    public BlockAdvancedSolarPanels(String blockName)
+    public BlockAdvancedSolarPanels(String blockName, LocaleComp comp)
     {
         super(Material.IRON);
         this.setHardness(4.0F);
         this.setResistance(20.0F);
         this.setSoundType(SoundType.METAL);
         this.setCreativeTab(IC2.tabIC2);
-        this.setUnlocalizedName(blockName);
+        this.setRegistryName(blockName.toLowerCase());
+        this.setUnlocalizedName(comp);
     }
 
     public List<Integer> getValidMetas() {
