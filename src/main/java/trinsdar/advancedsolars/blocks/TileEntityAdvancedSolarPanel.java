@@ -34,8 +34,8 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
         super(4);
         this.tier = 1;
         this.ticker = 127;
-        this.production = 8;
-        this.lowerProduction = 1.0D;
+        this.production = 16;
+        this.lowerProduction = 2.0D;
         this.maxStorage = 32000;
         this.maxOutput = 32;
         this.config = (double)Config.energyGeneratorSolarAdvanced;
@@ -208,8 +208,8 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
     public static class TileEntityHybridSolarPanel extends TileEntityAdvancedSolarPanel{
         public TileEntityHybridSolarPanel() {
             this.tier = 2;
-            this.production = 64;
-            this.lowerProduction = 8.0D;
+            this.production = 128;
+            this.lowerProduction = 16.0D;
             this.maxStorage = 100000;
             this.maxOutput = 128;
             this.config = (double)Config.energyGeneratorSolarHybrid;
@@ -223,11 +223,11 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
 
     public static class TileEntityUltimateHybridSolarPanel extends TileEntityAdvancedSolarPanel{
         public TileEntityUltimateHybridSolarPanel() {
-            this.tier = 3;
-            this.production =512;
-            this.lowerProduction = 64.0D;
+            this.tier = 4;
+            this.production =1024;
+            this.lowerProduction = 128.0D;
             this.maxStorage = 1000000;
-            this.maxOutput = 512;
+            this.maxOutput = 2048;
             this.config = (double)Config.energyGeneratorSolarUltimateHybrid;
         }
 
