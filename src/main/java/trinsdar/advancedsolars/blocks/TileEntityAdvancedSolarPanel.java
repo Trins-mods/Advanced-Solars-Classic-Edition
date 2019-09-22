@@ -15,6 +15,7 @@ import ic2.core.util.math.Vec2i;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -199,6 +200,11 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
             return BiomeDictionary.hasType(biome, BiomeDictionary.Type.HOT) && !biome.canRain() || !world.isRaining() && !world.isThundering();
         }
         return false;
+    }
+
+    @Override
+    public boolean canSetFacing(EntityPlayer player, EnumFacing facing) {
+        return facing != getFacing() && facing.getAxis().isHorizontal();
     }
 
     public double getWrenchDropRate() {
