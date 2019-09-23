@@ -35,15 +35,12 @@ public class Registry {
     iridiumIngot = new ItemMisc("iridiumIngot", 10);
 
     public static final ItemArmorAdvancedSolarHelmet
-    advancedSolarHelmet = new ItemArmorAdvancedSolarHelmet("advanced", 11, 8, 1, Config.advancedSolarHelmetStorage, Config.advancedSolarHelmetTransfer, 2, 800, 0.9D, ":textures/models/advancedsolarhelmet"),
-    hybridSolarHelmet = new ItemArmorAdvancedSolarHelmet("hybrid", 12, 64, 8, Config.hybridSolarHelmetStorage, Config.hybridSolarHelmetTransfer, 3, 900, 1.0D, ":textures/models/hybridsolarhelmet"),
-    ultimateHybridSolarHelmet = new ItemArmorAdvancedSolarHelmet("ultimateHybrid", 13, 512, 64,  Config.ultimateHybridSolarHelmetStorage, Config.ultimateHybridSolarHelmetTransfer, getTier(Config.enableUltimateHybridSolarHelmetTier4), 900, 1.0D, ":textures/models/ultimatesolarhelmet");
+    advancedSolarHelmet = new ItemArmorAdvancedSolarHelmet("advanced", 11, 16, 2, Config.advancedSolarHelmetStorage, Config.advancedSolarHelmetTransfer, 2, 800, 0.9D, ":textures/models/advancedsolarhelmet"),
+    hybridSolarHelmet = new ItemArmorAdvancedSolarHelmet("hybrid", 12, 128, 16, Config.hybridSolarHelmetStorage, Config.hybridSolarHelmetTransfer, 3, 900, 1.0D, ":textures/models/hybridsolarhelmet"),
+    ultimateHybridSolarHelmet = new ItemArmorAdvancedSolarHelmet("ultimateHybrid", 13, 1024, 128,  Config.ultimateHybridSolarHelmetStorage, Config.ultimateHybridSolarHelmetTransfer, getTier(Config.enableUltimateHybridSolarHelmetTier4), 900, 1.0D, ":textures/models/ultimatesolarhelmet");
 
-    public static int getTier(boolean config){
-        if (config){
-            return 4;
-        }
-        return 3;
+    private static int getTier(boolean config){
+        return config ? 4 : 3;
     }
 
     public static void init(){
