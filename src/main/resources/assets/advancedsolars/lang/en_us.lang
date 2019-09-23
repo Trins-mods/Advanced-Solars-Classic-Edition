@@ -21,6 +21,7 @@ tileInfo.storage.name=Stored: %1$s
 tileInfo.maxOutput.name=Max Output:
 tileInfo.generating.name=Generating:
 
+itemInfo.solarPanelTier.name=Output Tier: %s
 itemInfo.helmetProduction.name=Produces %s EU/t while the sky is visible;
 itemInfo.helmetLowerProduction.name=Otherwise produces %s EU/t while the moon is visible or during rain
 itemInfo.electricLowerProduction.name=Lower Generation: %s EU

@@ -15,6 +15,7 @@ public class AdvancedSolarLang {
     public static LocaleComp maxOutput = new LocaleTileInfoComp("tileInfo.maxOutput.name");
     public static LocaleComp generating = new LocaleTileInfoComp("tileInfo.generating.name");
 
+    public static LocaleComp solarPanelTier = new LocaleItemInfoComp("itemInfo.solarPanelTier.name");
     public static LocaleComp helmetProduction = new LocaleItemInfoComp("itemInfo.helmetProduction.name");
     public static LocaleComp helmetLowerPorduction = new LocaleItemInfoComp("itemInfo.helmetLowerProduction.name");
     public static LocaleComp electricLowerProduction = new LocaleItemInfoComp("itemInfo.electricLowerProduction.name");

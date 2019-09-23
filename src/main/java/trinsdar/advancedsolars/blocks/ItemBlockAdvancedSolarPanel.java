@@ -26,17 +26,50 @@ public class ItemBlockAdvancedSolarPanel extends ItemBlockRare {
         if (handler.hasEUReader()) {
             tooltip.add(Ic2InfoLang.electricProduction.getLocalizedFormatted(this.getProduction()));
             tooltip.add(AdvancedSolarLang.electricLowerProduction.getLocalizedFormatted(this.getLowerProduction()));
+            tooltip.add(AdvancedSolarLang.solarPanelTier.getLocalizedFormatted(this.getTier()));
         }
 
     }
 
+    private String getTier() {
+        if (this.getBlock() == Registry.advancedSolarPanel){
+
+            return getTierFromOutput(Config.energyGeneratorSolarAdvanced * 16.0F);
+        }else if (this.getBlock() == Registry.hybridSolarPanel){
+            return getTierFromOutput(Config.energyGeneratorSolarHybrid * 128.0F);
+        }else if (this.getBlock() == Registry.ultimateHybridSolarPanel){
+            return getTierFromOutput(Config.energyGeneratorSolarUltimateHybrid * 1024.0F);
+        }else {
+            return "";
+        }
+    }
+
+    public String getTierFromOutput(float output){
+        if (output <= 32){
+            return "LV";
+        } else if (output <= 128){
+            return "MV";
+        }else if (output <= 512){
+            return "HV";
+        }else if (output <= 2048){
+            return "EV";
+        } else if (output <= 8192){
+            return "IV";
+        } else if (output <= 32768){
+            return "LuV";
+        } else{
+            return "UV";
+        }
+    }
+
+
     private double getProduction() {
         if (this.getBlock() == Registry.advancedSolarPanel){
-            return (double) Config.energyGeneratorSolarAdvanced * 8.0F;
+            return (double) Config.energyGeneratorSolarAdvanced * 16.0F;
         }else if (this.getBlock() == Registry.hybridSolarPanel){
-            return (double) Config.energyGeneratorSolarHybrid * 64.0F;
+            return (double) Config.energyGeneratorSolarHybrid * 128.0F;
         }else if (this.getBlock() == Registry.ultimateHybridSolarPanel){
-            return (double) Config.energyGeneratorSolarUltimateHybrid * 512.0F;
+            return (double) Config.energyGeneratorSolarUltimateHybrid * 1024.0F;
         }else {
             return 0.0D;
         }
@@ -44,11 +77,11 @@ public class ItemBlockAdvancedSolarPanel extends ItemBlockRare {
 
     private double getLowerProduction() {
         if (this.getBlock() == Registry.advancedSolarPanel){
-            return (double) Config.energyGeneratorSolarAdvanced * 1.0F;
+            return (double) Config.energyGeneratorSolarAdvanced * 2.0F;
         }else if (this.getBlock() == Registry.hybridSolarPanel){
-            return (double) Config.energyGeneratorSolarHybrid * 8.0F;
+            return (double) Config.energyGeneratorSolarHybrid * 16.0F;
         }else if (this.getBlock() == Registry.ultimateHybridSolarPanel){
-            return (double) Config.energyGeneratorSolarUltimateHybrid * 64.0F;
+            return (double) Config.energyGeneratorSolarUltimateHybrid * 128.0F;
         }else {
             return 0.0D;
         }
