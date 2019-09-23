@@ -45,19 +45,23 @@ public class ItemBlockAdvancedSolarPanel extends ItemBlockRare {
     }
 
     public String getTierFromOutput(float output){
-        if (output <= 32){
+        if (output<= 8){
+            return "ULV";
+        } else if (output <= 32){
             return "LV";
         } else if (output <= 128){
             return "MV";
-        }else if (output <= 512){
+        } else if (output <= 512){
             return "HV";
-        }else if (output <= 2048){
+        } else if (output <= 2048){
             return "EV";
         } else if (output <= 8192){
             return "IV";
         } else if (output <= 32768){
             return "LuV";
-        } else{
+        } else if (output <= 131072) {
+            return "ZPM";
+        } else {
             return "UV";
         }
     }
