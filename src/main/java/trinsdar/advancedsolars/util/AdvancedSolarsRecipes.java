@@ -24,7 +24,7 @@ public class AdvancedSolarsRecipes {
     }
 
     public static void initCraftingRecipes(){
-        if (Config.enableMiscCraftingItems){
+        if (AdvancedSolarsConfig.enabledItems.enableMiscCraftingItems){
             recipes.addRecipe(new ItemStack(Registry.sunnarium), "uuu", "ggg", "uuu", 'u', Ic2Items.uuMatter, 'g', "dustGlowstone");
             recipes.addRecipe(new ItemStack(Registry.sunnariumAlloy), "iii", "isi", "iii", 'i', Ic2Items.iridiumPlate, 's', Registry.sunnarium);
             recipes.addRecipe(new ItemStack(Registry.iridiumIronPlate), "rrr", "rir", "rrr", 'r', "ingotRefinedIron", 'i', "ingotIridium");
@@ -34,24 +34,24 @@ public class AdvancedSolarsRecipes {
             recipes.addRecipe(new ItemStack(Registry.irradiantUranium), "ugu", "geg", "ugu", 'u', Ic2Items.uuMatter, 'e', Ic2Items.enderPearlUraniumIngot, 'g', "dustGlowstone");
             recipes.addRecipe(new ItemStack(Registry.enrichedSunnarium), "iii", "isi", "iii", 'i', Registry.irradiantUranium, 's', Registry.sunnarium);
             recipes.addRecipe(new ItemStack(Registry.irradiantGlassPane, 6), "rrr", "igi", "rrr", 'r', Ic2Items.reinforcedGlass, 'i', Registry.irradiantUranium, 'g', "dustGlowstone");
-            if (Config.enableAdvancedSolarPanel){
+            if (AdvancedSolarsConfig.enabledItems.enableAdvancedSolarPanel){
                 recipes.addRecipe(new ItemStack(Registry.advancedSolarPanel), "rrr", "asa", "cic", 'r', Registry.irradiantGlassPane, 'a', Ic2Items.advancedAlloy, 's', Ic2Items.lvSolarPanel, 'c', "circuitAdvanced", 'i', Registry.irradiantReinforcedPlate);
-                if (Config.enableAdvancedSolarHelmet){
+                if (AdvancedSolarsConfig.enabledItems.enableAdvancedSolarHelmet){
                     recipes.addRecipe(new ItemStack(Registry.advancedSolarHelmet), "sas", "cnc", "glg", 's', Ic2Items.advSolarHelmet, 'a', Registry.advancedSolarPanel, 'c', "circuitAdvanced", 'n', Ic2Items.nanoHelmet, 'g', Ic2Items.doubleInsulatedGoldCable, 'l', Ic2Items.transformerLV);
                 }
-                if (Config.enableHybridSolarPanel){
+                if (AdvancedSolarsConfig.enabledItems.enableHybridSolarPanel){
                     recipes.addRecipe(new ItemStack(Registry.hybridSolarPanel), "CmC", "iai", "csc", 'C', Ic2Items.carbonPlate, 'm', Ic2Items.mvSolarPanel, 'i', Ic2Items.iridiumPlate, 'a', Registry.advancedSolarPanel, 'c', "circuitAdvanced", 's', Registry.enrichedSunnarium);
                 }
             }
-            if (Config.enableHybridSolarPanel){
-                if (Config.enableHybridSolarHelmet){
+            if (AdvancedSolarsConfig.enabledItems.enableHybridSolarPanel){
+                if (AdvancedSolarsConfig.enabledItems.enableHybridSolarHelmet){
                     recipes.addRecipe(new ItemStack(Registry.hybridSolarHelmet), " H ", "cqc", "ghg", 'H', Registry.hybridSolarPanel, 'c', "circuitAdvanced", 'q', Ic2Items.quantumHelmet, 'g', Ic2Items.glassFiberCable, 'h', Ic2Items.transformerHV);
                 }
-                if (Config.enableUltimateHybridSolarPanel){
+                if (AdvancedSolarsConfig.enabledItems.enableUltimateHybridSolarPanel){
                     recipes.addRecipe(new ItemStack(Registry.ultimateHybridSolarPanel), " h ", "pHp", "scs", 'h', Ic2Items.hvSolarPanel, 'p', Ic2Items.plasmaCore, 'H', Registry.hybridSolarPanel, 's', Registry.enrichedSunnariumAlloy, 'c', Ic2Items.coalChunk);
                 }
             }
-            if (Config.enableHybridSolarHelmet && Config.enableUltimateHybridSolarPanel && Config.enableUltimateHybridSolarHelmet){
+            if (AdvancedSolarsConfig.enabledItems.enableHybridSolarHelmet && AdvancedSolarsConfig.enabledItems.enableUltimateHybridSolarPanel && AdvancedSolarsConfig.enabledItems.enableUltimateHybridSolarHelmet){
                 recipes.addRecipe(new ItemStack(Registry.ultimateHybridSolarHelmet),  "ppp", "pup", "ihi", 'p', getPlasma(), 'u', Registry.ultimateHybridSolarPanel, 'i', Ic2Items.iridiumPlate, 'h', Registry.hybridSolarHelmet);
             }
             recipes.addRecipe(new ItemStack(Registry.enrichedSunnariumAlloy), "pep", "ese", "pep", 'p', getPlasma(), 'e', Registry.enrichedSunnarium, 's', Registry.sunnariumAlloy);

@@ -1,13 +1,8 @@
 package trinsdar.advancedsolars.util;
 
 import ic2.core.IC2;
-import ic2.core.item.block.ItemBlockRare;
-import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.registries.IForgeRegistry;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 import trinsdar.advancedsolars.blocks.BlockAdvancedSolarPanels;
 import trinsdar.advancedsolars.blocks.ItemBlockAdvancedSolarPanel;
@@ -35,25 +30,25 @@ public class Registry {
     iridiumIngot = new ItemMisc("iridiumIngot", 10);
 
     public static final ItemArmorAdvancedSolarHelmet
-    advancedSolarHelmet = new ItemArmorAdvancedSolarHelmet("advanced", 11, 16, 2, Config.advancedSolarHelmetStorage, Config.advancedSolarHelmetTransfer, 2, 800, 0.9D, ":textures/models/advancedsolarhelmet"),
-    hybridSolarHelmet = new ItemArmorAdvancedSolarHelmet("hybrid", 12, 128, 16, Config.hybridSolarHelmetStorage, Config.hybridSolarHelmetTransfer, 3, 900, 1.0D, ":textures/models/hybridsolarhelmet"),
-    ultimateHybridSolarHelmet = new ItemArmorAdvancedSolarHelmet("ultimateHybrid", 13, 1024, 128,  Config.ultimateHybridSolarHelmetStorage, Config.ultimateHybridSolarHelmetTransfer, getTier(Config.enableUltimateHybridSolarHelmetTier4), 900, 1.0D, ":textures/models/ultimatesolarhelmet");
+    advancedSolarHelmet = new ItemArmorAdvancedSolarHelmet("advanced", 11, 16, 2, AdvancedSolarsConfig.powerValues.advancedSolarHelmetStorage, AdvancedSolarsConfig.powerValues.advancedSolarHelmetTransfer, 2, 800, 0.9D, ":textures/models/advancedsolarhelmet"),
+    hybridSolarHelmet = new ItemArmorAdvancedSolarHelmet("hybrid", 12, 128, 16, AdvancedSolarsConfig.powerValues.hybridSolarHelmetStorage, AdvancedSolarsConfig.powerValues.hybridSolarHelmetTransfer, 3, 900, 1.0D, ":textures/models/hybridsolarhelmet"),
+    ultimateHybridSolarHelmet = new ItemArmorAdvancedSolarHelmet("ultimateHybrid", 13, 1024, 128,  AdvancedSolarsConfig.powerValues.ultimateHybridSolarHelmetStorage, AdvancedSolarsConfig.powerValues.ultimateHybridSolarHelmetTransfer, getTier(AdvancedSolarsConfig.misc.enableUltimateHybridSolarHelmetTier4), 900, 1.0D, ":textures/models/ultimatesolarhelmet");
 
     private static int getTier(boolean config){
         return config ? 4 : 3;
     }
 
     public static void init(){
-        if (Config.enableAdvancedSolarPanel){
+        if (AdvancedSolarsConfig.enabledItems.enableAdvancedSolarPanel){
             IC2.getInstance().createBlock(advancedSolarPanel, ItemBlockAdvancedSolarPanel.class);
         }
-        if (Config.enableHybridSolarPanel){
+        if (AdvancedSolarsConfig.enabledItems.enableHybridSolarPanel){
             IC2.getInstance().createBlock(hybridSolarPanel, ItemBlockAdvancedSolarPanel.class);
         }
-        if (Config.enableUltimateHybridSolarPanel){
+        if (AdvancedSolarsConfig.enabledItems.enableUltimateHybridSolarPanel){
             IC2.getInstance().createBlock(ultimateHybridSolarPanel, ItemBlockAdvancedSolarPanel.class);
         }
-        if (Config.enableMiscCraftingItems){
+        if (AdvancedSolarsConfig.enabledItems.enableMiscCraftingItems){
             IC2.getInstance().createItem(sunnarium);
             IC2.getInstance().createItem(sunnariumAlloy);
             IC2.getInstance().createItem(irradiantUranium);
@@ -66,26 +61,26 @@ public class Registry {
             IC2.getInstance().createItem(sunnariumPart);
             IC2.getInstance().createItem(iridiumIngot);
         }
-        if (Config.enableAdvancedSolarHelmet){
+        if (AdvancedSolarsConfig.enabledItems.enableAdvancedSolarHelmet){
             IC2.getInstance().createItem(advancedSolarHelmet);
         }
-        if (Config.enableHybridSolarHelmet){
+        if (AdvancedSolarsConfig.enabledItems.enableHybridSolarHelmet){
             IC2.getInstance().createItem(hybridSolarHelmet);
         }
-        if (Config.enableUltimateHybridSolarPanel){
+        if (AdvancedSolarsConfig.enabledItems.enableUltimateHybridSolarPanel){
             IC2.getInstance().createItem(ultimateHybridSolarHelmet);
         }
     }
 
     public static void registerTiles()
     {
-        if (Config.enableAdvancedSolarPanel){
+        if (AdvancedSolarsConfig.enabledItems.enableAdvancedSolarPanel){
             GameRegistry.registerTileEntity(TileEntityAdvancedSolarPanel.class, new ResourceLocation(AdvancedSolarsClassic.MODID, "tileEntityAdvancedSolarPanel"));
         }
-        if (Config.enableHybridSolarPanel){
+        if (AdvancedSolarsConfig.enabledItems.enableHybridSolarPanel){
             GameRegistry.registerTileEntity(TileEntityAdvancedSolarPanel.TileEntityHybridSolarPanel.class, new ResourceLocation(AdvancedSolarsClassic.MODID, "tileEntityHybridSolarPanel"));
         }
-        if (Config.enableUltimateHybridSolarPanel){
+        if (AdvancedSolarsConfig.enabledItems.enableUltimateHybridSolarPanel){
             GameRegistry.registerTileEntity(TileEntityAdvancedSolarPanel.TileEntityUltimateHybridSolarPanel.class, new ResourceLocation(AdvancedSolarsClassic.MODID, "tileEntityUltimateHybridSolarPanel"));
         }
     }
