@@ -1,10 +1,15 @@
 package trinsdar.advancedsolars;
 
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
 import trinsdar.advancedsolars.proxy.CommonProxy;
 
@@ -23,6 +28,10 @@ public class AdvancedSolarsClassic {
 
     public static Logger logger;
 
+    public AdvancedSolarsClassic(){
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
     @Mod.EventHandler
     public synchronized void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
@@ -37,5 +46,14 @@ public class AdvancedSolarsClassic {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent e) {
         proxy.postInit(e);
+    }
+
+    @SubscribeEvent
+    public void onConfigChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event)
+    {
+        if (event.getModID().equals(MODID))
+        {
+            ConfigManager.sync(MODID, Config.Type.INSTANCE);
+        }
     }
 }
