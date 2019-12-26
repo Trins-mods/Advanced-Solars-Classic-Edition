@@ -63,9 +63,9 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
         if (!IC2.platform.isRendering()) {
             if (world.provider.hasSkyLight() && world.canBlockSeeSky(player.getPosition())){
                 if (TileEntitySolarPanel.isSunVisible(world, player.getPosition())) {
-                    chargeInventory(player, production, tier);
+                    chargeInventory(player, production, tier, itemStack);
                 }else {
-                    chargeInventory(player, lowerProduction, tier);
+                    chargeInventory(player, lowerProduction, tier, itemStack);
                 }
             }
 
@@ -105,16 +105,21 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
 
 
 
-    public int chargeInventory(EntityPlayer player, int provided, int tier) {
+    public int chargeInventory(EntityPlayer player, int provided, int tier, ItemStack helmet) {
 
         int i;
         List<NonNullList<ItemStack>> invList = Arrays.asList(player.inventory.armorInventory, player.inventory.offHandInventory, player.inventory.mainInventory);
 
-        int meSlot = player.inventory.getSlotFor(player.inventory.getItemStack());
+        if (ElectricItem.manager.getCharge(helmet) != ElectricItem.manager.getMaxCharge(helmet)){
+            int charged = (int)(ElectricItem.manager.charge(helmet, (double)provided, this.tier, false, false));
+            provided -= charged;
+        }
+
+
         for (NonNullList inventory : invList) {
             int inventorySize = inventory.size();
             for (i=0; i < inventorySize && provided > 0; i++) {
-                if (i == meSlot) continue;
+                if (i == EntityEquipmentSlot.HEAD.getSlotIndex() && inventory == player.inventory.armorInventory) continue;
                 ItemStack tStack = (ItemStack)inventory.get(i);
                 if (tStack.isEmpty()) continue;
                 int charged = (int)(ElectricItem.manager.charge(tStack, (double)provided, this.tier, false, false));
