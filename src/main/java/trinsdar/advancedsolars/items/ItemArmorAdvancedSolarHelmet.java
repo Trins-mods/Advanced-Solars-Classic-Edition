@@ -113,29 +113,27 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
         if (ElectricItem.manager.getCharge(helmet) != ElectricItem.manager.getMaxCharge(helmet)){
             int charged = (int)(ElectricItem.manager.charge(helmet, (double)provided, this.tier, false, false));
             provided -= charged;
-        }
-
-
-        for (NonNullList inventory : invList) {
-            int inventorySize = inventory.size();
-            for (i=0; i < inventorySize && provided > 0; i++) {
-                if (i == EntityEquipmentSlot.HEAD.getSlotIndex() && inventory == player.inventory.armorInventory) continue;
-                ItemStack tStack = (ItemStack)inventory.get(i);
-                if (tStack.isEmpty()) continue;
-                int charged = (int)(ElectricItem.manager.charge(tStack, (double)provided, this.tier, false, false));
-                provided -= charged;
-            }
-        }
-
-        IBaublesPlugin plugin = IC2.loader.getPlugin("baubles", IBaublesPlugin.class);
-        if (plugin != null) {
-            IHasInventory inv = plugin.getBaublesInventory(player);
-
-            for(i = 0; i < inv.getSlotCount(); ++i) {
-                if (provided <= 0) {
-                    break;
+        } else {
+            for (NonNullList inventory : invList) {
+                int inventorySize = inventory.size();
+                for (i=0; i < inventorySize && provided > 0; i++) {
+                    ItemStack tStack = (ItemStack)inventory.get(i);
+                    if (tStack.isEmpty()) continue;
+                    int charged = (int)(ElectricItem.manager.charge(tStack, (double)provided, this.tier, false, false));
+                    provided -= charged;
                 }
-                provided = (int)((double)provided - ElectricItem.manager.charge(inv.getStackInSlot(i), (double)provided, tier, false, false));
+            }
+
+            IBaublesPlugin plugin = IC2.loader.getPlugin("baubles", IBaublesPlugin.class);
+            if (plugin != null) {
+                IHasInventory inv = plugin.getBaublesInventory(player);
+
+                for(i = 0; i < inv.getSlotCount(); ++i) {
+                    if (provided <= 0) {
+                        break;
+                    }
+                    provided = (int)((double)provided - ElectricItem.manager.charge(inv.getStackInSlot(i), (double)provided, tier, false, false));
+                }
             }
         }
 
