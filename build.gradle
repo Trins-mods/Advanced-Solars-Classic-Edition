@@ -2,16 +2,11 @@ buildscript {
     repositories {
         jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath "com.wynprice.cursemaven:CurseMaven:2.1.0"
     }
 }
-apply plugin: "com.wynprice.cursemaven"
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
@@ -36,9 +31,24 @@ minecraft {
     replaceIn "AdvancedSolarsClassic.java"
 }
 
+repositories{
+    maven { // The One Probe, EnderIO, EnderCore
+        name 'tterrag'
+        url 'http://maven.tterrag.com/'
+    }
+    maven {
+        url = "https://www.cursemaven.com"
+    }
+    maven { // JEI
+        name 'DVS1 Maven FS'
+        url 'http://dvs1.progwml6.com/files/maven/'
+    }
+}
+
 dependencies {
-    compile "curse.maven:baubles:2518667"
-    compile "curse.maven:ic2-classic:2979877"
+    runtime "mezz.jei:jei_${mc_version}:${jei_version}"
+    compile "curse.maven:baubles-227083:2518667"
+    compile "curse.maven:ic2_classic-242942:2979877"
     compile 'org.jetbrains:annotations:16.0.2'
 
 }
