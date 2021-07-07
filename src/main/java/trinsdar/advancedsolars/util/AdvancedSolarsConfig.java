@@ -66,5 +66,20 @@ public class AdvancedSolarsConfig {
                 "you will have to get a pesu in order to charge it, unless of course you stand in the sun."
         })
         public boolean enableUltimateHybridSolarHelmetTier4 = false;
+
+        @Config.Comment({
+                "Determines what ingot is used in the center of the irradiant uranium recipe",
+                "If the selected option does not exist it will fall back to the default choice EnderPearl",
+                "Items associated with values: ENDERPEARL_URANIUM: Ic2c enderpearl enriched uranium,",
+                "URANIUM: ingotUranium,URANIUM235: ingotUranium235, URANIUM233: ingotUranium233"
+        })
+        public CenterIngot ingotInIrradiantUranium = CenterIngot.ENDERPEARL_URANIUM;
+
+        enum CenterIngot{
+            ENDERPEARL_URANIUM,
+            URANIUM,
+            URANIUM235,
+            URANIUM233;
+        }
     }
 }

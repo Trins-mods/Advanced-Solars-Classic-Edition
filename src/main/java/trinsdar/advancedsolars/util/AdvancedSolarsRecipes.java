@@ -31,7 +31,7 @@ public class AdvancedSolarsRecipes {
             recipes.addRecipe(new ItemStack(Registry.reinforcedIridiumIronPlate), "aca", "cic", "aca", 'a', Ic2Items.advancedAlloy, 'c', Ic2Items.carbonPlate, 'i', Registry.iridiumIronPlate);
             recipes.addRecipe(new ItemStack(Registry.irradiantReinforcedPlate), "rsr", "lRl", "rdr", 'r', "dustRedstone", 's', Registry.sunnariumPart, 'l', "dyeBlue", 'R', Registry.reinforcedIridiumIronPlate, 'd', "gemDiamond");
             recipes.addRecipe(new ItemStack(Registry.sunnariumPart), "ugu", 'u', Ic2Items.uuMatter, 'g', "dustGlowstone");
-            recipes.addRecipe(new ItemStack(Registry.irradiantUranium), "ugu", "geg", "ugu", 'u', Ic2Items.uuMatter, 'e', Ic2Items.enderPearlUraniumIngot, 'g', "dustGlowstone");
+            recipes.addRecipe(new ItemStack(Registry.irradiantUranium), "ugu", "geg", "ugu", 'u', Ic2Items.uuMatter, 'e', getUranium(), 'g', "dustGlowstone");
             recipes.addRecipe(new ItemStack(Registry.enrichedSunnarium), "iii", "isi", "iii", 'i', Registry.irradiantUranium, 's', Registry.sunnarium);
             recipes.addRecipe(new ItemStack(Registry.irradiantGlassPane, 6), "rrr", "igi", "rrr", 'r', Ic2Items.reinforcedGlass, 'i', Registry.irradiantUranium, 'g', "dustGlowstone");
             if (AdvancedSolarsConfig.enabledItems.enableAdvancedSolarPanel){
@@ -58,6 +58,16 @@ public class AdvancedSolarsRecipes {
 
         }
 
+    }
+
+    public static IRecipeInput getUranium(){
+        IRecipeInput defaultUranium =  new RecipeInputItemStack(Ic2Items.enderPearlUraniumIngot.copy());
+        switch (AdvancedSolarsConfig.misc.ingotInIrradiantUranium){
+            case URANIUM: return new RecipeInputOreDict("ingotUranium");
+            case URANIUM233: return OreDictionary.doesOreNameExist("ingotUranium233") ? new RecipeInputOreDict("ingotUranium233") : defaultUranium;
+            case URANIUM235: return OreDictionary.doesOreNameExist("ingotUranium235") ? new RecipeInputOreDict("ingotUranium235") : defaultUranium;
+            default: return defaultUranium;
+        }
     }
 
     public static void initMiscRecipes(){
