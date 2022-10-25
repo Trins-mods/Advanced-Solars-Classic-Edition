@@ -44,14 +44,14 @@ minecraft {
 repositories{
     maven { // The One Probe, EnderIO, EnderCore
         name 'tterrag'
-        url 'http://maven.tterrag.com/'
+        url 'https://maven.tterrag.com/'
     }
     maven {
         url = "https://www.cursemaven.com"
     }
     maven { // JEI
         name 'DVS1 Maven FS'
-        url 'http://dvs1.progwml6.com/files/maven/'
+        url 'https://dvs1.progwml6.com/files/maven/'
     }
 }
 
