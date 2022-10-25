@@ -13,7 +13,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import trinsdar.advancedsolars.AdvancedSolarsClassic;
 import trinsdar.advancedsolars.util.Registry;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class BlockAdvancedSolarPanels extends BlockMultiID {
         this.setSoundType(SoundType.METAL);
         this.setCreativeTab(IC2.tabIC2);
         this.setRegistryName(blockName.toLowerCase());
-        this.setUnlocalizedName(comp);
+        this.setTranslationKey(comp);
     }
 
     public List<Integer> getValidMetas() {
