@@ -1,0 +1,27 @@
+{
+  "block.advanced_solars.advanced_solar_panel": "Advanced Solar Panel",
+  "block.advanced_solars.hybrid_solar_panel": "Hybrid Solar Panel",
+  "block.advanced_solars.ultimate_solar_panel": "Ultimate Hybrid Solar Panel",
+  "item.advanced_solars.sunnarium": "Sunnarium",
+  "item.advanced_solars.sunnarium_alloy": "Sunnarium Alloy",
+  "item.advanced_solars.irradiant_uranium": "Irradiant Uranium",
+  "item.advanced_solars.enriched_sunnarium": "Enriched Sunnarium",
+  "item.advanced_solars.enriched_sunnarium_alloy": "Enriched Sunnarium Alloy",
+  "item.advanced_solars.irradiant_glass_pane": "Irradiant Glass Pane",
+  "item.advanced_solars.iridium_iron_plate": "Iridium Iron Plate",
+  "item.advanced_solars.reinforced_iridium_iron_plate": "Reinforced Iridium Iron Plate",
+  "item.advanced_solars.irradiant_reinforced_plate": "Irradiant Reinforced Plate",
+  "item.advanced_solars.sunnarium_part": "Sunnarium Part",
+  "item.advanced_solars.iridium_ingot": "Iridium Ingot",
+  "item.advanced_solars.advanced_solar_helmet": "Advanced Solar Helmet",
+  "item.advanced_solars.hybrid_solar_helmet": "Hybrid Solar Helmet",
+  "item.advanced_solars.ultimate_hybrid_solar_helmet": "Ultimate Hybrid Solar Helmet",
+  "tile_info.advanced_solars.storage": "Stored: %1$s",
+  "tile_info.advanced_solars.max_output": "Max Output:",
+  "tile_info.advanced_solars.generating": "Generating:",
+  "item_info.advanced_solars.solar_panel_tier":"Output Tier: %s",
+  "item_info.advanced_solars.helmet_production":"Produces %s EU/t while the sky is visible;",
+  "item_info.advanced_solars.helmet_lower_production":"Otherwise produces %s EU/t while the moon is visible or during rain",
+  "item_info.advanced_solars.electric_lower_production":"Lower Generation: %s EU"
+}
+

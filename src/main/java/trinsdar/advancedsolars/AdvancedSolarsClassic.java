@@ -13,9 +13,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Logger;
 import trinsdar.advancedsolars.proxy.CommonProxy;
 
-@Mod(modid = AdvancedSolarsClassic.MODID, name = AdvancedSolarsClassic.MODNAME, version = AdvancedSolarsClassic.MODVERSION, dependencies = AdvancedSolarsClassic.DEPENDS)
+@Mod(modid = AdvancedSolarsClassic.MODID)
 public class AdvancedSolarsClassic {
-    public static final String MODID = "advancedsolars";
+    public static final String MODID = "advanced_solars";
     public static final String MODNAME = "Advanced Solars Classic Edition";
     public static final String MODVERSION = "@VERSION@";
     public static final String DEPENDS ="required-after:ic2;required-after:ic2-classic-spmod";

@@ -1,83 +1,53 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
-        maven {
-            name = "jitpack"
-            setUrl("https://jitpack.io")
-        }
-        maven {
-            name = "forge"
-            setUrl("https://maven.minecraftforge.net/")
-        }
-    }
-    dependencies {
-        classpath("com.github.GregTechCE:ForgeGradle:FG_2.3-SNAPSHOT") {
-            changing = true
-        }
-    }
+plugins {
+    id 'dev.architectury.loom' version '0.12.0-SNAPSHOT'
+    id 'maven-publish'
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: "java"
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
+loom {
+    silentMojangMappingsLicense()
+    forge {
+        mixinConfigs = ["gravisuit.mixins.json"]
+    }
+}
+
 version = "${mod_version}"
-group = "trinsdar.advancedsolars" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "advancedsolars"
-
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
-
-minecraft {
-    version = "${mc_version}-${forge_version}"
-    runDir = "run"
-    
-    mappings = "${mappings_version}"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-
-    replace "@VERSION@", project.version
-    replaceIn "AdvancedSolarsClassic.java"
-}
+group = "trinsdar.gravisuit" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "gravisuit"
 
 repositories{
-    maven { // The One Probe, EnderIO, EnderCore
-        name 'tterrag'
-        url 'http://maven.tterrag.com/'
-    }
     maven {
-        url = "https://www.cursemaven.com"
+        name = 'parchment'
+        url = 'https://maven.parchmentmc.org'
     }
-    maven { // JEI
-        name 'DVS1 Maven FS'
-        url 'http://dvs1.progwml6.com/files/maven/'
+    maven { url "https://maven.shedaniel.me" }
+    maven {
+        url "https://cursemaven.com"
     }
 }
 
 dependencies {
-    runtime "mezz.jei:jei_${mc_version}:${jei_version}"
-    compile "curse.maven:baubles-227083:2518667"
-    compile "curse.maven:ic2_classic-242942:2979877"
-    compile 'org.jetbrains:annotations:16.0.2'
-
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:${rootProject.mappings_version}@zip")
+    }
+    forge "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    //modImplementation fileTree(include: ['*.jar'], dir: 'libs')
+    modImplementation("curse.maven:ic2_classic-242942:4041302")
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-plugin-compatibilities-forge:9.1.530"
 }
 
 processResources {
     // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+    inputs.property "version", project.mod_version
 
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else except the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+    filesMatching("META-INF/mods.toml") {
+        expand "version": project.mod_version
     }
 }
