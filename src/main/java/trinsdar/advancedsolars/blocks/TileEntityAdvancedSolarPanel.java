@@ -1,54 +1,60 @@
 package trinsdar.advancedsolars.blocks;
 
-import ic2.api.item.ElectricItem;
-import ic2.core.RotationList;
-import ic2.core.block.base.tile.TileEntityGeneratorBase;
-import ic2.core.inventory.container.ContainerIC2;
-import ic2.core.inventory.filters.CommonFilters;
-import ic2.core.inventory.gui.GuiComponentContainer;
-import ic2.core.inventory.management.AccessRule;
-import ic2.core.inventory.management.InventoryHandler;
-import ic2.core.inventory.management.SlotType;
-import ic2.core.platform.lang.components.base.LocaleComp;
-import ic2.core.util.math.Box2D;
-import ic2.core.util.math.Vec2i;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
+import ic2.api.energy.tile.IEnergySource;
+import ic2.api.items.electric.ElectricItem;
+import ic2.api.tiles.readers.IEUProducer;
+import ic2.api.util.DirectionList;
+import ic2.core.block.base.features.ITickListener;
+import ic2.core.block.base.features.ITileActivityProvider;
+import ic2.core.block.base.features.IWrenchableTile;
+import ic2.core.block.base.misc.comparator.ComparatorNames;
+import ic2.core.block.base.misc.comparator.types.base.FlagComparator;
+import ic2.core.block.base.tiles.BaseInventoryTileEntity;
+import ic2.core.inventory.base.ITileGui;
+import ic2.core.inventory.filter.special.ElectricItemFilter;
+import ic2.core.inventory.handler.AccessRule;
+import ic2.core.inventory.handler.InventoryHandler;
+import ic2.core.inventory.handler.SlotType;
+import ic2.core.utils.math.geometry.Vec2i;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 import trinsdar.advancedsolars.util.AdvancedSolarLang;
 import trinsdar.advancedsolars.util.AdvancedSolarsConfig;
 
-public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
+public class TileEntityAdvancedSolarPanel extends BaseInventoryTileEntity implements ITickListener, IEnergySource, ITileGui, IWrenchableTile, IEUProducer, ITileActivityProvider {
     double config;
     int ticker;
     protected double lowerProduction;
     int maxOutput;
-    public TileEntityAdvancedSolarPanel() {
-        super(4);
+    public TileEntityAdvancedSolarPanel(BlockPos pos, BlockState state) {
+        super(pos, state, 4);
         this.tier = 1;
         this.ticker = 127;
         this.production = 16;
         this.lowerProduction = 2.0D;
         this.maxStorage = 32000;
         this.maxOutput = 32;
-        this.config = (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarAdvanced;
+        this.config = AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarAdvanced;
+        this.addComparator(FlagComparator.createTile("active", ComparatorNames.ACTIVE, this));
     }
 
     protected void addSlots(InventoryHandler handler) {
-        handler.registerDefaultSideAccess(AccessRule.None, RotationList.UP);
-        handler.registerDefaultSideAccess(AccessRule.Both, RotationList.UP.invert());
-        handler.registerDefaultSlotAccess(AccessRule.Both, 0, 1, 2, 3);
-        handler.registerDefaultSlotsForSide(RotationList.DOWN, 0, 1, 2, 3);
-        handler.registerInputFilter(CommonFilters.ChargeEU, 0, 1, 2, 3);
-        handler.registerSlotType(SlotType.Charge, 0, 1, 2, 3);
+        handler.registerBlockSides(DirectionList.UP.invert());
+        handler.registerBlockAccess(DirectionList.UP.invert(), AccessRule.BOTH);
+        handler.registerSlotAccess(AccessRule.BOTH, 0, 1, 2, 3);
+        for (int i = 0; i < 4; i++) {
+            handler.setSlotAccess(i, Direction.UP, AccessRule.DISABLED);
+        }
+        handler.registerSlotsForSide(DirectionList.UP.invert(), 0, 1, 2, 3);
+        handler.registerInputFilter(ElectricItemFilter.CHARGE_FILTER, 0, 1, 2, 3);
+        handler.registerOutputFilter(ElectricItemFilter.NOT_CHARGE_FILTER, 0, 1, 2, 3);
+        handler.registerNamedSlot(SlotType.CHARGE, 0, 1, 2, 3);
     }
 
     @Override
@@ -126,7 +132,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
 
 
     @Override
-    public void update() {
+    public void onTick() {
 
         int oldEnergy = this.storage;
         boolean active = this.gainEnergy();
@@ -165,11 +171,6 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
         }
 
         this.updateComparators();
-    }
-
-    @Override
-    public boolean gainFuel() {
-        return false;
     }
 
     @Override
@@ -218,7 +219,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
             this.lowerProduction = 16.0D;
             this.maxStorage = 100000;
             this.maxOutput = 128;
-            this.config = (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarHybrid;
+            this.config = AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarHybrid;
         }
 
         @Override
@@ -234,7 +235,7 @@ public class TileEntityAdvancedSolarPanel extends TileEntityGeneratorBase {
             this.lowerProduction = 128.0D;
             this.maxStorage = 1000000;
             this.maxOutput = 2048;
-            this.config = (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarUltimateHybrid;
+            this.config = AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarUltimateHybrid;
         }
 
         @Override
