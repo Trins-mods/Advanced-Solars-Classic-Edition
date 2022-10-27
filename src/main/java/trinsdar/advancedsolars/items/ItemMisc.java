@@ -1,35 +1,35 @@
 package trinsdar.advancedsolars.items;
 
 import ic2.core.IC2;
-import ic2.core.platform.textures.Ic2Icons;
-import ic2.core.platform.textures.obj.IStaticTexturedItem;
+
+import ic2.core.platform.registries.IC2Items;
+import ic2.core.platform.rendering.IC2Textures;
+import ic2.core.platform.rendering.features.item.ISimpleItemModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ItemMisc extends Item implements IStaticTexturedItem {
+public class ItemMisc extends Item implements ISimpleItemModel {
 
-    private int id;
+    final ResourceLocation id;
 
-    public ItemMisc(String name, int id) {
-        this.id = id;
-        setUnlocalizedName(name);
-        setCreativeTab(IC2.tabIC2);
+    public ItemMisc(String name) {
+        super(new Item.Properties().tab(IC2.IC2_MAIN_GROUP));
+        id = new ResourceLocation(AdvancedSolarsClassic.MODID, name);
+        IC2Items.registerItem(this, id);
     }
 
     @Override
-    public List<Integer> getValidVariants() {
-        return Arrays.asList(0);
+    public TextureAtlasSprite getTexture() {
+        return IC2Textures.getMappedEntriesItem(AdvancedSolarsClassic.MODID, "materials").get(id.getPath());
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getTexture(int i) {
-        return Ic2Icons.getTextures("advancedsolars_items")[id];
+    public ResourceLocation getRegistryName() {
+        return id;
     }
 }

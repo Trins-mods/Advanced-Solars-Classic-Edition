@@ -13,7 +13,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import trinsdar.advancedsolars.AdvancedSolarsClassic;
 import trinsdar.advancedsolars.util.Registry;
 
 import java.util.ArrayList;
@@ -39,11 +38,11 @@ public class BlockAdvancedSolarPanels extends BlockMultiID {
     @Override
     public TileEntityBlock createNewTileEntity(World worldIn, int meta)
     {
-        if (this == Registry.advancedSolarPanel) {
+        if (this == Registry.ADVANCED_SOLAR_PANEL) {
             return new TileEntityAdvancedSolarPanel();
-        }else if (this == Registry.hybridSolarPanel){
+        }else if (this == Registry.HYBRID_SOLAR_PANEL){
             return new TileEntityAdvancedSolarPanel.TileEntityHybridSolarPanel();
-        }else if (this == Registry.ultimateHybridSolarPanel){
+        }else if (this == Registry.ULTIMATE_HYBRID_SOLAR_PANEL){
             return new TileEntityAdvancedSolarPanel.TileEntityUltimateHybridSolarPanel();
         }else {
             return new TileEntityBlock();
@@ -54,11 +53,11 @@ public class BlockAdvancedSolarPanels extends BlockMultiID {
     @Override
     public TextureAtlasSprite[] getIconSheet(int meta)
     {
-        if (this == Registry.advancedSolarPanel){
+        if (this == Registry.ADVANCED_SOLAR_PANEL){
             return Ic2Icons.getTextures("advancedsolarpanel");
-        }else if (this == Registry.hybridSolarPanel){
+        }else if (this == Registry.HYBRID_SOLAR_PANEL){
             return Ic2Icons.getTextures("hybridsolarpanel");
-        }else if (this == Registry.ultimateHybridSolarPanel){
+        }else if (this == Registry.ULTIMATE_HYBRID_SOLAR_PANEL){
             return Ic2Icons.getTextures("ultimatesolarpanel");
         }else{
             return Ic2Icons.getTextures("advancedsolarpanel");

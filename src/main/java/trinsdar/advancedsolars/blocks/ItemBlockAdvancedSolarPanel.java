@@ -30,12 +30,12 @@ public class ItemBlockAdvancedSolarPanel extends ItemBlockRare {
     }
 
     private String getTier() {
-        if (this.getBlock() == Registry.advancedSolarPanel){
+        if (this.getBlock() == Registry.ADVANCED_SOLAR_PANEL){
 
             return getTierFromOutput(AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarAdvanced * 16.0F);
-        }else if (this.getBlock() == Registry.hybridSolarPanel){
+        }else if (this.getBlock() == Registry.HYBRID_SOLAR_PANEL){
             return getTierFromOutput(AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarHybrid * 128.0F);
-        }else if (this.getBlock() == Registry.ultimateHybridSolarPanel){
+        }else if (this.getBlock() == Registry.ULTIMATE_HYBRID_SOLAR_PANEL){
             return getTierFromOutput(AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarUltimateHybrid * 1024.0F);
         }else {
             return "";
@@ -66,11 +66,11 @@ public class ItemBlockAdvancedSolarPanel extends ItemBlockRare {
 
 
     private double getProduction() {
-        if (this.getBlock() == Registry.advancedSolarPanel){
+        if (this.getBlock() == Registry.ADVANCED_SOLAR_PANEL){
             return (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarAdvanced * 16.0F;
-        }else if (this.getBlock() == Registry.hybridSolarPanel){
+        }else if (this.getBlock() == Registry.HYBRID_SOLAR_PANEL){
             return (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarHybrid * 128.0F;
-        }else if (this.getBlock() == Registry.ultimateHybridSolarPanel){
+        }else if (this.getBlock() == Registry.ULTIMATE_HYBRID_SOLAR_PANEL){
             return (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarUltimateHybrid * 1024.0F;
         }else {
             return 0.0D;
@@ -78,11 +78,11 @@ public class ItemBlockAdvancedSolarPanel extends ItemBlockRare {
     }
 
     private double getLowerProduction() {
-        if (this.getBlock() == Registry.advancedSolarPanel){
+        if (this.getBlock() == Registry.ADVANCED_SOLAR_PANEL){
             return (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarAdvanced * 2.0F;
-        }else if (this.getBlock() == Registry.hybridSolarPanel){
+        }else if (this.getBlock() == Registry.HYBRID_SOLAR_PANEL){
             return (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarHybrid * 16.0F;
-        }else if (this.getBlock() == Registry.ultimateHybridSolarPanel){
+        }else if (this.getBlock() == Registry.ULTIMATE_HYBRID_SOLAR_PANEL){
             return (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarUltimateHybrid * 128.0F;
         }else {
             return 0.0D;
