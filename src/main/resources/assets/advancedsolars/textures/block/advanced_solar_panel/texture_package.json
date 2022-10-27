@@ -1,0 +1,5 @@
+{
+  "top": "advanced_solars:block/advanced_solar_panel/top",
+  "bottom": "advanced_solars:block/advanced_solar_panel/bottom",
+  "side": "advanced_solars:block/advanced_solar_panel/side"
+}

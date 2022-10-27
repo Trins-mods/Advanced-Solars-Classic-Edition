@@ -1,0 +1,5 @@
+{
+  "top": "advanced_solars:block/molecular_transformer/top",
+  "bottom": "advanced_solars:block/molecular_transformer/bottom",
+  "side": "advanced_solars:block/molecular_transformer/side"
+}

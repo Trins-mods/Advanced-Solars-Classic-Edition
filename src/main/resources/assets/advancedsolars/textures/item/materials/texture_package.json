@@ -1,0 +1,13 @@
+{
+  "enriched_sunnarium": "advanced_solars:item/materials/enriched_sunnarium",
+  "enriched_sunnarium_alloy": "advanced_solars:item/materials/enriched_sunnarium_alloy",
+  "iridium_ingot": "advanced_solars:item/materials/iridium_ingot",
+  "iridium_iron_plate": "advanced_solars:item/materials/iridium_iron_plate",
+  "irradiant_glass_pane": "advanced_solars:item/materials/irradiant_glass_pane",
+  "irradiant_reinforced_plate": "advanced_solars:item/materials/irradiant_reinforced_plate",
+  "irradiant_uranium": "advanced_solars:item/materials/irradiant_uranium",
+  "reinforced_iridium_iron_plate": "advanced_solars:item/materials/reinforced_iridium_iron_plate",
+  "sunnarium": "advanced_solars:item/materials/sunnarium",
+  "sunnarium_alloy": "advanced_solars:item/materials/sunnarium_alloy",
+  "sunnarium_part": "advanced_solars:item/materials/sunnarium_part"
+}
