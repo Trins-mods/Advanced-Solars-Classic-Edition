@@ -1,7 +1,7 @@
 {
   "block.advanced_solars.advanced_solar_panel": "高级太阳能发电机",
   "block.advanced_solars.hybrid_solar_panel": "混合太阳能发电机",
-  "block.advanced_solars.ultimate_solar_panel": "终极混合太阳能发电机",
+  "block.advanced_solars.ultimate_hybrid_solar_panel": "终极混合太阳能发电机",
   "item.advanced_solars.sunnarium": "阳光化合物",
   "item.advanced_solars.sunnarium_alloy": "阳光合金",
   "item.advanced_solars.irradiant_uranium": "光辉铀锭",

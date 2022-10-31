@@ -33,7 +33,7 @@ public class ItemArmorAdvancedSolarHelmet extends NanoSuit {
     Supplier<Integer> transferLimit;
 
     public ItemArmorAdvancedSolarHelmet(String name, int pro, int lowPro, Supplier<Integer> capacity, Supplier<Integer> transferLimit, int tier, int energyPerDamage, double damageAbsorpationRatio) {
-        super(name, EquipmentSlot.HEAD);
+        super(name + "_solar_helmet", EquipmentSlot.HEAD);
         if (!name.contains("advanced")) {
             this.addSlotType(IArmorModule.ModuleType.GENERIC, 1);
         }
