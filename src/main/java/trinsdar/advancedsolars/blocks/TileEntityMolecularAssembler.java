@@ -1,4 +1,4 @@
-package trinsdar.advancedsolars.blocks;
+/*package trinsdar.advancedsolars.blocks;
 
 import ic2.api.classic.item.IMachineUpgradeItem;
 import ic2.api.classic.recipe.machine.IMachineRecipeList;
@@ -37,4 +37,4 @@ public class TileEntityMolecularAssembler extends TileEntityBasicElectricMachine
     public void update() {
         this.progressPerTick = this.energyConsume;
     }
-}
+}*/
