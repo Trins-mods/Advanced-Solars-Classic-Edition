@@ -44,6 +44,7 @@ public class TileEntityAdvancedSolarPanel extends BaseGeneratorTileEntity implem
     int ticker;
     protected int lowerProduction;
     int maxOutput;
+    boolean day = true;
     public TileEntityAdvancedSolarPanel(BlockPos pos, BlockState state) {
         super(pos, state, 4);
         this.tier = 1;
@@ -54,6 +55,7 @@ public class TileEntityAdvancedSolarPanel extends BaseGeneratorTileEntity implem
         this.maxOutput = 32;
         this.config = () -> AdvancedSolarsConfig.POWER_GENERATION.ADVANCED_SOLAR_GENERATION_MULTIPLIER;
         this.addComparator(FlagComparator.createTile("active", ComparatorNames.ACTIVE, this));
+        this.addGuiFields("day");
     }
 
     @Override
@@ -119,13 +121,17 @@ public class TileEntityAdvancedSolarPanel extends BaseGeneratorTileEntity implem
     @Override
     public void onTick() {
 
+        if (this.clock(64)){
+            this.day = isSunVisible();
+            this.updateGuiField("day");
+        }
         int oldEnergy = this.storage;
         boolean active = this.gainEnergy();
         if (this.storage > 0) {
             for (ItemStack tStack : this.inventory) {
                 if (this.storage <= 0) break;
                 if (tStack.isEmpty()) continue; // No item to charge
-                int charged = (int)(ElectricItem.MANAGER.charge(tStack, this.storage, this.tier, false, false));
+                int charged = ElectricItem.MANAGER.charge(tStack, this.storage, this.tier, false, false);
                 this.storage -= charged;
             }
 
@@ -145,7 +151,7 @@ public class TileEntityAdvancedSolarPanel extends BaseGeneratorTileEntity implem
 
     public int getOutput() {
         if (skyBlockCheck()){
-            if (isSunVisible()){
+            if (day){
                 return (int)(this.production * this.config.get());
             }else {
                 return (int)(this.lowerProduction * this.config.get());
@@ -161,13 +167,17 @@ public class TileEntityAdvancedSolarPanel extends BaseGeneratorTileEntity implem
     }
 
     public boolean isSunVisible(){
-        return isSunVisible(Objects.requireNonNull(this.getLevel()), this.getPosition().above());
+        return isSunVisible(Objects.requireNonNull(this.level), this.getPosition().above());
     }
 
     public static boolean isSunVisible(@NotNull Level world, BlockPos pos) {
-        if (world.isNight()) return false;
+        if (!world.isDay()) return false;
         Holder<Biome> biome = world.getBiome(pos);
         return biome.get().getPrecipitation() == Biome.Precipitation.NONE || (!world.isRaining() && !world.isThundering());
+    }
+
+    public boolean isDay() {
+        return day;
     }
 
     /*public boolean canSetFacing(EntityPlayer player, EnumFacing facing) {
