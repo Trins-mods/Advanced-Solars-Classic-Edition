@@ -13,8 +13,8 @@ loom {
 }
 
 version = "${mod_version}"
-group = "trinsdar.gravisuit" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "gravisuit"
+group = "trinsdar.advancedsolars" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "advancedsolars"
 
 repositories{
     maven {
