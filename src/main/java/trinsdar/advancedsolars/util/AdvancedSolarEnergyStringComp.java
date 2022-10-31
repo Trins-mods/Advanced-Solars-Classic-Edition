@@ -2,6 +2,7 @@ package trinsdar.advancedsolars.util;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import ic2.core.inventory.gui.components.GuiWidget;
+import ic2.core.utils.math.geometry.Box2i;
 import net.minecraft.network.chat.Component;
 import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
 
@@ -13,7 +14,7 @@ public class AdvancedSolarEnergyStringComp extends GuiWidget {
     int white = 13487565;
 
     public AdvancedSolarEnergyStringComp(TileEntityAdvancedSolarPanel tile) {
-        super(null);
+        super(Box2i.EMPTY_BOX);
         this.block = tile;
     }
 
