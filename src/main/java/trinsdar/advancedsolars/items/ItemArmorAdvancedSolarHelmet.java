@@ -1,71 +1,93 @@
 package trinsdar.advancedsolars.items;
 
-import ic2.api.item.ElectricItem;
+import ic2.api.addons.IModule;
+import ic2.api.items.armor.IArmorModule;
+import ic2.api.items.electric.ElectricItem;
 import ic2.core.IC2;
-import ic2.core.block.generator.tile.TileEntitySolarPanel;
-import ic2.core.inventory.base.IHasInventory;
-import ic2.core.item.armor.base.ItemElectricArmorBase;
-import ic2.core.platform.textures.Ic2Icons;
-import ic2.core.util.obj.IBootable;
-import ic2.core.util.obj.ToolTipType;
-import ic2.core.util.obj.plugins.IBaublesPlugin;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import ic2.core.item.wearable.armor.electric.NanoSuit;
+import ic2.core.platform.registries.IC2Items;
+import ic2.curioplugin.core.CurioPlugin;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.items.IItemHandler;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
+import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
 import trinsdar.advancedsolars.util.AdvancedSolarLang;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
-public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implements IBootable {
-    @Override
-    public void onLoad() {
-
-    }
+public class ItemArmorAdvancedSolarHelmet extends NanoSuit {
 
     private int
-    id,
     production,
     lowerProduction,
     energyPerDamage;
     double damageAbsorpationRatio;
-    String texture;
+    Supplier<Integer> capacity;
+    Supplier<Integer> transferLimit;
 
-    public ItemArmorAdvancedSolarHelmet(String name, int id, int pro, int lowPro, int maxCharge, int maxTransfer, int tier, int energyPerDamage, double damageAbsorpationRatio, String texture) {
-        super(-1, EntityEquipmentSlot.HEAD, maxCharge, maxTransfer, tier);
-        this.id = id;
+    public ItemArmorAdvancedSolarHelmet(String name, int pro, int lowPro, Supplier<Integer> capacity, Supplier<Integer> transferLimit, int tier, int energyPerDamage, double damageAbsorpationRatio) {
+        super(name, EquipmentSlot.HEAD);
+        if (!name.contains("advanced")) {
+            this.addSlotType(IArmorModule.ModuleType.GENERIC, 1);
+        }
         this.production = pro;
         this.lowerProduction = lowPro;
         this.energyPerDamage = energyPerDamage;
         this.damageAbsorpationRatio = damageAbsorpationRatio;
-        this.texture = texture;
-        this.setUnlocalizedName(name + "SolarHelmet");
-        this.setMaxDamage(0);
+        this.capacity = capacity;
+        this.transferLimit = transferLimit;
+        IC2Items.registerItem(this);
     }
 
     @Override
+    public int getCapacity(ItemStack stack) {
+        return capacity.get();
+    }
+
+    @Override
+    public int getTransferLimit(ItemStack stack) {
+        return transferLimit.get();
+    }
+
+    @Override
+    public int getTransferLimit() {
+        return transferLimit.get();
+    }
+
+    @Override
+    public int getTier() {
+        return tier;
+    }
+
+    @Override
+    public int getTier(ItemStack stack) {
+        return tier;
+    }
+
+    /*@Override
     public void onSortedItemToolTip(ItemStack stack, EntityPlayer player, boolean debugTooltip, List<String> tooltip, Map<ToolTipType, List<String>> sortedTooltip) {
         super.onSortedItemToolTip(stack, player, debugTooltip, tooltip, sortedTooltip);
         sortedTooltip.get(ToolTipType.Shift).add(AdvancedSolarLang.helmetProduction.getLocalizedFormatted(production));
         sortedTooltip.get(ToolTipType.Shift).add(AdvancedSolarLang.helmetLowerPorduction.getLocalizedFormatted(lowerProduction));
 
-    }
+    }*/
 
     @Override
-    public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
-        if (!IC2.platform.isRendering()) {
-            if (world.provider.hasSkyLight() && world.canBlockSeeSky(player.getPosition())){
-                if (TileEntitySolarPanel.isSunVisible(world, player.getPosition())) {
-                    chargeInventory(player, production, tier, itemStack);
+    public void onArmorTick(ItemStack stack, Level world, Player player) {
+        super.onArmorTick(stack, world, player);
+        if (!IC2.PLATFORM.isRendering()) {
+            if (world.dimensionType().hasSkyLight() && world.canSeeSkyFromBelowWater(player.blockPosition())){
+                if (TileEntityAdvancedSolarPanel.isSunVisible(world, player.blockPosition())) {
+                    chargeInventory(player, production, tier, stack);
                 }else {
-                    chargeInventory(player, lowerProduction, tier, itemStack);
+                    chargeInventory(player, lowerProduction, tier, stack);
                 }
             }
 
@@ -73,66 +95,60 @@ public class ItemArmorAdvancedSolarHelmet extends ItemElectricArmorBase implemen
     }
 
     @Override
-    public List<Integer> getValidVariants() {
-        return Arrays.asList(0);
+    public String getArmorTexture() {
+        return AdvancedSolarsClassic.MODID + ":textures/models/" + getRegistryName().getPath();
     }
 
     @Override
-    public String getTexture() {
-        return AdvancedSolarsClassic.MODID + texture;
+    public String getTextureName() {
+        return getRegistryName().getPath();
     }
 
     @Override
-    public ItemStack getRepairItem() {
-        return ItemStack.EMPTY;
+    public String getTextureFolder() {
+        return "solar_helmets";
     }
 
     @Override
-    public double getDamageAbsorptionRatio() {
+    public double getDamageAbsorptionRatio(ItemStack stack) {
         return damageAbsorpationRatio;
     }
 
     @Override
-    public int getEnergyPerDamage() {
+    public int getEnergyPerDamage(ItemStack stack) {
         return energyPerDamage;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getTexture(int meta) {
-        return Ic2Icons.getTextures("advancedsolars_items")[id];
-    }
 
 
-
-    public int chargeInventory(EntityPlayer player, int provided, int tier, ItemStack helmet) {
+    public int chargeInventory(Player player, int provided, int tier, ItemStack helmet) {
 
         int i;
-        List<NonNullList<ItemStack>> invList = Arrays.asList(player.inventory.armorInventory, player.inventory.offHandInventory, player.inventory.mainInventory);
+        List<NonNullList<ItemStack>> invList = Arrays.asList(player.getInventory().armor, player.getInventory().offhand, player.getInventory().items);
 
-        if (ElectricItem.manager.getCharge(helmet) != ElectricItem.manager.getMaxCharge(helmet)){
-            int charged = (int)(ElectricItem.manager.charge(helmet, (double)provided, this.tier, false, false));
+        if (ElectricItem.MANAGER.getCharge(helmet) != ElectricItem.MANAGER.getCapacity(helmet)){
+            int charged = (int)(ElectricItem.MANAGER.charge(helmet, provided, this.tier, false, false));
             provided -= charged;
         } else {
-            for (NonNullList inventory : invList) {
+            for (NonNullList<ItemStack> inventory : invList) {
                 int inventorySize = inventory.size();
                 for (i=0; i < inventorySize && provided > 0; i++) {
-                    ItemStack tStack = (ItemStack)inventory.get(i);
+                    ItemStack tStack = inventory.get(i);
                     if (tStack.isEmpty()) continue;
-                    int charged = (int)(ElectricItem.manager.charge(tStack, (double)provided, this.tier, false, false));
+                    int charged = ElectricItem.MANAGER.charge(tStack, provided, this.tier, false, false);
                     provided -= charged;
                 }
             }
 
-            IBaublesPlugin plugin = IC2.loader.getPlugin("baubles", IBaublesPlugin.class);
+            IModule plugin = IC2.PLUGINS.getModule("curio");
             if (plugin != null) {
-                IHasInventory inv = plugin.getBaublesInventory(player);
+                IItemHandler inv = new CurioPlugin().getCurioHandler(player);
 
-                for(i = 0; i < inv.getSlotCount(); ++i) {
+                for(i = 0; i < inv.getSlots(); ++i) {
                     if (provided <= 0) {
                         break;
                     }
-                    provided = (int)((double)provided - ElectricItem.manager.charge(inv.getStackInSlot(i), (double)provided, tier, false, false));
+                    provided = (int)((double)provided - ElectricItem.MANAGER.charge(inv.getStackInSlot(i), provided, tier, false, false));
                 }
             }
         }

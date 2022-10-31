@@ -10,7 +10,9 @@ import ic2.core.block.base.features.IWrenchableTile;
 import ic2.core.block.base.misc.comparator.ComparatorNames;
 import ic2.core.block.base.misc.comparator.types.base.FlagComparator;
 import ic2.core.block.base.tiles.BaseInventoryTileEntity;
+import ic2.core.block.base.tiles.impls.BaseGeneratorTileEntity;
 import ic2.core.inventory.base.ITileGui;
+import ic2.core.inventory.container.IC2Container;
 import ic2.core.inventory.filter.special.ElectricItemFilter;
 import ic2.core.inventory.handler.AccessRule;
 import ic2.core.inventory.handler.InventoryHandler;
@@ -18,30 +20,45 @@ import ic2.core.inventory.handler.SlotType;
 import ic2.core.utils.math.geometry.Vec2i;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 import trinsdar.advancedsolars.util.AdvancedSolarLang;
 import trinsdar.advancedsolars.util.AdvancedSolarsConfig;
+import trinsdar.advancedsolars.util.Registry;
 
-public class TileEntityAdvancedSolarPanel extends BaseInventoryTileEntity implements ITickListener, IEnergySource, ITileGui, IWrenchableTile, IEUProducer, ITileActivityProvider {
-    double config;
+import java.util.Objects;
+import java.util.function.Supplier;
+
+public class TileEntityAdvancedSolarPanel extends BaseGeneratorTileEntity implements ITickListener, IEnergySource, ITileGui, IWrenchableTile, IEUProducer, ITileActivityProvider {
+    Supplier<Double> config;
     int ticker;
-    protected double lowerProduction;
+    protected int lowerProduction;
     int maxOutput;
     public TileEntityAdvancedSolarPanel(BlockPos pos, BlockState state) {
         super(pos, state, 4);
         this.tier = 1;
         this.ticker = 127;
         this.production = 16;
-        this.lowerProduction = 2.0D;
+        this.lowerProduction = 2;
         this.maxStorage = 32000;
         this.maxOutput = 32;
-        this.config = AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarAdvanced;
+        this.config = () -> AdvancedSolarsConfig.POWER_GENERATION.ADVANCED_SOLAR_GENERATION_MULTIPLIER;
         this.addComparator(FlagComparator.createTile("active", ComparatorNames.ACTIVE, this));
+    }
+
+    @Override
+    public BlockEntityType<?> createType() {
+        return Registry.ADVANCED_SOLAR_PANEL_TYPE;
     }
 
     protected void addSlots(InventoryHandler handler) {
@@ -58,25 +75,14 @@ public class TileEntityAdvancedSolarPanel extends BaseInventoryTileEntity implem
     }
 
     @Override
-    public ContainerIC2 getGuiContainer(EntityPlayer player) {
-        return new ContainerAdvancedSolarPanel(player.inventory, this);
-    }
-
-    @Override
-    public LocaleComp getBlockName() {
-        return AdvancedSolarLang.advancedSolarPanel;
-    }
-
-    @Override
-    public ResourceLocation getTexture() {
-        return new ResourceLocation(AdvancedSolarsClassic.MODID, "textures/sprites/guiadvancedsolarpanel.png");
+    public IC2Container createContainer(Player player, InteractionHand interactionHand, Direction direction, int i) {
+        return new ContainerAdvancedSolarPanel(this, player, i);
     }
 
     public int getMaxOutput(){
         return maxOutput;
     }
 
-    @Override
     public boolean isConverting() {
         if (this.skyBlockCheck()){
             if (isSunVisible()){
@@ -90,6 +96,10 @@ public class TileEntityAdvancedSolarPanel extends BaseInventoryTileEntity implem
     }
 
     @Override
+    public boolean gainFuel() {
+        return false;
+    }
+
     public boolean gainEnergy() {
         if (this.isConverting()) {
             if (this.skyBlockCheck()){
@@ -105,31 +115,6 @@ public class TileEntityAdvancedSolarPanel extends BaseInventoryTileEntity implem
         }
     }
 
-    @Override
-    public Box2D getEnergyBox() {
-        return ContainerAdvancedSolarPanel.chargeBox;
-    }
-
-    @Override
-    public Vec2i getEnergyPos() {
-        return ContainerAdvancedSolarPanel.chargePos;
-    }
-
-    @Override
-    public Class<? extends GuiScreen> getGuiClass(EntityPlayer player) {
-        return GuiComponentContainer.class;
-    }
-
-    @Override
-    public double getOfferedEnergy() {
-        if (isSunVisible()){
-            return (double)Math.min(this.storage, this.production);
-        }else {
-            return Math.min(this.storage, this.lowerProduction);
-        }
-
-    }
-
 
     @Override
     public void onTick() {
@@ -140,7 +125,7 @@ public class TileEntityAdvancedSolarPanel extends BaseInventoryTileEntity implem
             for (ItemStack tStack : this.inventory) {
                 if (this.storage <= 0) break;
                 if (tStack.isEmpty()) continue; // No item to charge
-                int charged = (int)(ElectricItem.manager.charge(tStack, (double)this.storage, this.tier, false, false));
+                int charged = (int)(ElectricItem.MANAGER.charge(tStack, this.storage, this.tier, false, false));
                 this.storage -= charged;
             }
 
@@ -149,37 +134,21 @@ public class TileEntityAdvancedSolarPanel extends BaseInventoryTileEntity implem
             }
         }
 
-        if (!this.delayActiveUpdate()) {
-            this.setActive(active);
-        } else {
-            if (this.ticksSinceLastActiveUpdate % this.getDelay() == 0) {
-                this.setActive(this.activityMeter > 0);
-                this.activityMeter = 0;
-            }
-
-            if (active) {
-                ++this.activityMeter;
-            } else {
-                --this.activityMeter;
-            }
-
-            ++this.ticksSinceLastActiveUpdate;
-        }
+        this.setActive(active);
 
         if (oldEnergy != this.storage) {
-            this.getNetwork().updateTileGuiField(this, "storage");
+            this.updateGuiField("storage");
         }
 
-        this.updateComparators();
+        this.handleComparators();
     }
 
-    @Override
     public int getOutput() {
         if (skyBlockCheck()){
             if (isSunVisible()){
-                return (int)(this.production * this.config);
+                return (int)(this.production * this.config.get());
             }else {
-                return (int)(this.lowerProduction * this.config);
+                return (int)(this.lowerProduction * this.config.get());
             }
         }else {
             return 0;
@@ -188,59 +157,82 @@ public class TileEntityAdvancedSolarPanel extends BaseInventoryTileEntity implem
     }
 
     public boolean skyBlockCheck(){
-        return this.getWorld().canBlockSeeSky(this.getPos().up()) && this.getWorld().provider.hasSkyLight();
+        return this.getLevel().canSeeSkyFromBelowWater(this.getPosition().above()) && this.getLevel().dimensionType().hasSkyLight();
     }
 
     public boolean isSunVisible(){
-        return isSunVisible(this.getWorld(), this.getPos().up());
+        return isSunVisible(Objects.requireNonNull(this.getLevel()), this.getPosition().above());
     }
 
-    public static boolean isSunVisible(@NotNull World world, BlockPos pos) {
-        Biome biome = world.getBiome(pos);
-        if (world.getWorldTime() %24000  < 12600){
-            return BiomeDictionary.hasType(biome, BiomeDictionary.Type.HOT) && !biome.canRain() || !world.isRaining() && !world.isThundering();
+    public static boolean isSunVisible(@NotNull Level world, BlockPos pos) {
+        if (world.isNight()) return false;
+        Holder<Biome> biome = world.getBiome(pos);
+        return biome.get().getPrecipitation() == Biome.Precipitation.NONE || (!world.isRaining() && !world.isThundering());
+    }
+
+    /*public boolean canSetFacing(EntityPlayer player, EnumFacing facing) {
+        return facing != getFacing() && facing.getAxis().isHorizontal();
+    }*/
+
+    @Override
+    public double getDropRate(Player player) {
+        return 1.0D;
+    }
+
+    @Override
+    public float getEUProduction() {
+        if (isSunVisible()){
+            return Math.min(this.storage, this.production);
+        }else {
+            return Math.min(this.storage, this.lowerProduction);
         }
+    }
+
+    @Override
+    protected void consumeFuel() {
+    }
+
+    @Override
+    public boolean needsFuel() {
         return false;
     }
 
     @Override
-    public boolean canSetFacing(EntityPlayer player, EnumFacing facing) {
-        return facing != getFacing() && facing.getAxis().isHorizontal();
-    }
-
-    public double getWrenchDropRate() {
-        return 1.0D;
+    public int getMaxFuel() {
+        return 0;
     }
 
     public static class TileEntityHybridSolarPanel extends TileEntityAdvancedSolarPanel{
-        public TileEntityHybridSolarPanel() {
+        public TileEntityHybridSolarPanel(BlockPos pos, BlockState state) {
+            super(pos, state);
             this.tier = 2;
             this.production = 128;
-            this.lowerProduction = 16.0D;
+            this.lowerProduction = 16;
             this.maxStorage = 100000;
             this.maxOutput = 128;
-            this.config = AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarHybrid;
+            this.config = () -> AdvancedSolarsConfig.POWER_GENERATION.HYBRID_SOLAR_GENERATION_MULTIPLIER;
         }
 
         @Override
-        public LocaleComp getBlockName() {
-            return AdvancedSolarLang.hybridSolarPanel;
+        public BlockEntityType<?> createType() {
+            return Registry.HYBRID_SOLAR_PANEL_TYPE;
         }
     }
 
     public static class TileEntityUltimateHybridSolarPanel extends TileEntityAdvancedSolarPanel{
-        public TileEntityUltimateHybridSolarPanel() {
+        public TileEntityUltimateHybridSolarPanel(BlockPos pos, BlockState state) {
+            super(pos, state);
             this.tier = 4;
-            this.production =1024;
-            this.lowerProduction = 128.0D;
+            this.production = 1024;
+            this.lowerProduction = 128;
             this.maxStorage = 1000000;
             this.maxOutput = 2048;
-            this.config = AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarUltimateHybrid;
+            this.config = () -> AdvancedSolarsConfig.POWER_GENERATION.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER;
         }
 
         @Override
-        public LocaleComp getBlockName() {
-            return AdvancedSolarLang.ultimateHybridSolarPanel;
+        public BlockEntityType<?> createType() {
+            return Registry.ULTIMATE_HYBRID_SOLAR_PANEL_TYPE;
         }
     }
 }

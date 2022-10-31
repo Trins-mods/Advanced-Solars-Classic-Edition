@@ -1,39 +1,37 @@
 package trinsdar.advancedsolars.util;
 
-import ic2.core.inventory.gui.GuiIC2;
-import ic2.core.inventory.gui.components.GuiComponent;
-import ic2.core.platform.registry.Ic2GuiComp;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import com.mojang.blaze3d.vertex.PoseStack;
+import ic2.core.inventory.gui.components.GuiWidget;
+import net.minecraft.network.chat.Component;
 import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
-public class AdvancedSolarEnergyStringComp extends GuiComponent {
+public class AdvancedSolarEnergyStringComp extends GuiWidget {
     byte lastMode;
     TileEntityAdvancedSolarPanel block;
     int white = 13487565;
 
     public AdvancedSolarEnergyStringComp(TileEntityAdvancedSolarPanel tile) {
-        super(Ic2GuiComp.nullBox);
+        super(null);
         this.block = tile;
     }
 
     @Override
-    public List<ActionRequest> getNeededRequests() {
-               return Arrays.asList(ActionRequest.FrontgroundDraw, ActionRequest.BackgroundDraw);
+    protected void addRequests(Set<ActionRequest> set) {
+        set.add(ActionRequest.DRAW_BACKGROUND);
+        set.add(ActionRequest.DRAW_FOREGROUND);
     }
 
+
     @Override
-    @SideOnly(Side.CLIENT)
-    public void drawFrontground(GuiIC2 gui, int mouseX, int mouseY) {
+    public void drawForeground(PoseStack matrix, int mouseX, int mouseY) {
         if (block instanceof TileEntityAdvancedSolarPanel.TileEntityUltimateHybridSolarPanel){
-            gui.drawString(block.getBlockName(), 20, 5, 7718655);
+            gui.drawString(matrix, block.getBlockState().getBlock().getName(), 20, 5, 7718655);
         }else if (block instanceof TileEntityAdvancedSolarPanel.TileEntityHybridSolarPanel){
-            gui.drawString(block.getBlockName(), 41, 5, 7718655);
+            gui.drawString(matrix, block.getBlockState().getBlock().getName(), 41, 5, 7718655);
         }else {
-            gui.drawString(block.getBlockName(), 33, 5, 7718655);
+            gui.drawString(matrix, block.getBlockState().getBlock().getName(), 33, 5, 7718655);
         }
         int eu = this.block.getStoredEU();
         int max = this.block.getMaxEU();
@@ -41,11 +39,11 @@ public class AdvancedSolarEnergyStringComp extends GuiComponent {
             eu = max;
         }
 
-        gui.drawString(AdvancedSolarLang.storage.getLocalizedFormatted(eu), 7, 21, white);
-        gui.drawString("/" + max, 7, 31, white);
-        gui.drawString(AdvancedSolarLang.maxOutput, 7, 41, white);
-        gui.drawString("" + this.block.getMaxOutput() + " EU/t", 7, 51, white);
-        gui.drawString(AdvancedSolarLang.generating, 7, 61, white);
-        gui.drawString("" + this.block.getOutput() + " EU/t", 7, 71, white);
+        gui.drawString(matrix, Component.translatable(AdvancedSolarLang.storage, eu), 7, 21, white);
+        gui.drawString(matrix, Component.literal("/" + max), 7, 31, white);
+        gui.drawString(matrix, Component.translatable(AdvancedSolarLang.maxOutput), 7, 41, white);
+        gui.drawString(matrix, Component.literal("" + this.block.getMaxOutput() + " EU/t"), 7, 51, white);
+        gui.drawString(matrix, Component.translatable(AdvancedSolarLang.generating), 7, 61, white);
+        gui.drawString(matrix, Component.literal("" + this.block.getOutput() + " EU/t"), 7, 71, white);
     }
 }

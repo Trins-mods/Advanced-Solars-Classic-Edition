@@ -1,36 +1,39 @@
 package trinsdar.advancedsolars.util;
 
-import ic2.core.inventory.gui.GuiIC2;
-import ic2.core.inventory.gui.components.GuiComponent;
-import ic2.core.util.math.Box2D;
-import ic2.core.util.math.Vec2i;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import ic2.core.inventory.gui.components.GuiWidget;
+import ic2.core.utils.math.geometry.Box2i;
+import ic2.core.utils.math.geometry.Vec2i;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
-public class AdvancedSolarPanelComp extends GuiComponent {
+public class AdvancedSolarPanelComp extends GuiWidget {
     TileEntityAdvancedSolarPanel block;
-    Vec2i texPos;
+    Vec2i dayTexPos;
+    Vec2i nightTexPos;
 
-    public AdvancedSolarPanelComp(TileEntityAdvancedSolarPanel tile, Box2D box, Vec2i pos) {
+    public AdvancedSolarPanelComp(TileEntityAdvancedSolarPanel tile, Box2i box, Vec2i dayPos, Vec2i nightPos) {
         super(box);
         this.block = tile;
-        this.texPos = pos;
+        this.dayTexPos = dayPos;
+        this.nightTexPos = nightPos;
     }
 
     @Override
-    public List<ActionRequest> getNeededRequests() {
-        return Arrays.asList(ActionRequest.BackgroundDraw);
+    protected void addRequests(Set<ActionRequest> set) {
+        set.add(ActionRequest.DRAW_BACKGROUND);
     }
 
-    @SideOnly(Side.CLIENT)
-    public void drawBackground(GuiIC2 gui, int mouseX, int mouseY, float particalTicks) {
-        Box2D box = this.getPosition();
-        if (this.block.getActive()) {
-            gui.drawTexturedModalRect(gui.getXOffset() + box.getX(), gui.getYOffset() + box.getY(), this.texPos.getX(), this.texPos.getY(), box.getHeight(), box.getLenght());
+    @OnlyIn(Dist.CLIENT)
+    public void drawBackground(PoseStack matrix, int mouseX, int mouseY, float partialTicks) {
+        Box2i box = this.getBox();
+        if (this.block.isActive()) {
+            Vec2i pos = this.block.isSunVisible() ? dayTexPos : nightTexPos;
+            gui.drawTextureRegion(matrix,gui.getGuiLeft() + box.getX(), gui.getGuiTop() + box.getY(), pos.getX(), pos.getY(), box.getWidth(), box.getHeight());
         }
 
     }

@@ -1,11 +1,5 @@
 package trinsdar.advancedsolars.util;
 
-import ic2.core.platform.lang.components.base.LangComponentHolder;
-import ic2.core.platform.lang.components.base.LangComponentHolder.LocaleItemInfoComp;
-import ic2.core.platform.lang.components.base.LangComponentHolder.LocaleTileInfoComp;
-import ic2.core.platform.lang.components.base.LocaleComp;
-import trinsdar.advancedsolars.AdvancedSolarsClassic;
-
 public class AdvancedSolarLang {
 
     public static String storage = "tile_info.advanced_solars.storage";

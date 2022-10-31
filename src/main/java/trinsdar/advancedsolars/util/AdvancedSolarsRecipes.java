@@ -1,79 +1,59 @@
 package trinsdar.advancedsolars.util;
 
-import ic2.api.classic.recipe.ClassicRecipes;
-import ic2.api.classic.recipe.crafting.ICraftingRecipeList;
-import ic2.api.recipe.IRecipeInput;
-import ic2.core.block.machine.low.TileEntityCompressor;
-import ic2.core.item.recipe.entry.RecipeInputItemStack;
-import ic2.core.item.recipe.entry.RecipeInputOreDict;
-import ic2.core.platform.registry.Ic2Items;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.oredict.OreDictionary;
+import ic2.api.recipes.registries.IAdvancedCraftingManager;
+import ic2.core.IC2;
+import ic2.core.platform.recipes.misc.AdvRecipeRegistry;
+import ic2.core.platform.registries.IC2Blocks;
+import ic2.core.platform.registries.IC2Items;
+import ic2.core.platform.registries.IC2Recipes;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.Tags;
+import trinsdar.advancedsolars.AdvancedSolarsClassic;
 
 public class AdvancedSolarsRecipes {
+
     public static void init(){
-        initCraftingRecipes();
-        initMiscRecipes();
+        IC2.RECIPES.get().compressor.registerListener(r -> r.addSimpleRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "iridium_ore_to_iridium_ingot"), new ItemStack(Registry.IRIDIUM_INGOT), IC2Items.ORE_IRIDIUM));
+        AdvRecipeRegistry.INSTANCE.registerListener(AdvancedSolarsRecipes::initCraftingRecipes);
     }
 
-    static ICraftingRecipeList recipes = ClassicRecipes.advCrafting;
+    public static void initCraftingRecipes(IAdvancedCraftingManager registry){
+        registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "sunnarium"), new ItemStack(Registry.SUNNARIUM), "UUU", "GGG", "UUU", 'U', IC2Items.UUMATTER, 'G', Tags.Items.DUSTS_GLOWSTONE);
+        registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "sunnarium_alloy"), new ItemStack(Registry.SUNNARIUM_ALLOY), "III", "ISI", "III", 'I', IC2Items.PLATE_IRIDIUM, 'G', Registry.SUNNARIUM);
+        registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "iridium_iron_plate"), new ItemStack(Registry.IRIDIUM_IRON_PLATE), "rrr", "rir", "rrr", 'r', "ingotRefinedIron", 'i', "ingotIridium");
+        registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "reinforced_iridium_iron_plate"), new ItemStack(Registry.REINFORCED_IRIDIUM_IRON_PLATE), "aca", "cic", "aca", 'a', IC2Items.PLATE_ADVANCED_ALLOY, 'c', IC2Items.CARBON_PLATE, 'i', Registry.IRIDIUM_IRON_PLATE);
+        registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID,"irradiant_reinforced_plate"), new ItemStack(Registry.IRRADIANT_REINFORCED_PLATE), "rsr", "lRl", "rdr", 'r', Tags.Items.DUSTS_REDSTONE, 's', Registry.SUNNARIUM_PART, 'l', Tags.Items.DYES_BLUE, 'R', Registry.REINFORCED_IRIDIUM_IRON_PLATE, 'd', Tags.Items.GEMS_DIAMOND);
+        registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "sunnarium_part"), new ItemStack(Registry.SUNNARIUM_PART), "ugu", 'u', IC2Items.UUMATTER, 'g', Tags.Items.DUSTS_GLOWSTONE);
+        registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "irradiant_uranium"), new ItemStack(Registry.IRRADIANT_URANIUM), "ugu", "geg", "ugu", 'u', IC2Items.UUMATTER, 'e', getUranium(), 'g', Tags.Items.DUSTS_GLOWSTONE);
+        registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "enriched_sunnarium"), new ItemStack(Registry.ENRICHED_SUNNARIUM), "iii", "isi", "iii", 'i', Registry.IRRADIANT_URANIUM, 's', Registry.SUNNARIUM);
+        registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "irradiant_glass_pane"), new ItemStack(Registry.IRRADIANT_GLASS_PANE, 6), "rrr", "igi", "rrr", 'r', IC2Blocks.REINFORCED_GLASS, 'i', Registry.IRRADIANT_URANIUM, 'g', "dustGlowstone");
+        registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "enriched_sunnarium_alloy"), new ItemStack(Registry.ENRICHED_SUNNARIUM_ALLOY), "pep", "ese", "pep", 'p', IC2Items.CELL_PLASMA, 'e', Registry.ENRICHED_SUNNARIUM, 's', Registry.SUNNARIUM_ALLOY);
 
-    static IRecipeInput getPlasma(){
-        return Loader.isModLoaded("gtclassic") ? new RecipeInputOreDict("itemPlasma") : new RecipeInputItemStack(Ic2Items.plasmaCell);
-    }
-
-    public static void initCraftingRecipes(){
-        if (AdvancedSolarsConfig.enabledItems.enableMiscCraftingItems){
-            recipes.addRecipe(new ItemStack(Registry.SUNNARIUM), "uuu", "ggg", "uuu", 'u', Ic2Items.uuMatter, 'g', "dustGlowstone");
-            recipes.addRecipe(new ItemStack(Registry.SUNNARIUM_ALLOY), "iii", "isi", "iii", 'i', Ic2Items.iridiumPlate, 's', Registry.SUNNARIUM);
-            recipes.addRecipe(new ItemStack(Registry.IRIDIUM_IRON_PLATE), "rrr", "rir", "rrr", 'r', "ingotRefinedIron", 'i', "ingotIridium");
-            recipes.addRecipe(new ItemStack(Registry.REINFORCED_IRIDIUM_IRON_PLATE), "aca", "cic", "aca", 'a', Ic2Items.advancedAlloy, 'c', Ic2Items.carbonPlate, 'i', Registry.IRIDIUM_IRON_PLATE);
-            recipes.addRecipe(new ItemStack(Registry.IRRADIANT_REINFORCED_PLATE), "rsr", "lRl", "rdr", 'r', "dustRedstone", 's', Registry.SUNNARIUM_PART, 'l', "dyeBlue", 'R', Registry.REINFORCED_IRIDIUM_IRON_PLATE, 'd', "gemDiamond");
-            recipes.addRecipe(new ItemStack(Registry.SUNNARIUM_PART), "ugu", 'u', Ic2Items.uuMatter, 'g', "dustGlowstone");
-            recipes.addRecipe(new ItemStack(Registry.IRRADIANT_URANIUM), "ugu", "geg", "ugu", 'u', Ic2Items.uuMatter, 'e', getUranium(), 'g', "dustGlowstone");
-            recipes.addRecipe(new ItemStack(Registry.ENRICHED_SUNNARIUM), "iii", "isi", "iii", 'i', Registry.IRRADIANT_URANIUM, 's', Registry.SUNNARIUM);
-            recipes.addRecipe(new ItemStack(Registry.IRRADIANT_GLASS_PANE, 6), "rrr", "igi", "rrr", 'r', Ic2Items.reinforcedGlass, 'i', Registry.IRRADIANT_URANIUM, 'g', "dustGlowstone");
-            if (AdvancedSolarsConfig.enabledItems.enableAdvancedSolarPanel){
-                recipes.addRecipe(new ItemStack(Registry.ADVANCED_SOLAR_PANEL), "rrr", "asa", "cic", 'r', Registry.IRRADIANT_GLASS_PANE, 'a', Ic2Items.advancedAlloy, 's', Ic2Items.lvSolarPanel, 'c', "circuitAdvanced", 'i', Registry.IRRADIANT_REINFORCED_PLATE);
-                if (AdvancedSolarsConfig.enabledItems.enableAdvancedSolarHelmet){
-                    recipes.addRecipe(new ItemStack(Registry.ADVANCED_SOLAR_HELMET), "sas", "cnc", "glg", 's', Ic2Items.advSolarHelmet, 'a', Registry.ADVANCED_SOLAR_PANEL, 'c', "circuitAdvanced", 'n', Ic2Items.nanoHelmet, 'g', Ic2Items.doubleInsulatedGoldCable, 'l', Ic2Items.transformerLV);
-                }
-                if (AdvancedSolarsConfig.enabledItems.enableHybridSolarPanel){
-                    recipes.addRecipe(new ItemStack(Registry.HYBRID_SOLAR_PANEL), "CmC", "iai", "csc", 'C', Ic2Items.carbonPlate, 'm', Ic2Items.mvSolarPanel, 'i', Ic2Items.iridiumPlate, 'a', Registry.ADVANCED_SOLAR_PANEL, 'c', "circuitAdvanced", 's', Registry.ENRICHED_SUNNARIUM);
-                }
-            }
-            if (AdvancedSolarsConfig.enabledItems.enableHybridSolarPanel){
-                if (AdvancedSolarsConfig.enabledItems.enableHybridSolarHelmet){
-                    recipes.addRecipe(new ItemStack(Registry.HYBRID_SOLAR_HELMET), " H ", "cqc", "ghg", 'H', Registry.HYBRID_SOLAR_PANEL, 'c', "circuitAdvanced", 'q', Ic2Items.quantumHelmet, 'g', Ic2Items.glassFiberCable, 'h', Ic2Items.transformerHV);
-                }
-                if (AdvancedSolarsConfig.enabledItems.enableUltimateHybridSolarPanel){
-                    recipes.addRecipe(new ItemStack(Registry.ULTIMATE_HYBRID_SOLAR_PANEL), " h ", "pHp", "scs", 'h', Ic2Items.hvSolarPanel, 'p', Ic2Items.plasmaCore, 'H', Registry.HYBRID_SOLAR_PANEL, 's', Registry.ENRICHED_SUNNARIUM_ALLOY, 'c', Ic2Items.coalChunk);
-                }
-            }
-            if (AdvancedSolarsConfig.enabledItems.enableHybridSolarHelmet && AdvancedSolarsConfig.enabledItems.enableUltimateHybridSolarPanel && AdvancedSolarsConfig.enabledItems.enableUltimateHybridSolarHelmet){
-                recipes.addRecipe(new ItemStack(Registry.ULTIMATE_HYBRID_SOLAR_HELMET),  "ppp", "pup", "ihi", 'p', getPlasma(), 'u', Registry.ULTIMATE_HYBRID_SOLAR_PANEL, 'i', Ic2Items.iridiumPlate, 'h', Registry.HYBRID_SOLAR_HELMET);
-            }
-            recipes.addRecipe(new ItemStack(Registry.ENRICHED_SUNNARIUM_ALLOY), "pep", "ese", "pep", 'p', getPlasma(), 'e', Registry.ENRICHED_SUNNARIUM, 's', Registry.SUNNARIUM_ALLOY);
-
-        }
+        //registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "advanced_solar_panel"), new ItemStack(Registry.ADVANCED_SOLAR_PANEL), "rrr", "asa", "cic", 'r', Registry.IRRADIANT_GLASS_PANE, 'a', IC2Items.PLATE_ADVANCED_ALLOY, 's', IC2Blocks.SOLAR_PANEL_LV, 'c', IC2Items.ADVANCED_CIRCUIT, 'i', Registry.IRRADIANT_REINFORCED_PLATE);
+        //registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "advanced_solar_helmet"), new ItemStack(Registry.ADVANCED_SOLAR_HELMET), "sas", "cnc", "glg", 's', IC2Items.SOLAR_HELMET_ADVANCED, 'a', Registry.ADVANCED_SOLAR_PANEL, 'c', IC2Items.ADVANCED_CIRCUIT, 'n', IC2Items.NANOSUIT_HELMET, 'g', IC2Items.GOLD_CABLE_2X_INSULATED, 'l', IC2Blocks.TRANSFORMER_LV);
+        //registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "hybrid_solar_panel"), new ItemStack(Registry.HYBRID_SOLAR_PANEL), "CmC", "iai", "csc", 'C', IC2Items.CARBON_PLATE, 'm', IC2Blocks.SOLAR_PANEL_MV, 'i', IC2Items.PLATE_IRIDIUM, 'a', Registry.ADVANCED_SOLAR_PANEL, 'c', IC2Items.ADVANCED_CIRCUIT, 's', Registry.ENRICHED_SUNNARIUM);
+        //registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "hybrid_solar_helmet"), new ItemStack(Registry.HYBRID_SOLAR_HELMET), " H ", "cqc", "ghg", 'H', Registry.HYBRID_SOLAR_PANEL, 'c', IC2Items.ADVANCED_CIRCUIT, 'q', IC2Items.QUANTUM_SUIT_HELMET, 'g', IC2Items.GLASSFIBER_CABLE, 'h', IC2Blocks.TRANSFORMER_HV);
+        //registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "ultimate_hybrid_solar_panel"), new ItemStack(Registry.ULTIMATE_HYBRID_SOLAR_PANEL), " h ", "pHp", "scs", 'h', IC2Blocks.SOLAR_PANEL_HV, 'p', IC2Items.PLASMA_CORE, 'H', Registry.HYBRID_SOLAR_PANEL, 's', Registry.ENRICHED_SUNNARIUM_ALLOY, 'c', IC2Items.COAL_CHUNK);
+        //registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "ultimate_hybrid_solar_helmet"), new ItemStack(Registry.ULTIMATE_HYBRID_SOLAR_HELMET),  "ppp", "pup", "ihi", 'p', IC2Items.CELL_PLASMA, 'u', Registry.ULTIMATE_HYBRID_SOLAR_PANEL, 'i', IC2Items.PLATE_IRIDIUM, 'h', Registry.HYBRID_SOLAR_HELMET);
 
     }
 
-    public static IRecipeInput getUranium(){
-        IRecipeInput defaultUranium =  new RecipeInputItemStack(Ic2Items.enderPearlUraniumIngot.copy());
-        switch (AdvancedSolarsConfig.misc.ingotInIrradiantUranium){
-            case URANIUM: return new RecipeInputOreDict("ingotUranium");
-            case URANIUM233: return OreDictionary.doesOreNameExist("ingotUranium233") ? new RecipeInputOreDict("ingotUranium233") : defaultUranium;
-            case URANIUM235: return OreDictionary.doesOreNameExist("ingotUranium235") ? new RecipeInputOreDict("ingotUranium235") : defaultUranium;
-            default: return defaultUranium;
-        }
+    public static Object getUranium(){
+        Object defaultUranium =  IC2Items.INGOT_URANIUM_ENRICHED_ENDERPEARL;
+        return switch (AdvancedSolarsConfig.MISC.INGOT_IN_IRRADIANT_URANIUM) {
+            case URANIUM -> getItemTag(new ResourceLocation("forge", "ingots/uranium"));
+            case URANIUM233 ->
+                    getItemTag(new ResourceLocation("forge", "ingots/uranium233"));
+            case URANIUM235 ->
+                    getItemTag(new ResourceLocation("forge", "ingots/uranium235"));
+            default -> defaultUranium;
+        };
     }
 
-    public static void initMiscRecipes(){
-        OreDictionary.registerOre("ingotIridium", Registry.IRIDIUM_INGOT);
-        if (!Loader.isModLoaded("gtclassic") && !Loader.isModLoaded("techreborn")){
-            TileEntityCompressor.addRecipe(Ic2Items.iridiumOre, new ItemStack(Registry.IRIDIUM_INGOT));
-        }
+    private static TagKey<Item> getItemTag(ResourceLocation location){
+        return TagKey.create(net.minecraft.core.Registry.ITEM_REGISTRY, location);
     }
 }

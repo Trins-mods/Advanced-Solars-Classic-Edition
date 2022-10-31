@@ -1,14 +1,22 @@
 package trinsdar.advancedsolars.util;
 
+import ic2.core.platform.registries.IC2Tiles;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import trinsdar.advancedsolars.blocks.BlockAdvancedSolarPanels;
+import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
 import trinsdar.advancedsolars.items.ItemArmorAdvancedSolarHelmet;
 import trinsdar.advancedsolars.items.ItemMisc;
 
 public class Registry {
-    public static final BlockAdvancedSolarPanels
-            ADVANCED_SOLAR_PANEL = new BlockAdvancedSolarPanels("advancedSolarPanel"),
-    HYBRID_SOLAR_PANEL = new BlockAdvancedSolarPanels("hybridSolarPanel"),
-    ULTIMATE_HYBRID_SOLAR_PANEL = new BlockAdvancedSolarPanels("ultimateSolarPanel");
+    public static final BlockEntityType<TileEntityAdvancedSolarPanel> ADVANCED_SOLAR_PANEL_TYPE = IC2Tiles.createTile("advanced_solar_panel", TileEntityAdvancedSolarPanel::new);
+    public static final BlockEntityType<TileEntityAdvancedSolarPanel.TileEntityHybridSolarPanel> HYBRID_SOLAR_PANEL_TYPE = IC2Tiles.createTile("hybrid_solar_panel", TileEntityAdvancedSolarPanel.TileEntityHybridSolarPanel::new);
+    public static final BlockEntityType<TileEntityAdvancedSolarPanel.TileEntityUltimateHybridSolarPanel> ULTIMATE_HYBRID_SOLAR_PANEL_TYPE = IC2Tiles.createTile("ultimate_hybrid_solar_panel", TileEntityAdvancedSolarPanel.TileEntityUltimateHybridSolarPanel::new);
+
+    public static final BlockAdvancedSolarPanels ADVANCED_SOLAR_PANEL = new BlockAdvancedSolarPanels("advanced_solar_panel", ADVANCED_SOLAR_PANEL_TYPE);
+    public static final BlockAdvancedSolarPanels HYBRID_SOLAR_PANEL = new BlockAdvancedSolarPanels("hybrid_solar_panel", HYBRID_SOLAR_PANEL_TYPE);
+    public static final BlockAdvancedSolarPanels ULTIMATE_HYBRID_SOLAR_PANEL = new BlockAdvancedSolarPanels("ultimate_hybrid_solar_panel", ULTIMATE_HYBRID_SOLAR_PANEL_TYPE);
+
+
 
     public static final ItemMisc SUNNARIUM = new ItemMisc("sunnarium");
     public static final ItemMisc SUNNARIUM_ALLOY = new ItemMisc("sunnarium_alloy");
@@ -22,18 +30,10 @@ public class Registry {
     public static final ItemMisc SUNNARIUM_PART = new ItemMisc("sunnarium_part");
     public static final ItemMisc IRIDIUM_INGOT = new ItemMisc("iridium_ingot");
 
-    public static final ItemArmorAdvancedSolarHelmet
-            ADVANCED_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("advanced", 11, 16, 2, AdvancedSolarsConfig.powerValues.advancedSolarHelmetStorage, AdvancedSolarsConfig.powerValues.advancedSolarHelmetTransfer, 2, 800, 0.9D, ":textures/models/advancedsolarhelmet"),
-    HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("hybrid", 12, 128, 16, AdvancedSolarsConfig.powerValues.hybridSolarHelmetStorage, AdvancedSolarsConfig.powerValues.hybridSolarHelmetTransfer, 3, 900, 1.0D, ":textures/models/hybridsolarhelmet"),
-    ULTIMATE_HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("ultimate_hybrid", 13, 1024, 128,  AdvancedSolarsConfig.powerValues.ultimateHybridSolarHelmetStorage, AdvancedSolarsConfig.powerValues.ultimateHybridSolarHelmetTransfer, getTier(AdvancedSolarsConfig.misc.enableUltimateHybridSolarHelmetTier4), 900, 1.0D, ":textures/models/ultimatesolarhelmet");
-
-    private static int getTier(boolean config){
-        return config ? 4 : 3;
-    }
+    public static final ItemArmorAdvancedSolarHelmet ADVANCED_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("advanced", 16, 2, () -> AdvancedSolarsConfig.POWER_VALUES.ADVANCED_SOLAR_HELMET_STORAGE, () -> AdvancedSolarsConfig.POWER_VALUES.ADVANCED_SOLAR_HELMET_TRANSFER, 2, 800, 0.9D);
+    public static final ItemArmorAdvancedSolarHelmet HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("hybrid", 128, 16, () -> AdvancedSolarsConfig.POWER_VALUES.HYBRID_SOLAR_HELMET_STORAGE, () -> AdvancedSolarsConfig.POWER_VALUES.HYBRID_SOLAR_HELMET_TRANSFER, 3, 900, 1.0D);
+    public static final ItemArmorAdvancedSolarHelmet ULTIMATE_HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("ultimate_hybrid", 1024, 128,  () -> AdvancedSolarsConfig.POWER_VALUES.ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE, () -> AdvancedSolarsConfig.POWER_VALUES.ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER, 4, 900, 1.0D);
 
     public static void init(){
-    }
-
-    public static void registerTiles() {
     }
 }

@@ -32,17 +32,17 @@ public class ItemBlockAdvancedSolarPanel extends ItemBlockRare {
     private String getTier() {
         if (this.getBlock() == Registry.ADVANCED_SOLAR_PANEL){
 
-            return getTierFromOutput(AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarAdvanced * 16.0F);
+            return getTierFromOutput(AdvancedSolarsConfig.POWER_GENERATION.ADVANCED_SOLAR_GENERATION_MULTIPLIER * 16.0F);
         }else if (this.getBlock() == Registry.HYBRID_SOLAR_PANEL){
-            return getTierFromOutput(AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarHybrid * 128.0F);
+            return getTierFromOutput(AdvancedSolarsConfig.POWER_GENERATION.HYBRID_SOLAR_GENERATION_MULTIPLIER * 128.0F);
         }else if (this.getBlock() == Registry.ULTIMATE_HYBRID_SOLAR_PANEL){
-            return getTierFromOutput(AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarUltimateHybrid * 1024.0F);
+            return getTierFromOutput(AdvancedSolarsConfig.POWER_GENERATION.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER * 1024.0F);
         }else {
             return "";
         }
     }
 
-    public String getTierFromOutput(float output){
+    public String getTierFromOutput(double output){
         if (output<= 8){
             return "ULV";
         } else if (output <= 32){
@@ -67,11 +67,11 @@ public class ItemBlockAdvancedSolarPanel extends ItemBlockRare {
 
     private double getProduction() {
         if (this.getBlock() == Registry.ADVANCED_SOLAR_PANEL){
-            return (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarAdvanced * 16.0F;
+            return (double) AdvancedSolarsConfig.POWER_GENERATION.ADVANCED_SOLAR_GENERATION_MULTIPLIER * 16.0F;
         }else if (this.getBlock() == Registry.HYBRID_SOLAR_PANEL){
-            return (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarHybrid * 128.0F;
+            return (double) AdvancedSolarsConfig.POWER_GENERATION.HYBRID_SOLAR_GENERATION_MULTIPLIER * 128.0F;
         }else if (this.getBlock() == Registry.ULTIMATE_HYBRID_SOLAR_PANEL){
-            return (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarUltimateHybrid * 1024.0F;
+            return (double) AdvancedSolarsConfig.POWER_GENERATION.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER * 1024.0F;
         }else {
             return 0.0D;
         }
@@ -79,11 +79,11 @@ public class ItemBlockAdvancedSolarPanel extends ItemBlockRare {
 
     private double getLowerProduction() {
         if (this.getBlock() == Registry.ADVANCED_SOLAR_PANEL){
-            return (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarAdvanced * 2.0F;
+            return (double) AdvancedSolarsConfig.POWER_GENERATION.ADVANCED_SOLAR_GENERATION_MULTIPLIER * 2.0F;
         }else if (this.getBlock() == Registry.HYBRID_SOLAR_PANEL){
-            return (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarHybrid * 16.0F;
+            return (double) AdvancedSolarsConfig.POWER_GENERATION.HYBRID_SOLAR_GENERATION_MULTIPLIER * 16.0F;
         }else if (this.getBlock() == Registry.ULTIMATE_HYBRID_SOLAR_PANEL){
-            return (double) AdvancedSolarsConfig.powerGeneration.energyGeneratorSolarUltimateHybrid * 128.0F;
+            return (double) AdvancedSolarsConfig.POWER_GENERATION.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER * 128.0F;
         }else {
             return 0.0D;
         }
