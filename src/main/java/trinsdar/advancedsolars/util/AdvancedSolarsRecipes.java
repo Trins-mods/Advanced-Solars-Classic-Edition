@@ -17,7 +17,7 @@ import trinsdar.advancedsolars.AdvancedSolarsClassic;
 public class AdvancedSolarsRecipes {
 
     public static void init(){
-        IC2.RECIPES.get().compressor.registerListener(r -> r.addSimpleRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "iridium_ore_to_iridium_ingot"), new ItemStack(Registry.IRIDIUM_INGOT), IC2Items.ORE_IRIDIUM));
+        IC2.RECIPES.get(true).compressor.registerListener(r -> r.addSimpleRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "iridium_ore_to_iridium_ingot"), new ItemStack(Registry.IRIDIUM_INGOT), IC2Items.ORE_IRIDIUM));
         AdvRecipeRegistry.INSTANCE.registerListener(AdvancedSolarsRecipes::initCraftingRecipes);
     }
 
