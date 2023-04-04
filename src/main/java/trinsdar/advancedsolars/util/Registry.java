@@ -30,9 +30,9 @@ public class Registry {
     public static final ItemMisc SUNNARIUM_PART = new ItemMisc("sunnarium_part");
     public static final ItemMisc IRIDIUM_INGOT = new ItemMisc("iridium_ingot");
 
-    public static final ItemArmorAdvancedSolarHelmet ADVANCED_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("advanced", 16, 2, () -> AdvancedSolarsConfig.POWER_VALUES.ADVANCED_SOLAR_HELMET_STORAGE, () -> AdvancedSolarsConfig.POWER_VALUES.ADVANCED_SOLAR_HELMET_TRANSFER, 2, 800, 0.9D);
-    public static final ItemArmorAdvancedSolarHelmet HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("hybrid", 128, 16, () -> AdvancedSolarsConfig.POWER_VALUES.HYBRID_SOLAR_HELMET_STORAGE, () -> AdvancedSolarsConfig.POWER_VALUES.HYBRID_SOLAR_HELMET_TRANSFER, 3, 900, 1.0D);
-    public static final ItemArmorAdvancedSolarHelmet ULTIMATE_HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("ultimate_hybrid", 1024, 128,  () -> AdvancedSolarsConfig.POWER_VALUES.ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE, () -> AdvancedSolarsConfig.POWER_VALUES.ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER, 4, 900, 1.0D);
+    public static final ItemArmorAdvancedSolarHelmet ADVANCED_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("advanced", 16, 2, 2);
+    public static final ItemArmorAdvancedSolarHelmet HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("hybrid", 128, 16, 3);
+    public static final ItemArmorAdvancedSolarHelmet ULTIMATE_HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("ultimate_hybrid", 1024, 128,  4);
 
     public static void init(){
     }

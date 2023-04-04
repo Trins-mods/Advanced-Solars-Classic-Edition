@@ -1,17 +1,29 @@
 package trinsdar.advancedsolars.items;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import ic2.api.addons.IModule;
-import ic2.api.items.armor.IArmorModule;
 import ic2.api.items.electric.ElectricItem;
+import ic2.api.network.buffer.INetworkDataBuffer;
 import ic2.core.IC2;
-import ic2.core.item.wearable.armor.electric.NanoSuit;
+import ic2.core.item.base.PropertiesBuilder;
+import ic2.core.item.wearable.base.IBaseArmorModule;
+import ic2.core.item.wearable.base.IC2AdvancedArmorBase;
 import ic2.core.platform.registries.IC2Items;
+import ic2.core.utils.tooltips.ToolTipHelper;
 import ic2.curioplugin.core.CurioPlugin;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.items.IItemHandler;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
@@ -19,65 +31,34 @@ import trinsdar.advancedsolars.util.AdvancedSolarLang;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
+import java.util.UUID;
 
-public class ItemArmorAdvancedSolarHelmet extends NanoSuit {
+public class ItemArmorAdvancedSolarHelmet extends IC2AdvancedArmorBase implements IBaseArmorModule {
 
     private int
     production,
     lowerProduction,
-    energyPerDamage;
-    double damageAbsorpationRatio;
-    Supplier<Integer> capacity;
-    Supplier<Integer> transferLimit;
-
-    public ItemArmorAdvancedSolarHelmet(String name, int pro, int lowPro, Supplier<Integer> capacity, Supplier<Integer> transferLimit, int tier, int energyPerDamage, double damageAbsorpationRatio) {
-        super(name + "_solar_helmet", EquipmentSlot.HEAD);
-        if (!name.contains("advanced")) {
-            this.addSlotType(IArmorModule.ModuleType.GENERIC, 1);
-        }
+    tier;
+    public ItemArmorAdvancedSolarHelmet(String name, int pro, int lowPro, int tier) {
+        super(name + "_solar_helmet", EquipmentSlot.HEAD, new PropertiesBuilder().maxDamage(0).rarity(Rarity.RARE));
         this.production = pro;
         this.lowerProduction = lowPro;
-        this.energyPerDamage = energyPerDamage;
-        this.damageAbsorpationRatio = damageAbsorpationRatio;
-        this.capacity = capacity;
-        this.transferLimit = transferLimit;
+        this.tier = tier;
         IC2Items.registerItem(this);
+
     }
 
     @Override
-    public int getCapacity(ItemStack stack) {
-        return capacity.get();
+    public boolean canInstallInArmor(ItemStack stack, ItemStack armor, EquipmentSlot type) {
+        return type == EquipmentSlot.HEAD;
     }
 
     @Override
-    public int getTransferLimit(ItemStack stack) {
-        return transferLimit.get();
+    public void addToolTip(ItemStack stack, Player player, TooltipFlag type, ToolTipHelper helper) {
+        super.addToolTip(stack, player, type, helper);
+        helper.addDataTooltip(AdvancedSolarLang.helmetProduction, production);
+        helper.addDataTooltip(AdvancedSolarLang.helmetLowerProduction, lowerProduction);
     }
-
-    @Override
-    public int getTransferLimit() {
-        return transferLimit.get();
-    }
-
-    @Override
-    public int getTier() {
-        return tier;
-    }
-
-    @Override
-    public int getTier(ItemStack stack) {
-        return tier;
-    }
-
-    /*@Override
-    public void onSortedItemToolTip(ItemStack stack, EntityPlayer player, boolean debugTooltip, List<String> tooltip, Map<ToolTipType, List<String>> sortedTooltip) {
-        super.onSortedItemToolTip(stack, player, debugTooltip, tooltip, sortedTooltip);
-        sortedTooltip.get(ToolTipType.Shift).add(AdvancedSolarLang.helmetProduction.getLocalizedFormatted(production));
-        sortedTooltip.get(ToolTipType.Shift).add(AdvancedSolarLang.helmetLowerPorduction.getLocalizedFormatted(lowerProduction));
-
-    }*/
 
     @Override
     public void onArmorTick(ItemStack stack, Level world, Player player) {
@@ -95,6 +76,11 @@ public class ItemArmorAdvancedSolarHelmet extends NanoSuit {
     }
 
     @Override
+    public void onTick(ItemStack stack, ItemStack armor, Level world, Player player) {
+        onArmorTick(armor, world, player);
+    }
+
+    @Override
     public String getArmorTexture() {
         return AdvancedSolarsClassic.MODID + ":textures/models/" + getRegistryName().getPath();
     }
@@ -107,16 +93,6 @@ public class ItemArmorAdvancedSolarHelmet extends NanoSuit {
     @Override
     public String getTextureFolder() {
         return "solar_helmets";
-    }
-
-    @Override
-    public double getDamageAbsorptionRatio(ItemStack stack) {
-        return damageAbsorpationRatio;
-    }
-
-    @Override
-    public int getEnergyPerDamage(ItemStack stack) {
-        return energyPerDamage;
     }
 
 
@@ -154,5 +130,29 @@ public class ItemArmorAdvancedSolarHelmet extends NanoSuit {
         }
 
         return provided;
+    }
+
+    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
+        Multimap<Attribute, AttributeModifier> modifiers = HashMultimap.create();
+        if (equipmentSlot == EquipmentSlot.HEAD) {
+            modifiers.put(Attributes.ARMOR, new AttributeModifier(UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150"), "Armor modifier", 1.0, AttributeModifier.Operation.ADDITION));
+        }
+
+        return modifiers;
+    }
+
+    @Override
+    public ModuleType getType(ItemStack itemStack) {
+        return ModuleType.CHARGER;
+    }
+
+    @Override
+    public boolean handlePacket(Player player, ItemStack itemStack, ItemStack itemStack1, String s, INetworkDataBuffer iNetworkDataBuffer, Dist dist) {
+        return false;
+    }
+
+    @Override
+    public Ingredient getRepairMaterial() {
+        return Ingredient.EMPTY;
     }
 }
