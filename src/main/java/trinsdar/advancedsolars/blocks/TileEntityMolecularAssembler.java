@@ -1,20 +1,60 @@
-/*package trinsdar.advancedsolars.blocks;
+package trinsdar.advancedsolars.blocks;
 
-import ic2.api.classic.item.IMachineUpgradeItem;
-import ic2.api.classic.recipe.machine.IMachineRecipeList;
-import ic2.api.classic.tile.MachineType;
-import ic2.core.block.base.tile.TileEntityBasicElectricMachine;
-import ic2.core.block.machine.recipes.managers.BasicMachineRecipeList;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import ic2.api.recipes.registries.IMachineRecipeList;
+import ic2.core.block.base.tiles.impls.machine.single.BasicMachineTileEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import trinsdar.advancedsolars.util.AdvancedSolarsRecipes;
+import trinsdar.advancedsolars.util.Registry;
 
-public class TileEntityMolecularAssembler extends TileEntityBasicElectricMachine {
-    public static IMachineRecipeList molecularAssembler = new BasicMachineRecipeList("molecularAssembler");
-    public TileEntityMolecularAssembler() {
-        super(3, 1, 100, 536870912);
+public class TileEntityMolecularAssembler extends BasicMachineTileEntity {
+    private int energyInPerTick = 0;
+    public TileEntityMolecularAssembler(BlockPos pos, BlockState state) {
+        super(pos, state, 2, 2, 1, 100, 10000, 32);
     }
 
     @Override
+    public BlockEntityType<?> createType() {
+        return Registry.MOLECULAR_ASSEMBLER_TYPE;
+    }
+
+    @Override
+    public ResourceLocation getTexture() {
+        return null;
+    }
+
+    @Override
+    public IMachineRecipeList getRecipeList() {
+        return AdvancedSolarsRecipes.MOLECULAR_ASSEMBLER;
+    }
+
+    @Override
+    protected void onPreTick(boolean hasRecipe, boolean canWork, boolean canOperate) {
+        if (canOperate){
+            progressPerTick = energyInPerTick;
+            this.recipeEnergy = (int) progressPerTick;
+        }
+    }
+
+    @Override
+    public int acceptEnergy(Direction side, int amount, int voltage) {
+        int oldEnergy = this.energy;
+        int superCall = super.acceptEnergy(side, amount, voltage);
+        int newEnergy = this.energy;
+        this.energyInPerTick = newEnergy - oldEnergy;
+        return superCall;
+    }
+
+    //public static IMachineRecipeList molecularAssembler = new BasicMachineRecipeList("molecularAssembler");
+
+    /*public TileEntityMolecularAssembler() {
+        super(3, 1, 100, 536870912);
+    }*/
+
+    /*@Override
     public IMachineRecipeList.RecipeEntry getOutputFor(ItemStack itemStack) {
         return molecularAssembler.getRecipeInAndOutput(itemStack, false);
     }
@@ -36,5 +76,5 @@ public class TileEntityMolecularAssembler extends TileEntityBasicElectricMachine
 
     public void update() {
         this.progressPerTick = this.energyConsume;
-    }
-}*/
+    }*/
+}

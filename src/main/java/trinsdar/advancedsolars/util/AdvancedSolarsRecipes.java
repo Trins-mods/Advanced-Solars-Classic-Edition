@@ -1,7 +1,9 @@
 package trinsdar.advancedsolars.util;
 
 import ic2.api.recipes.registries.IAdvancedCraftingManager;
+import ic2.api.recipes.registries.IMachineRecipeList;
 import ic2.core.IC2;
+import ic2.core.block.machines.recipes.MachineRecipeList;
 import ic2.core.platform.recipes.misc.AdvRecipeRegistry;
 import ic2.core.platform.registries.IC2Blocks;
 import ic2.core.platform.registries.IC2Items;
@@ -15,10 +17,16 @@ import net.minecraftforge.common.Tags;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 
 public class AdvancedSolarsRecipes {
+    public static final MachineRecipeList MOLECULAR_ASSEMBLER = new MachineRecipeList("molecular_assembler", AdvancedSolarsRecipes::initMolecularAssemblerRecipes);
 
     public static void init(){
+        IC2.RECIPES.get(true).getLists().add(MOLECULAR_ASSEMBLER);
         IC2.RECIPES.get(true).compressor.registerListener(r -> r.addSimpleRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "iridium_ore_to_iridium_ingot"), new ItemStack(Registry.IRIDIUM_INGOT), IC2Items.ORE_IRIDIUM));
         AdvRecipeRegistry.INSTANCE.registerListener(AdvancedSolarsRecipes::initCraftingRecipes);
+    }
+
+    private static void initMolecularAssemblerRecipes(IMachineRecipeList list){
+
     }
 
     public static void initCraftingRecipes(IAdvancedCraftingManager registry){
