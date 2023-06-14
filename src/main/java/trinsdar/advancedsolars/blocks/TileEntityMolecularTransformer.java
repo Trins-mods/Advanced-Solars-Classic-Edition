@@ -10,15 +10,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import trinsdar.advancedsolars.util.AdvancedSolarsRecipes;
 import trinsdar.advancedsolars.util.Registry;
 
-public class TileEntityMolecularAssembler extends BasicMachineTileEntity {
+public class TileEntityMolecularTransformer extends BasicMachineTileEntity {
     private int energyInPerTick = 0;
-    public TileEntityMolecularAssembler(BlockPos pos, BlockState state) {
+    public TileEntityMolecularTransformer(BlockPos pos, BlockState state) {
         super(pos, state, 2, 2, 1, 100, 10000, 32);
     }
 
     @Override
     public BlockEntityType<?> createType() {
-        return Registry.MOLECULAR_ASSEMBLER_TYPE;
+        return Registry.MOLECULAR_TRANSFORMER_TYPE;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class TileEntityMolecularAssembler extends BasicMachineTileEntity {
 
     @Override
     public IMachineRecipeList getRecipeList() {
-        return AdvancedSolarsRecipes.MOLECULAR_ASSEMBLER;
+        return AdvancedSolarsRecipes.MOLECULAR_TRANSFORMER;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class TileEntityMolecularAssembler extends BasicMachineTileEntity {
 
     //public static IMachineRecipeList molecularAssembler = new BasicMachineRecipeList("molecularAssembler");
 
-    /*public TileEntityMolecularAssembler() {
+    /*public TileEntityMolecularTransformer() {
         super(3, 1, 100, 536870912);
     }*/
 

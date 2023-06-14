@@ -7,7 +7,6 @@ import ic2.core.block.machines.recipes.MachineRecipeList;
 import ic2.core.platform.recipes.misc.AdvRecipeRegistry;
 import ic2.core.platform.registries.IC2Blocks;
 import ic2.core.platform.registries.IC2Items;
-import ic2.core.platform.registries.IC2Recipes;
 import ic2.core.platform.registries.IC2Tags;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -17,15 +16,15 @@ import net.minecraftforge.common.Tags;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 
 public class AdvancedSolarsRecipes {
-    public static final MachineRecipeList MOLECULAR_ASSEMBLER = new MachineRecipeList("molecular_assembler", AdvancedSolarsRecipes::initMolecularAssemblerRecipes);
+    public static final MachineRecipeList MOLECULAR_TRANSFORMER = new MachineRecipeList("molecular_transformer", AdvancedSolarsRecipes::initMolecularTransformerRecipes);
 
     public static void init(){
-        IC2.RECIPES.get(true).getLists().add(MOLECULAR_ASSEMBLER);
+        IC2.RECIPES.get(true).getLists().add(MOLECULAR_TRANSFORMER);
         IC2.RECIPES.get(true).compressor.registerListener(r -> r.addSimpleRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "iridium_ore_to_iridium_ingot"), new ItemStack(Registry.IRIDIUM_INGOT), IC2Items.ORE_IRIDIUM));
         AdvRecipeRegistry.INSTANCE.registerListener(AdvancedSolarsRecipes::initCraftingRecipes);
     }
 
-    private static void initMolecularAssemblerRecipes(IMachineRecipeList list){
+    private static void initMolecularTransformerRecipes(IMachineRecipeList list){
 
     }
 
@@ -40,6 +39,7 @@ public class AdvancedSolarsRecipes {
         registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "enriched_sunnarium"), new ItemStack(Registry.ENRICHED_SUNNARIUM), "iii", "isi", "iii", 'i', Registry.IRRADIANT_URANIUM, 's', Registry.SUNNARIUM);
         registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "irradiant_glass_pane"), new ItemStack(Registry.IRRADIANT_GLASS_PANE, 6), "rrr", "igi", "rrr", 'r', IC2Blocks.REINFORCED_GLASS, 'i', Registry.IRRADIANT_URANIUM, 'g', Tags.Items.DUSTS_GLOWSTONE);
         registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "enriched_sunnarium_alloy"), new ItemStack(Registry.ENRICHED_SUNNARIUM_ALLOY), "pep", "ese", "pep", 'p', IC2Items.CELL_PLASMA, 'e', Registry.ENRICHED_SUNNARIUM, 's', Registry.SUNNARIUM_ALLOY);
+        registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "mt_core"), new ItemStack(Registry.MT_CORE), "INI", "I I", "INI", 'I', Registry.IRRADIANT_GLASS_PANE, 'N', IC2Items.REFLECTOR_THICK);
 
         registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "advanced_solar_panel"), new ItemStack(Registry.ADVANCED_SOLAR_PANEL), "rrr", "asa", "cic", 'r', Registry.IRRADIANT_GLASS_PANE, 'a', IC2Items.PLATE_ADVANCED_ALLOY, 's', IC2Blocks.SOLAR_PANEL_LV, 'c', IC2Items.ADVANCED_CIRCUIT, 'i', Registry.IRRADIANT_REINFORCED_PLATE);
         registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "advanced_solar_helmet"), new ItemStack(Registry.ADVANCED_SOLAR_HELMET), "sas", "cnc", "glg", 's', IC2Items.SOLAR_HELMET_ADVANCED, 'a', Registry.ADVANCED_SOLAR_PANEL, 'c', IC2Items.ADVANCED_CIRCUIT, 'n', IC2Items.SOLAR_HELMET_ADVANCED, 'g', IC2Items.GOLD_CABLE_2X_INSULATED, 'l', IC2Blocks.TRANSFORMER_LV);
@@ -47,7 +47,7 @@ public class AdvancedSolarsRecipes {
         registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "hybrid_solar_helmet"), new ItemStack(Registry.HYBRID_SOLAR_HELMET), " H ", "cqc", "ghg", 'H', Registry.HYBRID_SOLAR_PANEL, 'c', IC2Items.ADVANCED_CIRCUIT, 'q', Registry.ADVANCED_SOLAR_HELMET, 'g', IC2Items.GLASSFIBER_CABLE, 'h', IC2Blocks.TRANSFORMER_HV);
         registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "ultimate_hybrid_solar_panel"), new ItemStack(Registry.ULTIMATE_HYBRID_SOLAR_PANEL), " h ", "pHp", "scs", 'h', IC2Blocks.SOLAR_PANEL_HV, 'p', IC2Items.PLASMA_CORE, 'H', Registry.HYBRID_SOLAR_PANEL, 's', Registry.ENRICHED_SUNNARIUM_ALLOY, 'c', IC2Items.COAL_CHUNK);
         registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "ultimate_hybrid_solar_helmet"), new ItemStack(Registry.ULTIMATE_HYBRID_SOLAR_HELMET),  "ppp", "pup", "ihi", 'p', IC2Items.CELL_PLASMA, 'u', Registry.ULTIMATE_HYBRID_SOLAR_PANEL, 'i', IC2Items.PLATE_IRIDIUM, 'h', Registry.HYBRID_SOLAR_HELMET);
-
+        registry.addShapedRecipe(new ResourceLocation(AdvancedSolarsClassic.MODID, "molecular_transformer"), new ItemStack(Registry.MOLECULAR_TRANSFORMER), "AEA", "CMC", "AEA", 'A', IC2Blocks.ADVANCED_MACHINE_BLOCK, 'E', IC2Blocks.TRANSFORMER_EV, 'C', IC2Items.ADVANCED_CIRCUIT, 'M', Registry.MT_CORE);
     }
 
     public static Object getUranium(){
