@@ -1,8 +1,10 @@
 package trinsdar.advancedsolars.util;
 
 import ic2.api.recipes.registries.IAdvancedCraftingManager;
+import ic2.api.recipes.registries.IElectrolyzerRecipeList;
 import ic2.api.recipes.registries.IMachineRecipeList;
 import ic2.core.IC2;
+import ic2.core.block.machines.recipes.ElectrolyzerRecipeList;
 import ic2.core.block.machines.recipes.MachineRecipeList;
 import ic2.core.platform.recipes.misc.AdvRecipeRegistry;
 import ic2.core.platform.registries.IC2Blocks;
@@ -16,7 +18,21 @@ import net.minecraftforge.common.Tags;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
 
 public class AdvancedSolarsRecipes {
-    public static final MachineRecipeList MOLECULAR_TRANSFORMER = new MachineRecipeList("molecular_transformer", AdvancedSolarsRecipes::initMolecularTransformerRecipes);
+    public static final ElectrolyzerRecipeList MOLECULAR_TRANSFORMER = new ElectrolyzerRecipeList(AdvancedSolarsRecipes::initMolecularTransformerRecipes){
+        @Override
+        public void addDualRecipe(ResourceLocation id, ItemStack input, ItemStack output, int energy) {
+            addChargeRecipe(id, input, output, energy);
+        }
+
+        @Override
+        public void addDischargeRecipe(ResourceLocation id, ItemStack input, ItemStack output, int energy) {
+        }
+
+        @Override
+        public String getFolder() {
+            return "molecular_transformer";
+        }
+    };
 
     public static void init(){
         IC2.RECIPES.get(true).getLists().add(MOLECULAR_TRANSFORMER);
@@ -24,7 +40,7 @@ public class AdvancedSolarsRecipes {
         AdvRecipeRegistry.INSTANCE.registerListener(AdvancedSolarsRecipes::initCraftingRecipes);
     }
 
-    private static void initMolecularTransformerRecipes(IMachineRecipeList list){
+    private static void initMolecularTransformerRecipes(IElectrolyzerRecipeList list){
 
     }
 

@@ -28,7 +28,7 @@ public class TileEntityMolecularTransformer extends BasicMachineTileEntity {
 
     @Override
     public IMachineRecipeList getRecipeList() {
-        return AdvancedSolarsRecipes.MOLECULAR_TRANSFORMER;
+        return null;
     }
 
     @Override
