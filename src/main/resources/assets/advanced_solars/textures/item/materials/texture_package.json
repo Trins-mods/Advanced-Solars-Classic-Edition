@@ -9,5 +9,6 @@
   "reinforced_iridium_iron_plate": "advanced_solars:item/materials/reinforced_iridium_iron_plate",
   "sunnarium": "advanced_solars:item/materials/sunnarium",
   "sunnarium_alloy": "advanced_solars:item/materials/sunnarium_alloy",
-  "sunnarium_part": "advanced_solars:item/materials/sunnarium_part"
+  "sunnarium_part": "advanced_solars:item/materials/sunnarium_part",
+  "mt_core": "advanced_solars:item/materials/mt_core"
 }
