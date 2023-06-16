@@ -1,10 +1,11 @@
-package trinsdar.advancedsolars.util;
+package trinsdar.advancedsolars.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import ic2.core.inventory.gui.components.GuiWidget;
 import ic2.core.utils.math.geometry.Box2i;
 import net.minecraft.network.chat.Component;
 import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
+import trinsdar.advancedsolars.util.AdvancedSolarLang;
 
 import java.util.Set;
 
@@ -20,7 +21,6 @@ public class AdvancedSolarEnergyStringComp extends GuiWidget {
 
     @Override
     protected void addRequests(Set<ActionRequest> set) {
-        set.add(ActionRequest.DRAW_BACKGROUND);
         set.add(ActionRequest.DRAW_FOREGROUND);
     }
 

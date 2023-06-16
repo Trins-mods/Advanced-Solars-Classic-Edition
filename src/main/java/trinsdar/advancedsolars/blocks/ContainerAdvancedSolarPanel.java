@@ -1,6 +1,5 @@
 package trinsdar.advancedsolars.blocks;
 
-import ic2.core.block.generators.components.ThermalGeneratorComponent;
 import ic2.core.inventory.container.ContainerComponent;
 import ic2.core.inventory.gui.IC2Screen;
 import ic2.core.inventory.gui.components.simple.ChargebarComponent;
@@ -12,8 +11,8 @@ import net.minecraft.world.entity.player.Player;;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
-import trinsdar.advancedsolars.util.AdvancedSolarEnergyStringComp;
-import trinsdar.advancedsolars.util.AdvancedSolarPanelComp;
+import trinsdar.advancedsolars.gui.AdvancedSolarEnergyStringComp;
+import trinsdar.advancedsolars.gui.AdvancedSolarPanelComp;
 
 public class ContainerAdvancedSolarPanel extends ContainerComponent<TileEntityAdvancedSolarPanel> {
 
@@ -41,8 +40,7 @@ public class ContainerAdvancedSolarPanel extends ContainerComponent<TileEntityAd
     @Override
     @OnlyIn(Dist.CLIENT)
     public void onGuiLoaded(IC2Screen gui) {
-        //gui.dissableInvName();
-        //gui.disableName();
+        gui.clearFlag(IC2Screen.SHOW_PLAYER_INVENTORY_NAME);
     }
 
     @Override

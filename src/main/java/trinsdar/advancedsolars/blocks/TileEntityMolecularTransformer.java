@@ -35,17 +35,22 @@ import trinsdar.advancedsolars.util.Registry;
 
 public class TileEntityMolecularTransformer extends BaseInventoryTileEntity implements IEnergySink, IEUStorage, IWrenchableTile, ITileGui, ITickListener {
     @NetworkInfo
-    private int energyInPerTick = 0;
+    public int energyInPerTick = 0;
     @NetworkInfo
     public int energy = 0;
     @NetworkInfo
     public int maxEnergy = 0;
-    IElectrolyzerRecipeList.ElectrolyzerRecipe entry;
+
+    public IElectrolyzerRecipeList.ElectrolyzerRecipe entry;
+    @NetworkInfo
+    public ItemStack input = ItemStack.EMPTY;
+    @NetworkInfo
+    public ItemStack output = ItemStack.EMPTY;
     boolean addedToEnet;
 
     public TileEntityMolecularTransformer(BlockPos pos, BlockState state) {
         super(pos, state, 2);
-        this.addGuiFields("energy", "maxEnergy", "energyInPerTick");
+        this.addGuiFields("energy", "maxEnergy", "energyInPerTick", "input", "output");
         this.addComparator(new EUComparator("eu_storage", ComparatorNames.EU_STORAGE, this));
     }
 
@@ -103,8 +108,10 @@ public class TileEntityMolecularTransformer extends BaseInventoryTileEntity impl
                 this.updateGuiField("maxEnergy");
             }
             if (energy >= this.maxEnergy){
+                energy = 0;
+                this.updateGuiField("energy");
                 this.inventory.get(0).shrink(entry.getInput().getCount());
-                this.setOrGrow(1, this.entry.getOutput(), true);
+                this.setOrGrow(1, this.entry.getOutput().copy(), true);
             }
             active = true;
         }
@@ -128,8 +135,23 @@ public class TileEntityMolecularTransformer extends BaseInventoryTileEntity impl
     public boolean shouldProcess() {
         if (!this.inventory.get(0).isEmpty()) {
             this.entry = AdvancedSolarsRecipes.MOLECULAR_TRANSFORMER.getRecipe(this.inventory.get(0), true, true);
+            if (entry == null){
+                input = ItemStack.EMPTY;
+                output = ItemStack.EMPTY;
+                updateGuiFields("input", "output");
+            } else {
+                input = entry.getInput();
+                output = entry.getOutput();
+                updateGuiFields("input", "output");
+            }
             return this.entry != null && StackUtil.canFitInto(this.inventory.get(1), this.entry.getOutput(), 22);
         } else {
+            if (entry != null){
+                this.entry = null;
+                this.input = ItemStack.EMPTY;
+                this.output = ItemStack.EMPTY;
+                this.updateGuiFields("input", "output");
+            }
             return false;
         }
     }
@@ -165,7 +187,7 @@ public class TileEntityMolecularTransformer extends BaseInventoryTileEntity impl
     @Override
     public int acceptEnergy(Direction direction, int amount, int voltage) {
         this.energyInPerTick = amount;
-        if (maxEnergy <= 0) return 0;
+        if (maxEnergy <= 0 || entry == null) return 0;
         int added = Math.min(amount, this.maxEnergy - energy);
         if (added > 0){
             this.energy += added;
