@@ -1,19 +1,63 @@
 package trinsdar.advancedsolars.blocks;
 
-import ic2.api.recipes.registries.IMachineRecipeList;
-import ic2.core.block.base.tiles.impls.machine.single.BasicMachineTileEntity;
+import ic2.api.energy.EnergyNet;
+import ic2.api.energy.tile.IEnergyEmitter;
+import ic2.api.energy.tile.IEnergySink;
+import ic2.api.network.buffer.NetworkInfo;
+import ic2.api.recipes.registries.IElectrolyzerRecipeList;
+import ic2.api.tiles.IElectrolyzerProvider;
+import ic2.api.tiles.readers.IEUStorage;
+import ic2.api.util.DirectionList;
+import ic2.core.IC2;
+import ic2.core.block.base.cache.ICache;
+import ic2.core.block.base.features.ITickListener;
+import ic2.core.block.base.features.IWrenchableTile;
+import ic2.core.block.base.misc.comparator.ComparatorNames;
+import ic2.core.block.base.misc.comparator.types.base.EUComparator;
+import ic2.core.block.base.tiles.BaseInventoryTileEntity;
+import ic2.core.block.machines.tiles.lv.ElectrolyzerTileEntity;
+import ic2.core.inventory.base.ITileGui;
+import ic2.core.inventory.container.IC2Container;
+import ic2.core.inventory.handler.AccessRule;
+import ic2.core.inventory.handler.InventoryHandler;
+import ic2.core.platform.recipes.misc.GlobalRecipes;
+import ic2.core.utils.helpers.StackUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import trinsdar.advancedsolars.util.AdvancedSolarsRecipes;
 import trinsdar.advancedsolars.util.Registry;
 
-public class TileEntityMolecularTransformer extends BasicMachineTileEntity {
+public class TileEntityMolecularTransformer extends BaseInventoryTileEntity implements IEnergySink, IEUStorage, IWrenchableTile, ITileGui, ITickListener {
+    @NetworkInfo
     private int energyInPerTick = 0;
+    @NetworkInfo
+    public int energy = 0;
+    @NetworkInfo
+    public int maxEnergy = 0;
+    IElectrolyzerRecipeList.ElectrolyzerRecipe entry;
+    boolean addedToEnet;
+
     public TileEntityMolecularTransformer(BlockPos pos, BlockState state) {
-        super(pos, state, 2, 2, 1, 100, 10000, 32);
+        super(pos, state, 2);
+        this.addGuiFields("energy", "maxEnergy", "energyInPerTick");
+        this.addComparator(new EUComparator("eu_storage", ComparatorNames.EU_STORAGE, this));
+    }
+
+    @Override
+    protected void addSlotInfo(InventoryHandler handler) {
+        handler.registerBlockSides(DirectionList.ALL);
+        handler.registerBlockAccess(DirectionList.ALL, AccessRule.BOTH);
+        handler.registerSlotAccess(AccessRule.IMPORT, 0);
+        handler.registerSlotAccess(AccessRule.EXPORT, 1);
+        handler.registerSlotsForSide(DirectionList.DOWN.invert(), 0);
+        handler.registerSlotsForSide(DirectionList.UP.invert(), 1);
+        handler.registerInputFilter((i, s) -> isValidItem(s, i, true), 0);
     }
 
     @Override
@@ -22,59 +66,131 @@ public class TileEntityMolecularTransformer extends BasicMachineTileEntity {
     }
 
     @Override
-    public ResourceLocation getTexture() {
-        return null;
+    public IC2Container createContainer(Player player, InteractionHand hand, Direction side, int windowID) {
+        return new ContainerMolecularTransformer(this, player, windowID);
     }
 
     @Override
-    public IMachineRecipeList getRecipeList() {
-        return null;
+    public int getStoredEU() {
+        return energy;
     }
 
     @Override
-    protected void onPreTick(boolean hasRecipe, boolean canWork, boolean canOperate) {
-        if (canOperate){
-            progressPerTick = energyInPerTick;
-            this.recipeEnergy = (int) progressPerTick;
+    public int getMaxEU() {
+        return maxEnergy;
+    }
+
+    @Override
+    public int getTier() {
+        return 6;
+    }
+
+    public boolean isValidItem(ItemStack stack, int slot, boolean input) {
+        ItemStack compare = this.inventory.get(slot);
+        if (!compare.isEmpty()){
+            return StackUtil.isStackEqual(stack, compare);
+        }
+        return AdvancedSolarsRecipes.MOLECULAR_TRANSFORMER.getRecipe(stack, true, false) != null;
+    }
+
+    @Override
+    public void onTick() {
+        boolean active = false;
+        if (shouldProcess()){
+            int needed = this.entry.getEnergy();
+            if (this.maxEnergy != needed) {
+                this.maxEnergy = needed;
+                this.updateGuiField("maxEnergy");
+            }
+            if (energy >= this.maxEnergy){
+                this.inventory.get(0).shrink(entry.getInput().getCount());
+                this.setOrGrow(1, this.entry.getOutput(), true);
+            }
+            active = true;
+        }
+
+        this.setActive(active);
+        this.handleComparators();
+    }
+
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
+        compound.putInt("energy", this.energy);
+        compound.putInt("maxEnergy", this.maxEnergy);
+    }
+
+    public void load(CompoundTag compound) {
+        super.load(compound);
+        this.energy = compound.getInt("energy");
+        this.maxEnergy = compound.getInt("maxEnergy");
+    }
+
+    public boolean shouldProcess() {
+        if (!this.inventory.get(0).isEmpty()) {
+            this.entry = AdvancedSolarsRecipes.MOLECULAR_TRANSFORMER.getRecipe(this.inventory.get(0), true, true);
+            return this.entry != null && StackUtil.canFitInto(this.inventory.get(1), this.entry.getOutput(), 22);
+        } else {
+            return false;
         }
     }
 
     @Override
-    public int acceptEnergy(Direction side, int amount, int voltage) {
-        int oldEnergy = this.energy;
-        int superCall = super.acceptEnergy(side, amount, voltage);
-        int newEnergy = this.energy;
-        this.energyInPerTick = newEnergy - oldEnergy;
-        return superCall;
-    }
-
-    //public static IMachineRecipeList molecularAssembler = new BasicMachineRecipeList("molecularAssembler");
-
-    /*public TileEntityMolecularTransformer() {
-        super(3, 1, 100, 536870912);
-    }*/
-
-    /*@Override
-    public IMachineRecipeList.RecipeEntry getOutputFor(ItemStack itemStack) {
-        return molecularAssembler.getRecipeInAndOutput(itemStack, false);
+    public void onLoaded() {
+        super.onLoaded();
+        if (this.isSimulating() && !addedToEnet){
+            addedToEnet = true;
+            EnergyNet.INSTANCE.addTile(this);
+        }
     }
 
     @Override
-    public ResourceLocation getGuiTexture() {
-        return null;
+    public void onUnloaded(boolean chunk) {
+        if (this.isSimulating() && addedToEnet){
+            addedToEnet = false;
+            EnergyNet.INSTANCE.removeTile(this);
+        }
+        super.onUnloaded(chunk);
     }
 
     @Override
-    public IMachineRecipeList getRecipeList() {
-        return molecularAssembler;
+    public int getSinkTier() {
+        return 6;
     }
 
     @Override
-    public MachineType getType() {
-        return null;
+    public int getRequestedEnergy() {
+        return this.maxEnergy <= 0 ? 0 : this.maxEnergy - this.energy;
     }
 
-    public void update() {
-        this.progressPerTick = this.energyConsume;
-    }*/
+    @Override
+    public int acceptEnergy(Direction direction, int amount, int voltage) {
+        this.energyInPerTick = amount;
+        if (maxEnergy <= 0) return 0;
+        int added = Math.min(amount, this.maxEnergy - energy);
+        if (added > 0){
+            this.energy += added;
+            this.updateGuiField("energy");
+        }
+        return amount > 0 ? amount - added : 0;
+    }
+
+    @Override
+    public boolean canAcceptEnergy(IEnergyEmitter iEnergyEmitter, Direction direction) {
+        return true;
+    }
+
+    @Override
+    public boolean canSetFacing(Direction direction) {
+        return false;
+    }
+
+    @Override
+    public boolean canRemoveBlock(Player player) {
+        return true;
+    }
+
+    @Override
+    public double getDropRate(Player player) {
+        return 1.0;
+    }
 }
