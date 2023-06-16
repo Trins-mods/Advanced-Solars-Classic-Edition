@@ -148,9 +148,10 @@ public class TileEntityMolecularTransformer extends BaseInventoryTileEntity impl
         } else {
             if (entry != null){
                 this.entry = null;
+                this.energy = 0;
                 this.input = ItemStack.EMPTY;
                 this.output = ItemStack.EMPTY;
-                this.updateGuiFields("input", "output");
+                this.updateGuiFields("input", "output", "energy");
             }
             return false;
         }
