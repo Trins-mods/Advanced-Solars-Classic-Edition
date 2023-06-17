@@ -5,22 +5,17 @@ import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.network.buffer.NetworkInfo;
 import ic2.api.recipes.registries.IElectrolyzerRecipeList;
-import ic2.api.tiles.IElectrolyzerProvider;
 import ic2.api.tiles.readers.IEUStorage;
 import ic2.api.util.DirectionList;
-import ic2.core.IC2;
-import ic2.core.block.base.cache.ICache;
 import ic2.core.block.base.features.ITickListener;
 import ic2.core.block.base.features.IWrenchableTile;
 import ic2.core.block.base.misc.comparator.ComparatorNames;
 import ic2.core.block.base.misc.comparator.types.base.EUComparator;
 import ic2.core.block.base.tiles.BaseInventoryTileEntity;
-import ic2.core.block.machines.tiles.lv.ElectrolyzerTileEntity;
 import ic2.core.inventory.base.ITileGui;
 import ic2.core.inventory.container.IC2Container;
 import ic2.core.inventory.handler.AccessRule;
 import ic2.core.inventory.handler.InventoryHandler;
-import ic2.core.platform.recipes.misc.GlobalRecipes;
 import ic2.core.utils.helpers.StackUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -47,6 +42,9 @@ public class TileEntityMolecularTransformer extends BaseInventoryTileEntity impl
     @NetworkInfo
     public ItemStack output = ItemStack.EMPTY;
     boolean addedToEnet;
+    boolean consumedInputs = false;
+    private int energyAccepted = 0;
+    private int ticker = 0;
 
     public TileEntityMolecularTransformer(BlockPos pos, BlockState state) {
         super(pos, state, 2);
@@ -102,6 +100,18 @@ public class TileEntityMolecularTransformer extends BaseInventoryTileEntity impl
     public void onTick() {
         boolean active = false;
         if (shouldProcess()){
+            if (energy == 0){
+                if (!consumedInputs){
+                    this.inventory.get(0).shrink(entry.getInput().getCount());
+                    consumedInputs = true;
+                }
+            }
+            if (energyAccepted > 0){
+                this.energy += energyAccepted;
+                this.updateGuiField("energy");
+                energyAccepted = 0;
+                this.ticker = 0;
+            }
             int needed = this.entry.getEnergy();
             if (this.maxEnergy != needed) {
                 this.maxEnergy = needed;
@@ -110,7 +120,7 @@ public class TileEntityMolecularTransformer extends BaseInventoryTileEntity impl
             if (energy >= this.maxEnergy){
                 energy = 0;
                 this.updateGuiField("energy");
-                this.inventory.get(0).shrink(entry.getInput().getCount());
+                consumedInputs = false;
                 this.setOrGrow(1, this.entry.getOutput().copy(), true);
             }
             active = true;
@@ -124,15 +134,22 @@ public class TileEntityMolecularTransformer extends BaseInventoryTileEntity impl
         super.saveAdditional(compound);
         compound.putInt("energy", this.energy);
         compound.putInt("maxEnergy", this.maxEnergy);
+        compound.putBoolean("consumedInputs", consumedInputs);
+        compound.put("input", input.save(new CompoundTag()));
+        compound.put("output", output.save(new CompoundTag()));
     }
 
     public void load(CompoundTag compound) {
         super.load(compound);
         this.energy = compound.getInt("energy");
         this.maxEnergy = compound.getInt("maxEnergy");
+        this.consumedInputs = compound.getBoolean("consumedInputs");
+        this.input = ItemStack.of(compound.getCompound("input"));
+        this.output = ItemStack.of(compound.getCompound("output"));
     }
 
     public boolean shouldProcess() {
+        if (consumedInputs) return true;
         if (!this.inventory.get(0).isEmpty()) {
             this.entry = AdvancedSolarsRecipes.MOLECULAR_TRANSFORMER.getRecipe(this.inventory.get(0), true, true);
             if (entry == null){
@@ -189,10 +206,9 @@ public class TileEntityMolecularTransformer extends BaseInventoryTileEntity impl
     public int acceptEnergy(Direction direction, int amount, int voltage) {
         this.energyInPerTick = amount;
         if (maxEnergy <= 0 || entry == null) return 0;
-        int added = Math.min(amount, this.maxEnergy - energy);
+        int added = Math.min(amount, this.maxEnergy - (energy + energyAccepted));
         if (added > 0){
-            this.energy += added;
-            this.updateGuiField("energy");
+            this.energyAccepted += added;
         }
         return amount > 0 ? amount - added : 0;
     }
