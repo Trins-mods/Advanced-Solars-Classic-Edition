@@ -11,10 +11,10 @@ import trinsdar.advancedsolars.gui.GuiCompMTEnergyBar;
 import trinsdar.advancedsolars.gui.MolecularTransformerStringComp;
 import trinsdar.advancedsolars.util.AdvancedSolarsRecipes;
 
-public class ContainerMolecularTransformer extends ContainerComponent<TileEntityMolecularTransformer> {
+public class ContainerMolecularTransformer extends ContainerComponent<BlockEntityMolecularTransformer> {
     public static final ResourceLocation GUI_TEXTURE = new ResourceLocation(AdvancedSolarsClassic.MODID, "textures/gui/molecular_transformer.png");
 
-    public ContainerMolecularTransformer(TileEntityMolecularTransformer key, Player player, int id) {
+    public ContainerMolecularTransformer(BlockEntityMolecularTransformer key, Player player, int id) {
         super(key, player, id);
         this.addSlot(new FilterSlot(key, 0, 26, 9, i -> {
             return AdvancedSolarsRecipes.MOLECULAR_TRANSFORMER.getRecipe(i, true, false) != null;

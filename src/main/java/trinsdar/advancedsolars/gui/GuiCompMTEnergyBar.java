@@ -6,14 +6,14 @@ import ic2.core.utils.math.geometry.Box2i;
 import ic2.core.utils.math.geometry.Vec2i;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import trinsdar.advancedsolars.blocks.TileEntityMolecularTransformer;
+import trinsdar.advancedsolars.blocks.BlockEntityMolecularTransformer;
 
 import java.util.Set;
 
 public class GuiCompMTEnergyBar extends GuiWidget {
-    TileEntityMolecularTransformer transformer;
+    BlockEntityMolecularTransformer transformer;
     Vec2i pos = new Vec2i(176, 0);
-    public GuiCompMTEnergyBar(TileEntityMolecularTransformer transformer) {
+    public GuiCompMTEnergyBar(BlockEntityMolecularTransformer transformer) {
         super(new Box2i(30, 30, 8, 24));
         this.transformer = transformer;
     }

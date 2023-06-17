@@ -26,7 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.items.IItemHandler;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
-import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
+import trinsdar.advancedsolars.blocks.BlockEntityAdvancedSolarPanel;
 import trinsdar.advancedsolars.util.AdvancedSolarLang;
 
 import java.util.Arrays;
@@ -65,7 +65,7 @@ public class ItemArmorAdvancedSolarHelmet extends IC2AdvancedArmorBase implement
         super.onArmorTick(stack, world, player);
         if (!IC2.PLATFORM.isRendering()) {
             if (world.dimensionType().hasSkyLight() && world.canSeeSkyFromBelowWater(player.blockPosition())){
-                if (TileEntityAdvancedSolarPanel.isSunVisible(world, player.blockPosition())) {
+                if (BlockEntityAdvancedSolarPanel.isSunVisible(world, player.blockPosition())) {
                     chargeInventory(player, production, tier, stack);
                 }else {
                     chargeInventory(player, lowerProduction, tier, stack);

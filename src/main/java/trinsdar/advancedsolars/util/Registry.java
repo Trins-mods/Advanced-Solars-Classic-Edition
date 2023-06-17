@@ -3,17 +3,17 @@ package trinsdar.advancedsolars.util;
 import ic2.core.platform.registries.IC2Tiles;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import trinsdar.advancedsolars.blocks.BlockAdvancedSolarPanels;
-import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
-import trinsdar.advancedsolars.blocks.TileEntityMolecularTransformer;
+import trinsdar.advancedsolars.blocks.BlockEntityAdvancedSolarPanel;
+import trinsdar.advancedsolars.blocks.BlockEntityMolecularTransformer;
 import trinsdar.advancedsolars.items.ItemArmorAdvancedSolarHelmet;
 import trinsdar.advancedsolars.items.ItemMisc;
 
 public class Registry {
-    public static final BlockEntityType<TileEntityAdvancedSolarPanel> ADVANCED_SOLAR_PANEL_TYPE = IC2Tiles.createTile("advanced_solar_panel", TileEntityAdvancedSolarPanel::new);
-    public static final BlockEntityType<TileEntityAdvancedSolarPanel.TileEntityHybridSolarPanel> HYBRID_SOLAR_PANEL_TYPE = IC2Tiles.createTile("hybrid_solar_panel", TileEntityAdvancedSolarPanel.TileEntityHybridSolarPanel::new);
-    public static final BlockEntityType<TileEntityAdvancedSolarPanel.TileEntityUltimateHybridSolarPanel> ULTIMATE_HYBRID_SOLAR_PANEL_TYPE = IC2Tiles.createTile("ultimate_hybrid_solar_panel", TileEntityAdvancedSolarPanel.TileEntityUltimateHybridSolarPanel::new);
+    public static final BlockEntityType<BlockEntityAdvancedSolarPanel> ADVANCED_SOLAR_PANEL_TYPE = IC2Tiles.createTile("advanced_solar_panel", BlockEntityAdvancedSolarPanel::new);
+    public static final BlockEntityType<BlockEntityAdvancedSolarPanel.BlockEntityHybridSolarPanel> HYBRID_SOLAR_PANEL_TYPE = IC2Tiles.createTile("hybrid_solar_panel", BlockEntityAdvancedSolarPanel.BlockEntityHybridSolarPanel::new);
+    public static final BlockEntityType<BlockEntityAdvancedSolarPanel.BlockEntityUltimateHybridSolarPanel> ULTIMATE_HYBRID_SOLAR_PANEL_TYPE = IC2Tiles.createTile("ultimate_hybrid_solar_panel", BlockEntityAdvancedSolarPanel.BlockEntityUltimateHybridSolarPanel::new);
 
-    public static final BlockEntityType<TileEntityMolecularTransformer> MOLECULAR_TRANSFORMER_TYPE = IC2Tiles.createTile("molecular_transformer", TileEntityMolecularTransformer::new);
+    public static final BlockEntityType<BlockEntityMolecularTransformer> MOLECULAR_TRANSFORMER_TYPE = IC2Tiles.createTile("molecular_transformer", BlockEntityMolecularTransformer::new);
 
     public static final BlockAdvancedSolarPanels ADVANCED_SOLAR_PANEL = new BlockAdvancedSolarPanels("advanced_solar_panel", ADVANCED_SOLAR_PANEL_TYPE);
     public static final BlockAdvancedSolarPanels HYBRID_SOLAR_PANEL = new BlockAdvancedSolarPanels("hybrid_solar_panel", HYBRID_SOLAR_PANEL_TYPE);

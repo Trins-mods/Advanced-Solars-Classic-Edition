@@ -9,7 +9,6 @@ import ic2.core.block.base.features.ITileActivityProvider;
 import ic2.core.block.base.features.IWrenchableTile;
 import ic2.core.block.base.misc.comparator.ComparatorNames;
 import ic2.core.block.base.misc.comparator.types.base.FlagComparator;
-import ic2.core.block.base.tiles.BaseInventoryTileEntity;
 import ic2.core.block.base.tiles.impls.BaseGeneratorTileEntity;
 import ic2.core.inventory.base.ITileGui;
 import ic2.core.inventory.container.IC2Container;
@@ -17,11 +16,9 @@ import ic2.core.inventory.filter.special.ElectricItemFilter;
 import ic2.core.inventory.handler.AccessRule;
 import ic2.core.inventory.handler.InventoryHandler;
 import ic2.core.inventory.handler.SlotType;
-import ic2.core.utils.math.geometry.Vec2i;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -29,23 +26,20 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
-import trinsdar.advancedsolars.AdvancedSolarsClassic;
-import trinsdar.advancedsolars.util.AdvancedSolarLang;
 import trinsdar.advancedsolars.util.AdvancedSolarsConfig;
 import trinsdar.advancedsolars.util.Registry;
 
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class TileEntityAdvancedSolarPanel extends BaseGeneratorTileEntity implements ITickListener, IEnergySource, ITileGui, IWrenchableTile, IEUProducer, ITileActivityProvider {
+public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity implements ITickListener, IEnergySource, ITileGui, IWrenchableTile, IEUProducer, ITileActivityProvider {
     Supplier<Double> config;
     int ticker;
     protected int lowerProduction;
     int maxOutput;
     boolean day = true;
-    public TileEntityAdvancedSolarPanel(BlockPos pos, BlockState state) {
+    public BlockEntityAdvancedSolarPanel(BlockPos pos, BlockState state) {
         super(pos, state, 4);
         this.tier = 1;
         this.ticker = 127;
@@ -212,8 +206,8 @@ public class TileEntityAdvancedSolarPanel extends BaseGeneratorTileEntity implem
         return 0;
     }
 
-    public static class TileEntityHybridSolarPanel extends TileEntityAdvancedSolarPanel{
-        public TileEntityHybridSolarPanel(BlockPos pos, BlockState state) {
+    public static class BlockEntityHybridSolarPanel extends BlockEntityAdvancedSolarPanel {
+        public BlockEntityHybridSolarPanel(BlockPos pos, BlockState state) {
             super(pos, state);
             this.tier = 2;
             this.production = 128;
@@ -229,8 +223,8 @@ public class TileEntityAdvancedSolarPanel extends BaseGeneratorTileEntity implem
         }
     }
 
-    public static class TileEntityUltimateHybridSolarPanel extends TileEntityAdvancedSolarPanel{
-        public TileEntityUltimateHybridSolarPanel(BlockPos pos, BlockState state) {
+    public static class BlockEntityUltimateHybridSolarPanel extends BlockEntityAdvancedSolarPanel {
+        public BlockEntityUltimateHybridSolarPanel(BlockPos pos, BlockState state) {
             super(pos, state);
             this.tier = 4;
             this.production = 1024;

@@ -4,17 +4,17 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import ic2.core.inventory.gui.components.GuiWidget;
 import ic2.core.utils.math.geometry.Box2i;
 import net.minecraft.network.chat.Component;
-import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
+import trinsdar.advancedsolars.blocks.BlockEntityAdvancedSolarPanel;
 import trinsdar.advancedsolars.util.AdvancedSolarLang;
 
 import java.util.Set;
 
 public class AdvancedSolarEnergyStringComp extends GuiWidget {
     byte lastMode;
-    TileEntityAdvancedSolarPanel block;
+    BlockEntityAdvancedSolarPanel block;
     int white = 13487565;
 
-    public AdvancedSolarEnergyStringComp(TileEntityAdvancedSolarPanel tile) {
+    public AdvancedSolarEnergyStringComp(BlockEntityAdvancedSolarPanel tile) {
         super(Box2i.EMPTY_BOX);
         this.block = tile;
     }
@@ -27,9 +27,9 @@ public class AdvancedSolarEnergyStringComp extends GuiWidget {
 
     @Override
     public void drawForeground(PoseStack matrix, int mouseX, int mouseY) {
-        if (block instanceof TileEntityAdvancedSolarPanel.TileEntityUltimateHybridSolarPanel){
+        if (block instanceof BlockEntityAdvancedSolarPanel.BlockEntityUltimateHybridSolarPanel){
             gui.drawString(matrix, block.getBlockState().getBlock().getName(), 20, 5, 7718655);
-        }else if (block instanceof TileEntityAdvancedSolarPanel.TileEntityHybridSolarPanel){
+        }else if (block instanceof BlockEntityAdvancedSolarPanel.BlockEntityHybridSolarPanel){
             gui.drawString(matrix, block.getBlockState().getBlock().getName(), 41, 5, 7718655);
         }else {
             gui.drawString(matrix, block.getBlockState().getBlock().getName(), 33, 5, 7718655);

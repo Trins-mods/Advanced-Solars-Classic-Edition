@@ -7,16 +7,16 @@ import ic2.core.utils.math.geometry.Box2i;
 import ic2.core.utils.math.geometry.Vec2i;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import trinsdar.advancedsolars.blocks.TileEntityAdvancedSolarPanel;
+import trinsdar.advancedsolars.blocks.BlockEntityAdvancedSolarPanel;
 
 import java.util.Set;
 
 public class AdvancedSolarPanelComp extends GuiWidget {
-    TileEntityAdvancedSolarPanel block;
+    BlockEntityAdvancedSolarPanel block;
     Vec2i dayTexPos;
     Vec2i nightTexPos;
 
-    public AdvancedSolarPanelComp(TileEntityAdvancedSolarPanel tile, Box2i box, Vec2i dayPos, Vec2i nightPos) {
+    public AdvancedSolarPanelComp(BlockEntityAdvancedSolarPanel tile, Box2i box, Vec2i dayPos, Vec2i nightPos) {
         super(box);
         this.block = tile;
         this.dayTexPos = dayPos;

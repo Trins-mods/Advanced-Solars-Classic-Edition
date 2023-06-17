@@ -14,7 +14,7 @@ import trinsdar.advancedsolars.AdvancedSolarsClassic;
 import trinsdar.advancedsolars.gui.AdvancedSolarEnergyStringComp;
 import trinsdar.advancedsolars.gui.AdvancedSolarPanelComp;
 
-public class ContainerAdvancedSolarPanel extends ContainerComponent<TileEntityAdvancedSolarPanel> {
+public class ContainerAdvancedSolarPanel extends ContainerComponent<BlockEntityAdvancedSolarPanel> {
 
     public static final ResourceLocation GUI_TEXTURE = new ResourceLocation(AdvancedSolarsClassic.MODID, "textures/gui/advancedsolarpanel.png");
 
@@ -24,7 +24,7 @@ public class ContainerAdvancedSolarPanel extends ContainerComponent<TileEntityAd
     public static final Box2i CHARGE_BOX = new Box2i(141, 60, 24, 9);
     public static final Vec2i CHARGE_POS = new Vec2i(176, 0);
 
-    public ContainerAdvancedSolarPanel(TileEntityAdvancedSolarPanel tile, Player player, int id) {
+    public ContainerAdvancedSolarPanel(BlockEntityAdvancedSolarPanel tile, Player player, int id) {
         super(tile, player, id);
         this.addSlot(FilterSlot.createChargeSlot(tile, tile.tier, 0, 98, 39));
         this.addSlot(FilterSlot.createChargeSlot(tile, tile.tier, 1, 116, 39));

@@ -28,7 +28,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import trinsdar.advancedsolars.util.AdvancedSolarsRecipes;
 import trinsdar.advancedsolars.util.Registry;
 
-public class TileEntityMolecularTransformer extends BaseInventoryTileEntity implements IEnergySink, IEUStorage, IWrenchableTile, ITileGui, ITickListener {
+public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity implements IEnergySink, IEUStorage, IWrenchableTile, ITileGui, ITickListener {
     @NetworkInfo
     public int energyInPerTick = 0;
     @NetworkInfo
@@ -46,7 +46,7 @@ public class TileEntityMolecularTransformer extends BaseInventoryTileEntity impl
     private int energyAccepted = 0;
     private int ticker = 0;
 
-    public TileEntityMolecularTransformer(BlockPos pos, BlockState state) {
+    public BlockEntityMolecularTransformer(BlockPos pos, BlockState state) {
         super(pos, state, 2);
         this.addGuiFields("energy", "maxEnergy", "energyInPerTick", "input", "output");
         this.addComparator(new EUComparator("eu_storage", ComparatorNames.EU_STORAGE, this));
