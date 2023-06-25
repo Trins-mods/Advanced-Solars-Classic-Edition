@@ -146,6 +146,7 @@ public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity imp
         this.consumedInputs = compound.getBoolean("consumedInputs");
         this.input = ItemStack.of(compound.getCompound("input"));
         this.output = ItemStack.of(compound.getCompound("output"));
+        this.entry = AdvancedSolarsRecipes.MOLECULAR_TRANSFORMER.getRecipe(this.input, true, true);
     }
 
     public boolean shouldProcess() {
