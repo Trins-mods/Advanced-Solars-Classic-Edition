@@ -24,6 +24,13 @@
   "item_info.advanced_solars.solar_panel_tier":"Output Tier: %s",
   "item_info.advanced_solars.helmet_production":"Produces %s EU/t while the sky is visible;",
   "item_info.advanced_solars.helmet_lower_production":"Otherwise produces %s EU/t while the moon is visible or during rain",
-  "item_info.advanced_solars.electric_lower_production":"Lower Generation: %s EU"
+  "item_info.advanced_solars.electric_lower_production":"Lower Generation: %s EU",
+  "wiki.advanced_solars.category.blocks": "Advanced Solars Classic Blocks",
+  "wiki.advanced_solars.category.items": "Advanced Solars Classic Items",
+  "wiki.advanced_solars.header.main": "Advanced Solars classic blocks and items",
+  "wiki.advanced_solars.preview.main.desc": "Advanced solars adds a few solar panels and solar helmets that you may find useful. Here you can find info on what they do.",
+  "wiki.advanced_solars.preview.advanced_solar_helmet.desc": "Advanced solar helmets are solar helmets with eu outputs equivalent to the panels. can be added to modular armors",
+  "wiki.advanced_solars.preview.advanced_solar_panel.desc": "Advanced Solar panels are panels with batter rates then their compacted counterparts, and also can output a lowered amount at night.",
+  "wiki.advanced_solars.preview.molecular_transformer.desc": "The molecular transformer is a block that simply transforms some items into others using energy, speed increases with higher input rates."
 }
 
