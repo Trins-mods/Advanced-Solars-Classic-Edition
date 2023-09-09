@@ -1,5 +1,6 @@
 package trinsdar.advancedsolars;
 
+import ic2.core.IC2;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -20,8 +21,7 @@ public class AdvancedSolarsClassic {
     public AdvancedSolarsClassic(){
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AdvancedSolarsConfig.COMMON_SPEC);
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
-        MinecraftForge.EVENT_BUS.start();
-        MinecraftForge.EVENT_BUS.addListener(AdvancedSolarsWiki::onWikiEvent);
+        IC2.EVENT_BUS.addListener(AdvancedSolarsWiki::onWikiEvent);
     }
 
     @SubscribeEvent

@@ -18,9 +18,9 @@ public class AdvancedSolarsWiki {
         if (event instanceof WikiEvent.WikiSetupEvent setupEvent){
             setupEvent.builder.addChapterBuilder(AdvancedSolarsWiki::createWiki);
         }
-        if (event instanceof WikiEvent.TableOfContentsSetupEvent setupEvent){
-            IChapterBuilder builder = setupEvent.chapterBuilder;
-            builder.addSimplePage(new HeaderObj("wiki.ic2.page.table.head"), new CategoryObj("wiki.ic2.category.general", new CategoryObj.Link(Registry.ADVANCED_SOLAR_HELMET, "advancedsolars:items").with("wiki.advanced_solars.category.items"), new CategoryObj.Link(Registry.ADVANCED_SOLAR_PANEL, "advanced_solars:blocks").with("wiki.advancedsolars.category.blocks")));
+        if (event instanceof WikiEvent.AddonSetupEvent setupEvent) setupEvent.enableAddons();
+        if (event instanceof WikiEvent.AddonPageEvent setupEvent){
+            setupEvent.registerChapters(new CategoryObj("wiki.ic2.category.general", new CategoryObj.Link(Registry.ADVANCED_SOLAR_PANEL, "advancedsolars:items").with("wiki.advanced_solars.category")));
         }
     }
 
