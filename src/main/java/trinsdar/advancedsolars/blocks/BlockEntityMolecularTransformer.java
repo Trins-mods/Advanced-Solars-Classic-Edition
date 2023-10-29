@@ -200,13 +200,17 @@ public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity imp
 
     @Override
     public int getRequestedEnergy() {
-        return this.maxEnergy <= 0 ? 0 : this.maxEnergy - this.energy;
+        if (maxEnergy <= 0 || entry == null) return 0;
+        return Math.max(0, this.maxEnergy - (this.energy + energyAccepted));
     }
 
     @Override
     public int acceptEnergy(Direction direction, int amount, int voltage) {
+        int prevEnergyIn = energyInPerTick;
         this.energyInPerTick = amount;
-        if (maxEnergy <= 0 || entry == null) return 0;
+        if (prevEnergyIn != energyInPerTick) {
+            this.updateGuiField("energyInPerTick");
+        }
         int added = Math.min(amount, this.maxEnergy - (energy + energyAccepted));
         if (added > 0){
             this.energyAccepted += added;
