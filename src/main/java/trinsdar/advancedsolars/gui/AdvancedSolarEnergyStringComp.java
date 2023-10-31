@@ -43,7 +43,7 @@ public class AdvancedSolarEnergyStringComp extends GuiWidget {
         gui.drawString(matrix, Component.translatable(AdvancedSolarLang.storage, eu), 7, 21, white);
         gui.drawString(matrix, Component.literal("/" + max), 7, 31, white);
         gui.drawString(matrix, Component.translatable(AdvancedSolarLang.maxOutput), 7, 41, white);
-        gui.drawString(matrix, Component.literal("" + this.block.getMaxOutput() + " EU/t"), 7, 51, white);
+        gui.drawString(matrix, Component.literal("" + this.block.getMaxEnergyOutput() + " EU/t"), 7, 51, white);
         gui.drawString(matrix, Component.translatable(AdvancedSolarLang.generating), 7, 61, white);
         gui.drawString(matrix, Component.literal("" + this.block.getOutput() + " EU/t"), 7, 71, white);
     }

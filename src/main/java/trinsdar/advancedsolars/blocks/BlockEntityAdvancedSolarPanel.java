@@ -75,7 +75,8 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
         return new ContainerAdvancedSolarPanel(this, player, i);
     }
 
-    public int getMaxOutput(){
+    @Override
+    public int getMaxEnergyOutput() {
         return maxOutput;
     }
 
@@ -129,7 +130,7 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
                 this.storage -= charged;
             }
 
-            if (this.storage > this.maxStorage) {
+            if (this.storage + this.production >= this.maxStorage) {
                 this.storage = this.maxStorage;
             }
         }
