@@ -1,6 +1,7 @@
 package trinsdar.advancedsolars.blocks;
 
 import ic2.api.energy.EnergyNet;
+import ic2.api.energy.TransferStats;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
 import ic2.api.network.buffer.NetworkInfo;
@@ -30,7 +31,7 @@ import trinsdar.advancedsolars.util.Registry;
 
 public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity implements IEnergySink, IEUStorage, IWrenchableTile, ITileGui, ITickListener {
     @NetworkInfo
-    public int energyInPerTick = 0;
+    public long energyInPerTick = 0;
     @NetworkInfo
     public int energy = 0;
     @NetworkInfo
@@ -96,9 +97,17 @@ public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity imp
         return AdvancedSolarsRecipes.MOLECULAR_TRANSFORMER.getRecipe(stack, true, false) != null;
     }
 
+    long lastEnergyIn = 0;
     @Override
     public void onTick() {
         boolean active = false;
+        TransferStats stat = EnergyNet.INSTANCE.getStats(this);
+        long energyIn = stat.getEnergyIn();
+        if (energyIn > lastEnergyIn){
+            energyInPerTick = energyIn - lastEnergyIn;
+            this.updateGuiField("energyInPerTick");
+        }
+        lastEnergyIn = energyIn;
         if (shouldProcess()){
             if (energy == 0){
                 if (!consumedInputs){
@@ -206,11 +215,6 @@ public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity imp
 
     @Override
     public int acceptEnergy(Direction direction, int amount, int voltage) {
-        int prevEnergyIn = energyInPerTick;
-        this.energyInPerTick = amount;
-        if (prevEnergyIn != energyInPerTick) {
-            this.updateGuiField("energyInPerTick");
-        }
         int added = Math.min(amount, this.maxEnergy - (energy + energyAccepted));
         if (added > 0){
             this.energyAccepted += added;
