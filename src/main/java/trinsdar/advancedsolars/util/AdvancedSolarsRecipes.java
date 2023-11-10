@@ -40,6 +40,9 @@ public class AdvancedSolarsRecipes {
 
     public static void init(){
         IC2.RECIPES.get(true).getLists().add(MOLECULAR_TRANSFORMER);
+        if (FMLEnvironment.dist.isClient()){
+            IC2.RECIPES.get(false).getLists().add(MOLECULAR_TRANSFORMER);
+        }
         //hack till ic2c has a proper method of doing custom recipe maps
         IC2.RECIPES.get(true).electrolyzer.registerListener(r -> MOLECULAR_TRANSFORMER.reload());
         IC2.RECIPES.get(true).compressor.registerListener(r -> r.addSimpleRecipe(id( "iridium_ore_to_iridium_ingot"), new ItemStack(Registry.IRIDIUM_INGOT), IC2Items.ORE_IRIDIUM));
