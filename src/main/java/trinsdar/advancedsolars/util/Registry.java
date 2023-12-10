@@ -22,7 +22,6 @@ public class Registry {
     public static final BlockAdvancedSolarPanels MOLECULAR_TRANSFORMER = new BlockAdvancedSolarPanels("molecular_transformer", MOLECULAR_TRANSFORMER_TYPE);
 
 
-
     public static final ItemMisc SUNNARIUM = new ItemMisc("sunnarium");
     public static final ItemMisc SUNNARIUM_ALLOY = new ItemMisc("sunnarium_alloy");
     public static final ItemMisc IRRADIANT_URANIUM = new ItemMisc("irradiant_uranium");
@@ -38,8 +37,8 @@ public class Registry {
 
     public static final ItemArmorAdvancedSolarHelmet ADVANCED_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("advanced", 16, 2, 2);
     public static final ItemArmorAdvancedSolarHelmet HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("hybrid", 128, 16, 3);
-    public static final ItemArmorAdvancedSolarHelmet ULTIMATE_HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("ultimate_hybrid", 1024, 128,  4);
+    public static final ItemArmorAdvancedSolarHelmet ULTIMATE_HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("ultimate_hybrid", 1024, 128, 4);
 
-    public static void init(){
+    public static void init() {
     }
 }

@@ -36,9 +36,10 @@ import java.util.UUID;
 public class ItemArmorAdvancedSolarHelmet extends IC2AdvancedArmorBase implements IBaseArmorModule {
 
     private int
-    production,
-    lowerProduction,
-    tier;
+            production,
+            lowerProduction,
+            tier;
+
     public ItemArmorAdvancedSolarHelmet(String name, int pro, int lowPro, int tier) {
         super(name + "_solar_helmet", EquipmentSlot.HEAD, new PropertiesBuilder().maxDamage(0).rarity(Rarity.RARE));
         this.production = pro;
@@ -64,10 +65,10 @@ public class ItemArmorAdvancedSolarHelmet extends IC2AdvancedArmorBase implement
     public void onArmorTick(ItemStack stack, Level world, Player player) {
         super.onArmorTick(stack, world, player);
         if (!IC2.PLATFORM.isRendering()) {
-            if (world.dimensionType().hasSkyLight() && world.canSeeSkyFromBelowWater(player.blockPosition())){
+            if (world.dimensionType().hasSkyLight() && world.canSeeSkyFromBelowWater(player.blockPosition())) {
                 if (BlockEntityAdvancedSolarPanel.isSunVisible(world, player.blockPosition())) {
                     chargeInventory(player, production, tier, stack);
-                }else {
+                } else {
                     chargeInventory(player, lowerProduction, tier, stack);
                 }
             }
@@ -96,19 +97,18 @@ public class ItemArmorAdvancedSolarHelmet extends IC2AdvancedArmorBase implement
     }
 
 
-
     public int chargeInventory(Player player, int provided, int tier, ItemStack helmet) {
 
         int i;
         List<NonNullList<ItemStack>> invList = Arrays.asList(player.getInventory().armor, player.getInventory().offhand, player.getInventory().items);
 
-        if (ElectricItem.MANAGER.getCharge(helmet) != ElectricItem.MANAGER.getCapacity(helmet)){
-            int charged = (int)(ElectricItem.MANAGER.charge(helmet, provided, this.tier, false, false));
+        if (ElectricItem.MANAGER.getCharge(helmet) != ElectricItem.MANAGER.getCapacity(helmet)) {
+            int charged = (int) (ElectricItem.MANAGER.charge(helmet, provided, this.tier, false, false));
             provided -= charged;
         } else {
             for (NonNullList<ItemStack> inventory : invList) {
                 int inventorySize = inventory.size();
-                for (i=0; i < inventorySize && provided > 0; i++) {
+                for (i = 0; i < inventorySize && provided > 0; i++) {
                     ItemStack tStack = inventory.get(i);
                     if (tStack.isEmpty()) continue;
                     int charged = ElectricItem.MANAGER.charge(tStack, provided, this.tier, false, false);
@@ -120,11 +120,11 @@ public class ItemArmorAdvancedSolarHelmet extends IC2AdvancedArmorBase implement
             if (plugin != null) {
                 IItemHandler inv = new CurioPlugin().getCurioHandler(player);
 
-                for(i = 0; i < inv.getSlots(); ++i) {
+                for (i = 0; i < inv.getSlots(); ++i) {
                     if (provided <= 0) {
                         break;
                     }
-                    provided = (int)((double)provided - ElectricItem.MANAGER.charge(inv.getStackInSlot(i), provided, tier, false, false));
+                    provided = (int) ((double) provided - ElectricItem.MANAGER.charge(inv.getStackInSlot(i), provided, tier, false, false));
                 }
             }
         }

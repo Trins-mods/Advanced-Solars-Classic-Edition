@@ -40,8 +40,10 @@ dependencies {
     }
     forge "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     //modImplementation fileTree(include: ['*.jar'], dir: 'libs')
-    modImplementation("curse.maven:ic2_classic-242942:4744334")
-    modImplementation("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    modImplementation("curse.maven:ic2_classic-242942:4879119")
+//    modImplementation("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+//    modImplementation("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    modImplementation("curse.maven:jei-238222:4712866")
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-plugin-compatibilities-forge:9.1.530"
 }

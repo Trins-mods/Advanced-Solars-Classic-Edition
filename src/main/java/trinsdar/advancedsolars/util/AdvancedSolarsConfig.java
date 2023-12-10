@@ -31,23 +31,23 @@ public class AdvancedSolarsConfig {
     }
 
     public static void onModConfigEvent(final ModConfig e) {
-        if (e.getModId().equals(AdvancedSolarsClassic.MODID)){
+        if (e.getModId().equals(AdvancedSolarsClassic.MODID)) {
             if (e.getSpec() == COMMON_SPEC) bakeCommonConfig();
         }
     }
 
-    public static class PowerGeneration{
+    public static class PowerGeneration {
         public Double ADVANCED_SOLAR_GENERATION_MULTIPLIER;
         public Double HYBRID_SOLAR_GENERATION_MULTIPLIER;
         public Double ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER;
     }
 
-    public static class PowerValues{
+    public static class PowerValues {
         public int ADVANCED_SOLAR_HELMET_STORAGE, HYBRID_SOLAR_HELMET_STORAGE, ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE,
                 ADVANCED_SOLAR_HELMET_TRANSFER, HYBRID_SOLAR_HELMET_TRANSFER, ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER;
     }
 
-    public static class EnabledItems{
+    public static class EnabledItems {
         public boolean enableAdvancedSolarHelmet = true;
         public boolean enableHybridSolarHelmet = true;
         public boolean enableUltimateHybridSolarHelmet = true;
@@ -57,10 +57,10 @@ public class AdvancedSolarsConfig {
         public boolean enableMiscCraftingItems = true;
     }
 
-    public static class Misc{
+    public static class Misc {
         public CenterIngot INGOT_IN_IRRADIANT_URANIUM = CenterIngot.ENDERPEARL_URANIUM;
 
-        enum CenterIngot{
+        enum CenterIngot {
             ENDERPEARL_URANIUM,
             URANIUM,
             URANIUM235,
@@ -79,7 +79,7 @@ public class AdvancedSolarsConfig {
             builder.push("PowerGeneration");
             ADVANCED_SOLAR_GENERATION_MULTIPLIER = builder.comment("Base energy generation multiplier values for advanced solar - increase them for higher yields.")
                     .translation(AdvancedSolarsClassic.MODID + "config.advanced_solar_generation_multiplier")
-                            .defineInRange("ADVANCED_SOLAR_GENERATION_MULTIPLIER", 1.0, 0.0, 4.0);
+                    .defineInRange("ADVANCED_SOLAR_GENERATION_MULTIPLIER", 1.0, 0.0, 4.0);
             HYBRID_SOLAR_GENERATION_MULTIPLIER = builder.comment("Base energy generation multiplier values for hybrid solar - increase them for higher yields.")
                     .translation(AdvancedSolarsClassic.MODID + "config.hybrid_solar_generation_multiplier")
                     .defineInRange("HYBRID_SOLAR_GENERATION_MULTIPLIER", 1.0, 0.0, 4.0);
@@ -99,9 +99,9 @@ public class AdvancedSolarsConfig {
 
             builder.push("Misc");
             INGOT_IN_IRRADIANT_URANIUM = builder.comment("Determines what ingot is used in the center of the irradiant uranium recipe",
-                    "If the selected option does not exist it will fall back to the default choice EnderPearl",
-                    "Items associated with values: ENDERPEARL_URANIUM: Ic2c enderpearl enriched uranium,",
-                    "URANIUM: #forge:ingots/uranium, URANIUM235: #forge:ingots/uranium235, URANIUM233: #forge:ingots/uranium235")
+                            "If the selected option does not exist it will fall back to the default choice EnderPearl",
+                            "Items associated with values: ENDERPEARL_URANIUM: Ic2c enderpearl enriched uranium,",
+                            "URANIUM: #forge:ingots/uranium, URANIUM235: #forge:ingots/uranium235, URANIUM233: #forge:ingots/uranium235")
                     .translation(AdvancedSolarsClassic.MODID + "config.ingot_in_irradiant_uranium")
                     .defineEnum("INGOT_IN_IRRADIANT_URANIUM", Misc.CenterIngot.ENDERPEARL_URANIUM);
             builder.pop();

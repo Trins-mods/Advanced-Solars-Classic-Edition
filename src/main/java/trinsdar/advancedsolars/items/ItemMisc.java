@@ -1,7 +1,6 @@
 package trinsdar.advancedsolars.items;
 
 import ic2.core.IC2;
-
 import ic2.core.platform.registries.IC2Items;
 import ic2.core.platform.rendering.IC2Textures;
 import ic2.core.platform.rendering.features.item.ISimpleItemModel;
@@ -9,9 +8,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class ItemMisc extends Item implements ISimpleItemModel {
 

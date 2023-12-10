@@ -24,16 +24,9 @@ public class AdvancedSolarEnergyStringComp extends GuiWidget {
         set.add(ActionRequest.DRAW_FOREGROUND);
     }
 
-
     @Override
     public void drawForeground(PoseStack matrix, int mouseX, int mouseY) {
-        if (block instanceof BlockEntityAdvancedSolarPanel.BlockEntityUltimateHybridSolarPanel){
-            gui.drawString(matrix, block.getBlockState().getBlock().getName(), 20, 5, 7718655);
-        }else if (block instanceof BlockEntityAdvancedSolarPanel.BlockEntityHybridSolarPanel){
-            gui.drawString(matrix, block.getBlockState().getBlock().getName(), 41, 5, 7718655);
-        }else {
-            gui.drawString(matrix, block.getBlockState().getBlock().getName(), 33, 5, 7718655);
-        }
+        gui.drawCenterString(matrix, block.getName(), 176 / 2, 5, 7718655);
         int eu = this.block.getStoredEU();
         int max = this.block.getMaxEU();
         if (eu > max) {
@@ -43,8 +36,8 @@ public class AdvancedSolarEnergyStringComp extends GuiWidget {
         gui.drawString(matrix, Component.translatable(AdvancedSolarLang.storage, eu), 7, 21, white);
         gui.drawString(matrix, Component.literal("/" + max), 7, 31, white);
         gui.drawString(matrix, Component.translatable(AdvancedSolarLang.maxOutput), 7, 41, white);
-        gui.drawString(matrix, Component.literal("" + this.block.getMaxEnergyOutput() + " EU/t"), 7, 51, white);
+        gui.drawString(matrix, Component.literal(this.block.getMaxEnergyOutput() + " EU/t"), 7, 51, white);
         gui.drawString(matrix, Component.translatable(AdvancedSolarLang.generating), 7, 61, white);
-        gui.drawString(matrix, Component.literal("" + this.block.getOutput() + " EU/t"), 7, 71, white);
+        gui.drawString(matrix, Component.literal(this.block.getOutput() + " EU/t"), 7, 71, white);
     }
 }

@@ -20,6 +20,7 @@ import trinsdar.advancedsolars.util.Registry;
 public class AdvancedSolarsJeiPlugin implements IModPlugin {
 
     public static final RecipeType<IElectrolyzerRecipeList.ElectrolyzerRecipe> MOLECULAR_TRANSFORMER = RecipeType.create(AdvancedSolarsClassic.MODID, "molecular_transformer", IElectrolyzerRecipeList.ElectrolyzerRecipe.class);
+
     @Override
     public ResourceLocation getPluginUid() {
         return new ResourceLocation(AdvancedSolarsClassic.MODID, "jei_plugin");

@@ -13,6 +13,7 @@ import java.util.Set;
 public class GuiCompMTEnergyBar extends GuiWidget {
     BlockEntityMolecularTransformer transformer;
     Vec2i pos = new Vec2i(176, 0);
+
     public GuiCompMTEnergyBar(BlockEntityMolecularTransformer transformer) {
         super(new Box2i(30, 30, 8, 24));
         this.transformer = transformer;
@@ -28,7 +29,7 @@ public class GuiCompMTEnergyBar extends GuiWidget {
         Box2i box = this.getBox();
         if (this.transformer.isActive()) {
             float percentage = (float) transformer.energy / transformer.maxEnergy;
-            gui.drawTextureRegion(matrix,gui.getGuiLeft() + box.getX(), gui.getGuiTop() + box.getY(), pos.getX(), pos.getY(), box.getWidth(), percentage * box.getHeight());
+            gui.drawTextureRegion(matrix, gui.getGuiLeft() + box.getX(), gui.getGuiTop() + box.getY(), pos.getX(), pos.getY(), box.getWidth(), percentage * box.getHeight());
         }
 
     }
