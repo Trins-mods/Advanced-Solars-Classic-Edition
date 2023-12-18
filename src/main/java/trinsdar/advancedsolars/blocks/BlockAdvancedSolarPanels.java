@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
-import trinsdar.advancedsolars.util.Registry;
 
 import java.util.Map;
 
@@ -38,7 +37,7 @@ public class BlockAdvancedSolarPanels extends BaseGeneratorBlock {
         @Override
         public TextureAtlasSprite getTexture(BlockState blockState, Direction direction) {
             Map<String, TextureAtlasSprite> map = IC2Textures.getMappedEntriesBlock(this.mod, this.path);
-            return switch (direction){
+            return switch (direction) {
                 case UP -> map.get("top");
                 case DOWN -> map.get("bottom");
                 default -> map.get("side");

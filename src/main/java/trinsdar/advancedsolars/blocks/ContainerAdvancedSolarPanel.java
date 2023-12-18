@@ -7,7 +7,7 @@ import ic2.core.inventory.slot.FilterSlot;
 import ic2.core.utils.math.geometry.Box2i;
 import ic2.core.utils.math.geometry.Vec2i;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
@@ -41,6 +41,22 @@ public class ContainerAdvancedSolarPanel extends ContainerComponent<BlockEntityA
     @OnlyIn(Dist.CLIENT)
     public void onGuiLoaded(IC2Screen gui) {
         gui.clearFlag(IC2Screen.SHOW_PLAYER_INVENTORY_NAME);
+        gui.clearFlag(IC2Screen.SHOW_CONTAINER_NAME);
+    }
+
+    @Override
+    public Vec2i getInvButtonOffset() {
+        return new Vec2i(75, 43);
+    }
+
+    @Override
+    public Vec2i getPreviewButtonOffset() {
+        return new Vec2i(75, 43);
+    }
+
+    @Override
+    public Vec2i getComparatorButtonOffset() {
+        return new Vec2i(64, 65);
     }
 
     @Override

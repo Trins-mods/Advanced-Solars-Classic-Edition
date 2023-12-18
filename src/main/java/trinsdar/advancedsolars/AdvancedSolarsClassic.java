@@ -1,7 +1,6 @@
 package trinsdar.advancedsolars;
 
 import ic2.core.IC2;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -18,21 +17,21 @@ import trinsdar.advancedsolars.util.Registry;
 public class AdvancedSolarsClassic {
     public static final String MODID = "advanced_solars";
 
-    public AdvancedSolarsClassic(){
+    public AdvancedSolarsClassic() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AdvancedSolarsConfig.COMMON_SPEC);
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
         IC2.EVENT_BUS.addListener(AdvancedSolarsWiki::onWikiEvent);
     }
 
     @SubscribeEvent
-    public void onRegister(RegisterEvent event){
-        if (event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)){
+    public void onRegister(RegisterEvent event) {
+        if (event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) {
             Registry.init();
         }
     }
 
     @SubscribeEvent
-    public void onCommonSetup(FMLCommonSetupEvent event){
+    public void onCommonSetup(FMLCommonSetupEvent event) {
         AdvancedSolarsRecipes.init();
     }
 }

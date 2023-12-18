@@ -33,7 +33,7 @@ public class AdvancedSolarPanelComp extends GuiWidget {
         Box2i box = this.getBox();
         if (this.block.isActive()) {
             Vec2i pos = this.block.isDay() ? dayTexPos : nightTexPos;
-            gui.drawTextureRegion(matrix,gui.getGuiLeft() + box.getX(), gui.getGuiTop() + box.getY(), pos.getX(), pos.getY(), box.getWidth(), box.getHeight());
+            gui.drawTextureRegion(matrix, gui.getGuiLeft() + box.getX(), gui.getGuiTop() + box.getY(), pos.getX(), pos.getY(), box.getWidth(), box.getHeight());
         }
 
     }

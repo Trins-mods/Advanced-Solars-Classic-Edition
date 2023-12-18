@@ -39,6 +39,7 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
     protected int lowerProduction;
     int maxOutput;
     boolean day = true;
+
     public BlockEntityAdvancedSolarPanel(BlockPos pos, BlockState state) {
         super(pos, state, 4);
         this.tier = 1;
@@ -81,13 +82,13 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
     }
 
     public boolean isConverting() {
-        if (this.skyBlockCheck()){
-            if (isSunVisible()){
+        if (this.skyBlockCheck()) {
+            if (isSunVisible()) {
                 return this.storage + this.production <= this.maxStorage;
-            }else {
+            } else {
                 return this.storage + this.lowerProduction <= this.maxStorage;
             }
-        }else {
+        } else {
             return false;
         }
     }
@@ -99,10 +100,10 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
 
     public boolean gainEnergy() {
         if (this.isConverting()) {
-            if (this.skyBlockCheck()){
-                if (isSunVisible()){
+            if (this.skyBlockCheck()) {
+                if (isSunVisible()) {
                     this.storage += this.production;
-                }else {
+                } else {
                     this.storage += this.lowerProduction;
                 }
             }
@@ -116,7 +117,7 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
     @Override
     public void onTick() {
 
-        if (this.clock(64)){
+        if (this.clock(64)) {
             this.day = isSunVisible();
             this.updateGuiField("day");
         }
@@ -145,23 +146,23 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
     }
 
     public int getOutput() {
-        if (skyBlockCheck()){
-            if (day){
-                return (int)(this.production * this.config.get());
-            }else {
-                return (int)(this.lowerProduction * this.config.get());
+        if (skyBlockCheck()) {
+            if (day) {
+                return (int) (this.production * this.config.get());
+            } else {
+                return (int) (this.lowerProduction * this.config.get());
             }
-        }else {
+        } else {
             return 0;
         }
 
     }
 
-    public boolean skyBlockCheck(){
+    public boolean skyBlockCheck() {
         return this.getLevel().canSeeSkyFromBelowWater(this.getPosition().above()) && this.getLevel().dimensionType().hasSkyLight();
     }
 
-    public boolean isSunVisible(){
+    public boolean isSunVisible() {
         return isSunVisible(Objects.requireNonNull(this.level), this.getPosition().above());
     }
 
@@ -186,9 +187,9 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
 
     @Override
     public float getEUProduction() {
-        if (isSunVisible()){
+        if (isSunVisible()) {
             return Math.min(this.storage, this.production);
-        }else {
+        } else {
             return Math.min(this.storage, this.lowerProduction);
         }
     }

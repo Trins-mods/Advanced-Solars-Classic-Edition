@@ -91,31 +91,32 @@ public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity imp
 
     public boolean isValidItem(ItemStack stack, int slot, boolean input) {
         ItemStack compare = this.inventory.get(slot);
-        if (!compare.isEmpty()){
+        if (!compare.isEmpty()) {
             return StackUtil.isStackEqual(stack, compare);
         }
         return AdvancedSolarsRecipes.MOLECULAR_TRANSFORMER.getRecipe(stack, true, false) != null;
     }
 
     long lastEnergyIn = 0;
+
     @Override
     public void onTick() {
         boolean active = false;
         TransferStats stat = EnergyNet.INSTANCE.getStats(this);
         long energyIn = stat.getEnergyIn();
-        if (energyIn > lastEnergyIn){
+        if (energyIn > lastEnergyIn) {
             energyInPerTick = energyIn - lastEnergyIn;
             this.updateGuiField("energyInPerTick");
         }
         lastEnergyIn = energyIn;
-        if (shouldProcess()){
-            if (energy == 0){
-                if (!consumedInputs){
+        if (shouldProcess()) {
+            if (energy == 0) {
+                if (!consumedInputs) {
                     this.inventory.get(0).shrink(entry.getInput().getCount());
                     consumedInputs = true;
                 }
             }
-            if (energyAccepted > 0){
+            if (energyAccepted > 0) {
                 this.energy += energyAccepted;
                 this.updateGuiField("energy");
                 energyAccepted = 0;
@@ -126,7 +127,7 @@ public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity imp
                 this.maxEnergy = needed;
                 this.updateGuiField("maxEnergy");
             }
-            if (energy >= this.maxEnergy){
+            if (energy >= this.maxEnergy) {
                 energy = 0;
                 this.updateGuiField("energy");
                 consumedInputs = false;
@@ -162,7 +163,7 @@ public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity imp
         if (consumedInputs) return true;
         if (!this.inventory.get(0).isEmpty()) {
             this.entry = AdvancedSolarsRecipes.MOLECULAR_TRANSFORMER.getRecipe(this.inventory.get(0), true, true);
-            if (entry == null){
+            if (entry == null) {
                 input = ItemStack.EMPTY;
                 output = ItemStack.EMPTY;
                 updateGuiFields("input", "output");
@@ -173,7 +174,7 @@ public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity imp
             }
             return this.entry != null && StackUtil.canFitInto(this.inventory.get(1), this.entry.getOutput(), 22);
         } else {
-            if (entry != null){
+            if (entry != null) {
                 this.entry = null;
                 this.energy = 0;
                 this.input = ItemStack.EMPTY;
@@ -187,7 +188,7 @@ public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity imp
     @Override
     public void onLoaded() {
         super.onLoaded();
-        if (this.isSimulating() && !addedToEnet){
+        if (this.isSimulating() && !addedToEnet) {
             addedToEnet = true;
             EnergyNet.INSTANCE.addTile(this);
         }
@@ -195,7 +196,7 @@ public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity imp
 
     @Override
     public void onUnloaded(boolean chunk) {
-        if (this.isSimulating() && addedToEnet){
+        if (this.isSimulating() && addedToEnet) {
             addedToEnet = false;
             EnergyNet.INSTANCE.removeTile(this);
         }
@@ -216,7 +217,7 @@ public class BlockEntityMolecularTransformer extends BaseInventoryTileEntity imp
     @Override
     public int acceptEnergy(Direction direction, int amount, int voltage) {
         int added = Math.min(amount, this.maxEnergy - (energy + energyAccepted));
-        if (added > 0){
+        if (added > 0) {
             this.energyAccepted += added;
         }
         return amount > 0 ? amount - added : 0;
