@@ -58,7 +58,8 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
         return Registry.ADVANCED_SOLAR_PANEL_TYPE;
     }
 
-    protected void addSlots(InventoryHandler handler) {
+    @Override
+    protected void addSlotInfo(InventoryHandler handler) {
         handler.registerBlockSides(DirectionList.UP.invert());
         handler.registerBlockAccess(DirectionList.UP.invert(), AccessRule.BOTH);
         handler.registerSlotAccess(AccessRule.BOTH, 0, 1, 2, 3);
