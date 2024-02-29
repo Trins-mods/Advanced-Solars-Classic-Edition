@@ -3,6 +3,7 @@ package trinsdar.advancedsolars.blocks;
 import ic2.core.inventory.container.ContainerComponent;
 import ic2.core.inventory.gui.IC2Screen;
 import ic2.core.inventory.slot.FilterSlot;
+import ic2.core.utils.math.geometry.Vec2i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -23,6 +24,11 @@ public class ContainerMolecularTransformer extends ContainerComponent<BlockEntit
         this.addComponent(new GuiCompMTEnergyBar(key));
         this.addComponent(new MolecularTransformerStringComp(key));
         this.addPlayerInventory(player.getInventory());
+    }
+
+    @Override
+    public Vec2i getComparatorButtonOffset() {
+        return new Vec2i(-11, 22);
     }
 
     @Override
