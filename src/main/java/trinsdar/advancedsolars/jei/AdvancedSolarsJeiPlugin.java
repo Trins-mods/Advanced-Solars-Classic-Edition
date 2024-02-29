@@ -2,19 +2,27 @@ package trinsdar.advancedsolars.jei;
 
 import ic2.api.recipes.registries.IElectrolyzerRecipeList;
 import ic2.core.block.machines.tiles.lv.ElectrolyzerTileEntity;
+import ic2.core.inventory.gui.IC2Screen;
+import ic2.core.utils.collection.CollectionUtils;
 import ic2.jeiplugin.JEIModule;
+import ic2.jeiplugin.core.IC2GuiHandler;
 import ic2.jeiplugin.core.recipes.categories.ElectrolyzerCategory;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import trinsdar.advancedsolars.AdvancedSolarsClassic;
+import trinsdar.advancedsolars.blocks.BlockEntityMolecularTransformer;
 import trinsdar.advancedsolars.util.AdvancedSolarsRecipes;
 import trinsdar.advancedsolars.util.Registry;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @JeiPlugin
 public class AdvancedSolarsJeiPlugin implements IModPlugin {
@@ -41,5 +49,13 @@ public class AdvancedSolarsJeiPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
         if (!JEIModule.ALLOWS_LOADING) return;
         registration.addRecipes(MOLECULAR_TRANSFORMER, AdvancedSolarsRecipes.MOLECULAR_TRANSFORMER.getRecipes());
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        if (!JEIModule.ALLOWS_LOADING) return;
+        Map<Class<?>, RecipeType<?>> classBased = CollectionUtils.createMap();
+        classBased.put(BlockEntityMolecularTransformer.class, MOLECULAR_TRANSFORMER);
+        registration.addGuiContainerHandler(IC2Screen.class, new IC2GuiHandler(new HashMap<>(), classBased));
     }
 }
