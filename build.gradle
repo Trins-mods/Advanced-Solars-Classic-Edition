@@ -40,7 +40,7 @@ dependencies {
     }
     forge "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     //modImplementation fileTree(include: ['*.jar'], dir: 'libs')
-    modImplementation("curse.maven:ic2_classic-242942:4879119")
+    modImplementation("curse.maven:ic2_classic-242942:5137503")
 //    modImplementation("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 //    modImplementation("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     modImplementation("curse.maven:jei-238222:4712866")
