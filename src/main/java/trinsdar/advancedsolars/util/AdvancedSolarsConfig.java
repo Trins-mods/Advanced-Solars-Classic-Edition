@@ -29,12 +29,12 @@ public class AdvancedSolarsConfig {
         HYBRID_SOLAR_GENERATION_MULTIPLIER = powerGeneration.addDouble("hybrid_solar_generation_multiplier", 1.0, "Base energy generation multiplier values for hybrid solar - increase them for higher yields.").setRange(0.0, 4.0);
         ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER = powerGeneration.addDouble("ultimate_hybrid_solar_generation_multiplier", 1.0, "Base energy generation multiplier values for ultimate hybrid solar - increase them for higher yields.").setRange(0.0, 4.0);
         ConfigSection powerValues = config.add("power_values");
-        ADVANCED_SOLAR_HELMET_STORAGE = powerValues.addInt("advanced_solar_helmet_storage", 100000).setRange(1, Integer.MAX_VALUE);
-        HYBRID_SOLAR_HELMET_STORAGE = powerValues.addInt("hybrid_solar_helmet_storage", 1000000).setRange(1, Integer.MAX_VALUE);
-        ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE = powerValues.addInt("ultimate_hybrid_solar_helmet_storage", 10000000).setRange(1, Integer.MAX_VALUE);
-        ADVANCED_SOLAR_HELMET_TRANSFER = powerValues.addInt("advanced_solar_helmet_transfer", 100).setRange(1, Integer.MAX_VALUE);
-        HYBRID_SOLAR_HELMET_TRANSFER = powerValues.addInt("hybrid_solar_helmet_transfer", 1000).setRange(1, Integer.MAX_VALUE);
-        ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER = powerValues.addInt("ultimate_hybrid_solar_helmet_transfer", 4000).setRange(1, Integer.MAX_VALUE);
+        ADVANCED_SOLAR_HELMET_STORAGE = powerValues.addInt("advanced_solar_helmet_storage", 100000).setMin(1);
+        HYBRID_SOLAR_HELMET_STORAGE = powerValues.addInt("hybrid_solar_helmet_storage", 1000000).setMin(1);
+        ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE = powerValues.addInt("ultimate_hybrid_solar_helmet_storage", 10000000).setMin(1);
+        ADVANCED_SOLAR_HELMET_TRANSFER = powerValues.addInt("advanced_solar_helmet_transfer", 100).setMin(1);
+        HYBRID_SOLAR_HELMET_TRANSFER = powerValues.addInt("hybrid_solar_helmet_transfer", 1000).setMin(1);
+        ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER = powerValues.addInt("ultimate_hybrid_solar_helmet_transfer", 4000).setMin(1);
         ConfigSection misc = config.add("misc");
         INGOT_IN_IRRADIANT_URANIUM = misc.addEnum("ingot_in_irradiant_uranium", CenterIngot.ENDERPEARL_URANIUM, CenterIngot.class,
                 "Determines what ingot is used in the center of the irradiant uranium recipe",
@@ -45,6 +45,7 @@ public class AdvancedSolarsConfig {
         CONFIG.register();
 
         Path configFile = Path.of(FMLPaths.CONFIGDIR.get().toString(),  "advanced_solars-common.toml");
+
         if (!Files.exists(configFile)){
             return;
         }
@@ -69,7 +70,7 @@ public class AdvancedSolarsConfig {
                 } catch (IllegalArgumentException ignored){
                 }
             }
-            Files.delete(configFile);
+            Files.move(configFile, Path.of(FMLPaths.CONFIGDIR.get().toString(),  "advanced_solars-common-replaced.toml.bak"));
             CONFIG.save();
         } catch (Exception e){
             IC2.LOGGER.error(e);
