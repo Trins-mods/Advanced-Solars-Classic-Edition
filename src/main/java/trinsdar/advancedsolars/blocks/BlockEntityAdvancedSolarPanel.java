@@ -48,7 +48,7 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
         this.lowerProduction = 2;
         this.maxStorage = 32000;
         this.maxOutput = 32;
-        this.config = () -> AdvancedSolarsConfig.POWER_GENERATION.ADVANCED_SOLAR_GENERATION_MULTIPLIER;
+        this.config = () -> AdvancedSolarsConfig.ADVANCED_SOLAR_GENERATION_MULTIPLIER.get();
         this.addComparator(FlagComparator.createTile("active", ComparatorNames.ACTIVE, this));
         this.addGuiFields("day");
     }
@@ -217,7 +217,7 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
             this.lowerProduction = 16;
             this.maxStorage = 100000;
             this.maxOutput = 128;
-            this.config = () -> AdvancedSolarsConfig.POWER_GENERATION.HYBRID_SOLAR_GENERATION_MULTIPLIER;
+            this.config = () -> AdvancedSolarsConfig.HYBRID_SOLAR_GENERATION_MULTIPLIER.get();
         }
 
         @Override
@@ -234,7 +234,7 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
             this.lowerProduction = 128;
             this.maxStorage = 1000000;
             this.maxOutput = 2048;
-            this.config = () -> AdvancedSolarsConfig.POWER_GENERATION.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER;
+            this.config = () -> AdvancedSolarsConfig.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER.get();
         }
 
         @Override

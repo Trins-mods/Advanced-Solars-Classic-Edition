@@ -1,123 +1,102 @@
 package trinsdar.advancedsolars.util;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
-import org.apache.commons.lang3.tuple.Pair;
-import trinsdar.advancedsolars.AdvancedSolarsClassic;
+import carbonconfiglib.CarbonConfig;
+import carbonconfiglib.config.Config;
+import carbonconfiglib.config.ConfigEntry;
+import carbonconfiglib.config.ConfigHandler;
+import carbonconfiglib.config.ConfigSection;
+import com.electronwill.nightconfig.core.CommentedConfig;
+import com.electronwill.nightconfig.core.file.FileNotFoundAction;
+import com.electronwill.nightconfig.toml.TomlParser;
+import ic2.core.IC2;
+import net.minecraftforge.fml.loading.FMLPaths;
 
-@Mod.EventBusSubscriber(modid = AdvancedSolarsClassic.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class AdvancedSolarsConfig {
-    public static final PowerGeneration POWER_GENERATION = new PowerGeneration();
-    public static final PowerValues POWER_VALUES = new PowerValues();
-    public static final Misc MISC = new Misc();
-    public static final EnabledItems ENABLED_ITEMS = new EnabledItems();
-    public static final CommonConfig COMMON_CONFIG;
-    public static final ForgeConfigSpec COMMON_SPEC;
+    public static ConfigEntry.IntValue ADVANCED_SOLAR_HELMET_STORAGE, HYBRID_SOLAR_HELMET_STORAGE, ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE;
+    public static ConfigEntry.IntValue ADVANCED_SOLAR_HELMET_TRANSFER, HYBRID_SOLAR_HELMET_TRANSFER, ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER;
 
-    static {
+    public static ConfigEntry.DoubleValue ADVANCED_SOLAR_GENERATION_MULTIPLIER, HYBRID_SOLAR_GENERATION_MULTIPLIER, ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER;
+    public static ConfigEntry.EnumValue<CenterIngot> INGOT_IN_IRRADIANT_URANIUM;
+    static ConfigHandler CONFIG;
 
-        final Pair<CommonConfig, ForgeConfigSpec> COMMON_PAIR = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
-        COMMON_CONFIG = COMMON_PAIR.getLeft();
-        COMMON_SPEC = COMMON_PAIR.getRight();
+    public static void createConfig(){
+        Config config = new Config("ic2c/advanced_solars");
+        ConfigSection powerGeneration = config.add("power_generation");
+        ADVANCED_SOLAR_GENERATION_MULTIPLIER = powerGeneration.addDouble("advanced_solar_generation_multiplier", 1.0, "Base energy generation multiplier values for advanced solar - increase them for higher yields.").setRange(0.0, 4.0);
+        HYBRID_SOLAR_GENERATION_MULTIPLIER = powerGeneration.addDouble("hybrid_solar_generation_multiplier", 1.0, "Base energy generation multiplier values for hybrid solar - increase them for higher yields.").setRange(0.0, 4.0);
+        ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER = powerGeneration.addDouble("ultimate_hybrid_solar_generation_multiplier", 1.0, "Base energy generation multiplier values for ultimate hybrid solar - increase them for higher yields.").setRange(0.0, 4.0);
+        ConfigSection powerValues = config.add("power_values");
+        ADVANCED_SOLAR_HELMET_STORAGE = powerValues.addInt("advanced_solar_helmet_storage", 100000).setRange(1, Integer.MAX_VALUE);
+        HYBRID_SOLAR_HELMET_STORAGE = powerValues.addInt("hybrid_solar_helmet_storage", 1000000).setRange(1, Integer.MAX_VALUE);
+        ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE = powerValues.addInt("ultimate_hybrid_solar_helmet_storage", 10000000).setRange(1, Integer.MAX_VALUE);
+        ADVANCED_SOLAR_HELMET_TRANSFER = powerValues.addInt("advanced_solar_helmet_transfer", 100).setRange(1, Integer.MAX_VALUE);
+        HYBRID_SOLAR_HELMET_TRANSFER = powerValues.addInt("hybrid_solar_helmet_transfer", 1000).setRange(1, Integer.MAX_VALUE);
+        ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER = powerValues.addInt("ultimate_hybrid_solar_helmet_transfer", 4000).setRange(1, Integer.MAX_VALUE);
+        ConfigSection misc = config.add("misc");
+        INGOT_IN_IRRADIANT_URANIUM = misc.addEnum("ingot_in_irradiant_uranium", CenterIngot.ENDERPEARL_URANIUM, CenterIngot.class,
+                "Determines what ingot is used in the center of the irradiant uranium recipe",
+                "If the selected option does not exist it will fall back to the default choice EnderPearl",
+                "Items associated with values: ENDERPEARL_URANIUM: Ic2c enderpearl enriched uranium,",
+                "URANIUM: #forge:ingots/uranium, URANIUM235: #forge:ingots/uranium235, URANIUM233: #forge:ingots/uranium235");
+        CONFIG = CarbonConfig.CONFIGS.createConfig(config);
+        CONFIG.register();
 
-    }
-
-    @SubscribeEvent
-    public static void onModConfigEvent(final ModConfigEvent e) {
-        onModConfigEvent(e.getConfig());
-    }
-
-    public static void onModConfigEvent(final ModConfig e) {
-        if (e.getModId().equals(AdvancedSolarsClassic.MODID)) {
-            if (e.getSpec() == COMMON_SPEC) bakeCommonConfig();
+        Path configFile = Path.of(FMLPaths.CONFIGDIR.get().toString(),  "advanced_solars-common.toml");
+        if (!Files.exists(configFile)){
+            return;
+        }
+        CommentedConfig forgeConfig = PARSER.parse(configFile, FileNotFoundAction.READ_NOTHING);
+        try {
+            String path = "PowerGeneration";
+            ADVANCED_SOLAR_GENERATION_MULTIPLIER.set(getDouble(forgeConfig, path + ".ADVANCED_SOLAR_GENERATION_MULTIPLIER"));
+            HYBRID_SOLAR_GENERATION_MULTIPLIER.set(getDouble(forgeConfig, path + ".HYBRID_SOLAR_GENERATION_MULTIPLIER"));
+            ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER.set(getDouble(forgeConfig, path + ".ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER"));
+            path = "PowerValues";
+            ADVANCED_SOLAR_HELMET_STORAGE.set(getInt(forgeConfig, path + ".ADVANCED_SOLAR_HELMET_STORAGE"));
+            HYBRID_SOLAR_HELMET_STORAGE.set(getInt(forgeConfig, path + ".HYBRID_SOLAR_HELMET_STORAGE"));
+            ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE.set(getInt(forgeConfig, path + ".ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE"));
+            ADVANCED_SOLAR_HELMET_TRANSFER.set(getInt(forgeConfig, path + ".ADVANCED_SOLAR_HELMET_TRANSFER"));
+            HYBRID_SOLAR_HELMET_TRANSFER.set(getInt(forgeConfig, path + ".HYBRID_SOLAR_HELMET_TRANSFER"));
+            ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER.set(getInt(forgeConfig, path + ".ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER"));
+            path = "Misc";
+            if (forgeConfig.get(path + ".INGOT_IN_IRRADIANT_URANIUM") instanceof String string){
+                try {
+                    CenterIngot centerIngot = CenterIngot.valueOf(string);
+                    INGOT_IN_IRRADIANT_URANIUM.set(centerIngot);
+                } catch (IllegalArgumentException ignored){
+                }
+            }
+            Files.delete(configFile);
+            CONFIG.save();
+        } catch (Exception e){
+            IC2.LOGGER.error(e);
         }
     }
 
-    public static class PowerGeneration {
-        public Double ADVANCED_SOLAR_GENERATION_MULTIPLIER;
-        public Double HYBRID_SOLAR_GENERATION_MULTIPLIER;
-        public Double ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER;
-    }
 
-    public static class PowerValues {
-        public int ADVANCED_SOLAR_HELMET_STORAGE, HYBRID_SOLAR_HELMET_STORAGE, ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE,
-                ADVANCED_SOLAR_HELMET_TRANSFER, HYBRID_SOLAR_HELMET_TRANSFER, ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER;
-    }
+    private static final TomlParser PARSER = new TomlParser();
 
-    public static class EnabledItems {
-        public boolean enableAdvancedSolarHelmet = true;
-        public boolean enableHybridSolarHelmet = true;
-        public boolean enableUltimateHybridSolarHelmet = true;
-        public boolean enableAdvancedSolarPanel = true;
-        public boolean enableHybridSolarPanel = true;
-        public boolean enableUltimateHybridSolarPanel = true;
-        public boolean enableMiscCraftingItems = true;
-    }
-
-    public static class Misc {
-        public CenterIngot INGOT_IN_IRRADIANT_URANIUM = CenterIngot.ENDERPEARL_URANIUM;
-
-        enum CenterIngot {
-            ENDERPEARL_URANIUM,
-            URANIUM,
-            URANIUM235,
-            URANIUM233;
+    private static int getInt(CommentedConfig config, String path){
+        if (!config.contains(path)){
+            throw new RuntimeException("Path does not exist in old config!");
         }
+        return config.getInt(path);
     }
 
-    public static class CommonConfig {
-        public final ForgeConfigSpec.IntValue ADVANCED_SOLAR_HELMET_STORAGE, HYBRID_SOLAR_HELMET_STORAGE, ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE;
-        public final ForgeConfigSpec.IntValue ADVANCED_SOLAR_HELMET_TRANSFER, HYBRID_SOLAR_HELMET_TRANSFER, ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER;
-
-        public final ForgeConfigSpec.DoubleValue ADVANCED_SOLAR_GENERATION_MULTIPLIER, HYBRID_SOLAR_GENERATION_MULTIPLIER, ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER;
-        public final ForgeConfigSpec.EnumValue<Misc.CenterIngot> INGOT_IN_IRRADIANT_URANIUM;
-
-        public CommonConfig(ForgeConfigSpec.Builder builder) {
-            builder.push("PowerGeneration");
-            ADVANCED_SOLAR_GENERATION_MULTIPLIER = builder.comment("Base energy generation multiplier values for advanced solar - increase them for higher yields.")
-                    .translation(AdvancedSolarsClassic.MODID + "config.advanced_solar_generation_multiplier")
-                    .defineInRange("ADVANCED_SOLAR_GENERATION_MULTIPLIER", 1.0, 0.0, 4.0);
-            HYBRID_SOLAR_GENERATION_MULTIPLIER = builder.comment("Base energy generation multiplier values for hybrid solar - increase them for higher yields.")
-                    .translation(AdvancedSolarsClassic.MODID + "config.hybrid_solar_generation_multiplier")
-                    .defineInRange("HYBRID_SOLAR_GENERATION_MULTIPLIER", 1.0, 0.0, 4.0);
-            ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER = builder.comment("Base energy generation multiplier values for ultimate hybrid solar - increase them for higher yields.")
-                    .translation(AdvancedSolarsClassic.MODID + "config.ultimate_hybrid_solar_generation_multiplier")
-                    .defineInRange("ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER", 1.0, 0.0, 4.0);
-            builder.pop();
-            builder.push("PowerValues");
-            ADVANCED_SOLAR_HELMET_STORAGE = builder.defineInRange("ADVANCED_SOLAR_HELMET_STORAGE", 100000, 1, Integer.MAX_VALUE);
-            HYBRID_SOLAR_HELMET_STORAGE = builder.defineInRange("HYBRID_SOLAR_HELMET_STORAGE", 1000000, 1, Integer.MAX_VALUE);
-            ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE = builder.defineInRange("ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE", 10000000, 1, Integer.MAX_VALUE);
-
-            ADVANCED_SOLAR_HELMET_TRANSFER = builder.defineInRange("ADVANCED_SOLAR_HELMET_TRANSFER", 100, 1, Integer.MAX_VALUE);
-            HYBRID_SOLAR_HELMET_TRANSFER = builder.defineInRange("HYBRID_SOLAR_HELMET_TRANSFER", 1000, 1, Integer.MAX_VALUE);
-            ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER = builder.defineInRange("ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER", 4000, 1, Integer.MAX_VALUE);
-            builder.pop();
-
-            builder.push("Misc");
-            INGOT_IN_IRRADIANT_URANIUM = builder.comment("Determines what ingot is used in the center of the irradiant uranium recipe",
-                            "If the selected option does not exist it will fall back to the default choice EnderPearl",
-                            "Items associated with values: ENDERPEARL_URANIUM: Ic2c enderpearl enriched uranium,",
-                            "URANIUM: #forge:ingots/uranium, URANIUM235: #forge:ingots/uranium235, URANIUM233: #forge:ingots/uranium235")
-                    .translation(AdvancedSolarsClassic.MODID + "config.ingot_in_irradiant_uranium")
-                    .defineEnum("INGOT_IN_IRRADIANT_URANIUM", Misc.CenterIngot.ENDERPEARL_URANIUM);
-            builder.pop();
+    private static double getDouble(CommentedConfig config, String path){
+        if (!config.contains(path)){
+            throw new RuntimeException("Path does not exist in old config!");
         }
+        return config.getRaw(path);
     }
 
-    private static void bakeCommonConfig() {
-        POWER_GENERATION.ADVANCED_SOLAR_GENERATION_MULTIPLIER = COMMON_CONFIG.ADVANCED_SOLAR_GENERATION_MULTIPLIER.get();
-        POWER_GENERATION.HYBRID_SOLAR_GENERATION_MULTIPLIER = COMMON_CONFIG.HYBRID_SOLAR_GENERATION_MULTIPLIER.get();
-        POWER_GENERATION.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER = COMMON_CONFIG.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER.get();
-        POWER_VALUES.ADVANCED_SOLAR_HELMET_STORAGE = COMMON_CONFIG.ADVANCED_SOLAR_HELMET_STORAGE.get();
-        POWER_VALUES.HYBRID_SOLAR_HELMET_STORAGE = COMMON_CONFIG.HYBRID_SOLAR_HELMET_STORAGE.get();
-        POWER_VALUES.ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE = COMMON_CONFIG.ULTIMATE_HYBRID_SOLAR_HELMET_STORAGE.get();
-        POWER_VALUES.ADVANCED_SOLAR_HELMET_TRANSFER = COMMON_CONFIG.ADVANCED_SOLAR_HELMET_TRANSFER.get();
-        POWER_VALUES.HYBRID_SOLAR_HELMET_TRANSFER = COMMON_CONFIG.HYBRID_SOLAR_HELMET_TRANSFER.get();
-        POWER_VALUES.ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER = COMMON_CONFIG.ULTIMATE_HYBRID_SOLAR_HELMET_TRANSFER.get();
-        MISC.INGOT_IN_IRRADIANT_URANIUM = COMMON_CONFIG.INGOT_IN_IRRADIANT_URANIUM.get();
+    public enum CenterIngot {
+        ENDERPEARL_URANIUM,
+        URANIUM,
+        URANIUM235,
+        URANIUM233;
     }
 }

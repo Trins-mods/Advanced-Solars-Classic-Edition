@@ -114,7 +114,7 @@ public class AdvancedSolarsRecipes {
 
     public static Object getUranium() {
         Object defaultUranium = IC2Items.INGOT_URANIUM_ENRICHED_ENDERPEARL;
-        return switch (AdvancedSolarsConfig.MISC.INGOT_IN_IRRADIANT_URANIUM) {
+        return switch (AdvancedSolarsConfig.INGOT_IN_IRRADIANT_URANIUM.get()) {
             case URANIUM -> getItemTag(new ResourceLocation("forge", "ingots/uranium"));
             case URANIUM233 -> getItemTag(new ResourceLocation("forge", "ingots/uranium233"));
             case URANIUM235 -> getItemTag(new ResourceLocation("forge", "ingots/uranium235"));
