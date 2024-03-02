@@ -10,6 +10,7 @@ import com.electronwill.nightconfig.core.file.FileNotFoundAction;
 import com.electronwill.nightconfig.toml.TomlParser;
 import ic2.core.IC2;
 import net.minecraftforge.fml.loading.FMLPaths;
+import trinsdar.advancedsolars.AdvancedSolarsClassic;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -57,7 +58,7 @@ public class AdvancedSolarsConfig {
             Files.move(configFile, Path.of(FMLPaths.CONFIGDIR.get().toString(),  "advanced_solars-common-replaced.toml.bak"));
             CONFIG.save();
         } catch (Exception e){
-            IC2.LOGGER.error(e);
+            AdvancedSolarsClassic.LOGGER.error("Old Config reading failed!", e);
         }
     }
 
