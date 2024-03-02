@@ -47,7 +47,7 @@ dependencies {
 //    modImplementation("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 //    modImplementation("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     modImplementation("curse.maven:jei-238222:4712866")
-    modImplementation(include("maven.modrinth:carbon-config:l6LTuPIs"))
+    modImplementation(include("maven.modrinth:carbon-config:92RIAvni"))
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-plugin-compatibilities-forge:9.1.530"
 }
