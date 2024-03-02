@@ -35,9 +35,9 @@ public class Registry {
     public static final ItemMisc IRIDIUM_INGOT = new ItemMisc("iridium_ingot");
     public static final ItemMisc MT_CORE = new ItemMisc("mt_core");
 
-    public static final ItemArmorAdvancedSolarHelmet ADVANCED_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("advanced", 16, 2, 2);
-    public static final ItemArmorAdvancedSolarHelmet HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("hybrid", 128, 16, 3);
-    public static final ItemArmorAdvancedSolarHelmet ULTIMATE_HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("ultimate_hybrid", 1024, 128, 4);
+    public static final ItemArmorAdvancedSolarHelmet ADVANCED_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("advanced", (int) (16 * AdvancedSolarsConfig.ADVANCED_SOLAR_GENERATION_MULTIPLIER.get()), (int) (2 * AdvancedSolarsConfig.ADVANCED_SOLAR_GENERATION_MULTIPLIER.get()), 2);
+    public static final ItemArmorAdvancedSolarHelmet HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("hybrid", (int) (128 * AdvancedSolarsConfig.HYBRID_SOLAR_GENERATION_MULTIPLIER.get()), (int) (16 * AdvancedSolarsConfig.HYBRID_SOLAR_GENERATION_MULTIPLIER.get()), 3);
+    public static final ItemArmorAdvancedSolarHelmet ULTIMATE_HYBRID_SOLAR_HELMET = new ItemArmorAdvancedSolarHelmet("ultimate_hybrid", (int) (1024 * AdvancedSolarsConfig.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER.get()), (int) (128 * AdvancedSolarsConfig.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER.get()), 4);
 
     public static void init() {
     }
