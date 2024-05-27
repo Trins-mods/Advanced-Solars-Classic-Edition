@@ -27,6 +27,7 @@ repositories{
         url = "https://maven.blamejared.com/"
     }
     maven { url "https://maven.shedaniel.me" }
+    maven { url "https://maven.architectury.dev" }
     maven {
         url = "https://api.modrinth.com/maven"
     }
@@ -50,6 +51,10 @@ dependencies {
     modImplementation(include("maven.modrinth:carbon-config:92RIAvni"))
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-plugin-compatibilities-forge:9.1.530"
+
+    modImplementation("me.shedaniel.cloth:cloth-config-forge:8.3.103")
+    modCompileOnly("dev.architectury:architectury-forge:6.5.85")
+    modImplementation("me.shedaniel:RoughlyEnoughItems-forge:9.1.663")
 }
 
 processResources {
