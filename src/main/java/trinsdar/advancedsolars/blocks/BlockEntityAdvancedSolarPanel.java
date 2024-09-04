@@ -44,11 +44,11 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
         super(pos, state, 4);
         this.config = AdvancedSolarsConfig.ADVANCED_SOLAR_GENERATION_MULTIPLIER.get();
         this.ticker = 127;
-        this.production = 16;
-        this.lowerProduction = 2;
+        this.production = (int) (16 * config);
+        this.lowerProduction = (int) (2 * config);
         this.maxStorage = 32000;
-        this.tier = production * config > 32 ? 2 : 1;
-        this.maxOutput = production * config > 32 ? 128 : 32;
+        this.tier = production > 32 ? 2 : 1;
+        this.maxOutput = production > 32 ? 128 : 32;
         this.addComparator(FlagComparator.createTile("active", ComparatorNames.ACTIVE, this));
         this.addGuiFields("day");
     }
@@ -80,6 +80,11 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
     @Override
     public int getMaxEnergyOutput() {
         return maxOutput;
+    }
+
+    @Override
+    public int getProvidedEnergy() {
+        return Math.min(storage, maxOutput);
     }
 
     public boolean isConverting() {
@@ -149,9 +154,9 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
     public int getOutput() {
         if (skyBlockCheck()) {
             if (day) {
-                return (int) (this.production * this.config);
+                return this.production;
             } else {
-                return (int) (this.lowerProduction * this.config);
+                return this.lowerProduction;
             }
         } else {
             return 0;
@@ -213,11 +218,11 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
         public BlockEntityHybridSolarPanel(BlockPos pos, BlockState state) {
             super(pos, state);
             this.config = AdvancedSolarsConfig.HYBRID_SOLAR_GENERATION_MULTIPLIER.get();
-            this.production = 128;
-            this.lowerProduction = 16;
+            this.production = (int) (128 * config);
+            this.lowerProduction = (int) (16 * config);
             this.maxStorage = 100000;
-            this.tier = production * config > 128 ? 3 : 2;
-            this.maxOutput = production * config > 128 ? 512 : 128;
+            this.tier = production > 128 ? 3 : 2;
+            this.maxOutput = production > 128 ? 512 : 128;
         }
 
         @Override
@@ -230,11 +235,11 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
         public BlockEntityUltimateHybridSolarPanel(BlockPos pos, BlockState state) {
             super(pos, state);
             this.config = AdvancedSolarsConfig.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER.get();
-            this.production = 1024;
-            this.lowerProduction = 128;
+            this.production = (int) (1024 * config);
+            this.lowerProduction = (int) (128 * config);
             this.maxStorage = 1000000;
-            this.tier =  production * config > 2048 ? 5 : 4;
-            this.maxOutput = production * config > 2048 ? 8192 : 2048;
+            this.tier =  production > 2048 ? 5 : 4;
+            this.maxOutput = production > 2048 ? 8192 : 2048;
         }
 
         @Override
