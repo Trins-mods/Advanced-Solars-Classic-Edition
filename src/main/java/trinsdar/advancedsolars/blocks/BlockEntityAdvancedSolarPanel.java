@@ -137,7 +137,7 @@ public class BlockEntityAdvancedSolarPanel extends BaseGeneratorTileEntity imple
                 this.storage -= charged;
             }
 
-            if (this.storage + this.production >= this.maxStorage) {
+            if (this.storage > this.maxStorage) {
                 this.storage = this.maxStorage;
             }
         }
