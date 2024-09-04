@@ -1,10 +1,12 @@
 package trinsdar.advancedsolars.util;
 
 import carbonconfiglib.CarbonConfig;
+import carbonconfiglib.api.IReloadMode;
 import carbonconfiglib.config.Config;
 import carbonconfiglib.config.ConfigEntry;
 import carbonconfiglib.config.ConfigHandler;
 import carbonconfiglib.config.ConfigSection;
+import carbonconfiglib.impl.ReloadMode;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.file.FileNotFoundAction;
 import com.electronwill.nightconfig.toml.TomlParser;
@@ -24,9 +26,9 @@ public class AdvancedSolarsConfig {
     public static void createConfig(){
         Config config = new Config("ic2c/advanced_solars");
         ConfigSection powerGeneration = config.add("power_generation");
-        ADVANCED_SOLAR_GENERATION_MULTIPLIER = powerGeneration.addDouble("advanced_solar_generation_multiplier", 1.0, "Base energy generation multiplier values for advanced solar - increase them for higher yields.").setRange(0.0, 4.0);
-        HYBRID_SOLAR_GENERATION_MULTIPLIER = powerGeneration.addDouble("hybrid_solar_generation_multiplier", 1.0, "Base energy generation multiplier values for hybrid solar - increase them for higher yields.").setRange(0.0, 4.0);
-        ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER = powerGeneration.addDouble("ultimate_hybrid_solar_generation_multiplier", 1.0, "Base energy generation multiplier values for ultimate hybrid solar - increase them for higher yields.").setRange(0.0, 4.0);
+        ADVANCED_SOLAR_GENERATION_MULTIPLIER = powerGeneration.addDouble("advanced_solar_generation_multiplier", 1.0, "Base energy generation multiplier values for advanced solar - increase them for higher yields.").setRange(0.0, 4.0).setRequiredReload(ReloadMode.WORLD);
+        HYBRID_SOLAR_GENERATION_MULTIPLIER = powerGeneration.addDouble("hybrid_solar_generation_multiplier", 1.0, "Base energy generation multiplier values for hybrid solar - increase them for higher yields.").setRange(0.0, 4.0).setRequiredReload(ReloadMode.WORLD);
+        ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER = powerGeneration.addDouble("ultimate_hybrid_solar_generation_multiplier", 1.0, "Base energy generation multiplier values for ultimate hybrid solar - increase them for higher yields.").setRange(0.0, 4.0).setRequiredReload(ReloadMode.WORLD);
         ConfigSection misc = config.add("misc");
         INGOT_IN_IRRADIANT_URANIUM = misc.addEnum("ingot_in_irradiant_uranium", CenterIngot.ENDERPEARL_URANIUM, CenterIngot.class,
                 "Determines what ingot is used in the center of the irradiant uranium recipe",
