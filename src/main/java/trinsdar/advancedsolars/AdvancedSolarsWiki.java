@@ -18,18 +18,14 @@ public class AdvancedSolarsWiki {
         if (event instanceof WikiEvent.WikiSetupEvent setupEvent) {
             setupEvent.builder.addChapterBuilder(AdvancedSolarsWiki::createWiki);
         }
-        if (event instanceof WikiEvent.AddonSetupEvent setupEvent) setupEvent.enableAddons();
-        if (event instanceof WikiEvent.AddonPageEvent setupEvent) {
-            setupEvent.registerChapters(new CategoryObj("wiki.ic2.category.general", new CategoryObj.Link(Registry.ADVANCED_SOLAR_PANEL, "advancedsolars:items").with("wiki.advanced_solars.category")));
-        }
     }
 
     public static void createWiki(IChapterBuilder builder) {
-        builder.startBuildChapter("advancedsolars", "items");
+        builder.startBuildChapter("advanced_solars", "items");
         builder.addSimplePage(new HeaderObj("wiki.advanced_solars.header.main"), new TextObj("wiki.advanced_solars.preview.main.desc"));
         builder.addSimplePage(createItemList(Registry.ADVANCED_SOLAR_HELMET, Registry.HYBRID_SOLAR_HELMET, Registry.ULTIMATE_HYBRID_SOLAR_HELMET));
         builder.finishBuildChapter(true);
-        builder.startBuildChapter("advancedsolars", "blocks");
+        builder.startBuildChapter("advanced_solars", "blocks");
         builder.addSimplePage(createItemList(Registry.ADVANCED_SOLAR_PANEL, Registry.HYBRID_SOLAR_PANEL, Registry.ULTIMATE_HYBRID_SOLAR_PANEL));
         builder.addSubPages(Registry.MOLECULAR_TRANSFORMER);
         builder.finishBuildChapter(true);

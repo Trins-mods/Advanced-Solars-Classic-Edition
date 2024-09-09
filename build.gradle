@@ -86,6 +86,9 @@ repositories{
     maven {
         url "https://cursemaven.com"
     }
+    maven {
+        url 'https://repo.repsy.io/mvn/trinsdar/trins-mods/'
+    }
 }
 
 dependencies {
@@ -98,6 +101,12 @@ dependencies {
     implementation(fg.deobf("maven.modrinth:carbon-config:l6LTuPIs"))
     jarJar("maven.modrinth:carbon-config:mJxg4ZgM") {
         jarJar.ranged(it, "[1.19.2-1.2.6,)")
+    }
+    implementation('io.github.trinsdar:trins-wiki-lib:1.0.0'){
+        transitive = false
+    }
+    jarJar('io.github.trinsdar:trins-wiki-lib:1.0.0'){
+        jarJar.ranged(it, "[1.0.0,)")
     }
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-plugin-compatibilities-forge:9.1.530"
