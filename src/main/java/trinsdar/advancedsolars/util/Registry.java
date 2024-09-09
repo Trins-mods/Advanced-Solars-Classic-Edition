@@ -1,6 +1,8 @@
 package trinsdar.advancedsolars.util;
 
+import ic2.core.block.base.IC2ContainerBlock;
 import ic2.core.platform.registries.IC2Tiles;
+import ic2.core.utils.tooltips.helper.ITooltipProvider;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import trinsdar.advancedsolars.blocks.BlockAdvancedSolarPanels;
 import trinsdar.advancedsolars.blocks.BlockEntityAdvancedSolarPanel;
@@ -15,11 +17,11 @@ public class Registry {
 
     public static final BlockEntityType<BlockEntityMolecularTransformer> MOLECULAR_TRANSFORMER_TYPE = IC2Tiles.createTile("molecular_transformer", BlockEntityMolecularTransformer::new);
 
-    public static final BlockAdvancedSolarPanels ADVANCED_SOLAR_PANEL = new BlockAdvancedSolarPanels("advanced_solar_panel", ADVANCED_SOLAR_PANEL_TYPE);
-    public static final BlockAdvancedSolarPanels HYBRID_SOLAR_PANEL = new BlockAdvancedSolarPanels("hybrid_solar_panel", HYBRID_SOLAR_PANEL_TYPE);
-    public static final BlockAdvancedSolarPanels ULTIMATE_HYBRID_SOLAR_PANEL = new BlockAdvancedSolarPanels("ultimate_hybrid_solar_panel", ULTIMATE_HYBRID_SOLAR_PANEL_TYPE);
+    public static final IC2ContainerBlock ADVANCED_SOLAR_PANEL = new BlockAdvancedSolarPanels("advanced_solar_panel", ADVANCED_SOLAR_PANEL_TYPE).addTooltip(ITooltipProvider.euReaderTooltip("tooltip.item.advanced_solars.eu_reader.production", (AdvancedSolarsConfig.ADVANCED_SOLAR_GENERATION_MULTIPLIER.get() * 16))).addTooltip(ITooltipProvider.tooltip("tooltip.item.advanced_solars.eu_reader.lower_production", (AdvancedSolarsConfig.ADVANCED_SOLAR_GENERATION_MULTIPLIER.get() * 2)));
+    public static final IC2ContainerBlock HYBRID_SOLAR_PANEL = new BlockAdvancedSolarPanels("hybrid_solar_panel", HYBRID_SOLAR_PANEL_TYPE).addTooltip(ITooltipProvider.euReaderTooltip("tooltip.item.advanced_solars.eu_reader.production", (AdvancedSolarsConfig.HYBRID_SOLAR_GENERATION_MULTIPLIER.get() * 128))).addTooltip(ITooltipProvider.tooltip("tooltip.item.advanced_solars.eu_reader.lower_production", (AdvancedSolarsConfig.HYBRID_SOLAR_GENERATION_MULTIPLIER.get() * 16)));
+    public static final IC2ContainerBlock ULTIMATE_HYBRID_SOLAR_PANEL = new BlockAdvancedSolarPanels("ultimate_hybrid_solar_panel", ULTIMATE_HYBRID_SOLAR_PANEL_TYPE).addTooltip(ITooltipProvider.euReaderTooltip("tooltip.item.advanced_solars.eu_reader.production", (AdvancedSolarsConfig.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER.get() * 1024))).addTooltip(ITooltipProvider.tooltip("tooltip.item.advanced_solars.eu_reader.lower_production", (AdvancedSolarsConfig.ULTIMATE_HYBRID_SOLAR_GENERATION_MULTIPLIER.get() * 128)));
 
-    public static final BlockAdvancedSolarPanels MOLECULAR_TRANSFORMER = new BlockAdvancedSolarPanels("molecular_transformer", MOLECULAR_TRANSFORMER_TYPE);
+    public static final IC2ContainerBlock MOLECULAR_TRANSFORMER = new BlockAdvancedSolarPanels("molecular_transformer", MOLECULAR_TRANSFORMER_TYPE).addTooltip(ITooltipProvider.LuV_MACHINE).addTooltip(ITooltipProvider.euReaderTooltip("tooltip.advanced_solars.molecular_transformer.consumption"));
 
 
     public static final ItemMisc SUNNARIUM = new ItemMisc("sunnarium");
