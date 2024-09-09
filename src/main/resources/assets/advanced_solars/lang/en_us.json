@@ -31,7 +31,7 @@
   "wiki.advanced_solars.category": "Advanced Solars Classic Items and Blocks",
   "wiki.advanced_solars.header.main": "Advanced Solars classic blocks and items",
   "wiki.advanced_solars.preview.main.desc": "Advanced solars adds a few solar panels and solar helmets that you may find useful. Here you can find info on what they do.",
-  "wiki.advanced_solars.preview.advanced_solar_helmet.desc": "Advanced solar helmets are solar helmets with eu outputs equivalent to the panels. can be added to modular armors",
+  "wiki.advanced_solars.preview.advanced_solar_helmet.desc": "Advanced solar helmets are upgrades to nano/quantum helmets with an integrated solar panel. Note: they do not have a charger slot.",
   "wiki.advanced_solars.preview.advanced_solar_panel.desc": "Advanced Solar panels are panels with batter rates then their compacted counterparts, and also can output a lowered amount at night.",
   "wiki.advanced_solars.preview.molecular_transformer.desc": "The molecular transformer is a block that simply transforms some items into others using energy, speed increases with higher input rates."
 }
