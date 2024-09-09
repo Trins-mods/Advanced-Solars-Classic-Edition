@@ -106,6 +106,7 @@ dependencies {
         transitive = false
     }
     jarJar('io.github.trinsdar:trins-wiki-lib:1.0.0'){
+        transitive = false
         jarJar.ranged(it, "[1.0.0,)")
     }
     //modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-forge:${rootProject.rei_version}"
