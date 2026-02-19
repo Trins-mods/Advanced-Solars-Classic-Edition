@@ -2,7 +2,7 @@ package trinsdar.advancedsolars.blocks;
 
 import ic2.core.inventory.container.ContainerComponent;
 import ic2.core.inventory.gui.IC2Screen;
-import ic2.core.inventory.gui.components.simple.ChargebarComponent;
+import ic2.core.inventory.gui.components.simple.ChargeBarComponent;
 import ic2.core.inventory.slot.FilterSlot;
 import ic2.core.utils.math.geometry.Box2i;
 import ic2.core.utils.math.geometry.Vec2i;
@@ -32,7 +32,7 @@ public class ContainerAdvancedSolarPanel extends ContainerComponent<BlockEntityA
         this.addSlot(FilterSlot.createChargeSlot(tile, tile.tier, 3, 116, 57));
         this.addComponent(new AdvancedSolarPanelComp(tile, SOLAR_PANEL_LIGHT_BOX, DAY_SOLAR_LIGHT_POS, NIGHT_SOLAR_LIGHT_POS));
         this.addComponent(new AdvancedSolarEnergyStringComp(tile));
-        this.addComponent(new ChargebarComponent(CHARGE_BOX, tile, CHARGE_POS, false));
+        this.addComponent(new ChargeBarComponent(CHARGE_BOX, tile, CHARGE_POS, false));
         this.addPlayerInventory(player.getInventory());
     }
 

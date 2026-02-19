@@ -80,7 +80,7 @@ public class ItemArmorAdvancedSolarHelmet extends IC2ModularElectricArmor implem
     public ItemStack createDefaultArmor() {
         ItemStack stack = new ItemStack(this);
         Map<ModuleType, List<ItemStack>> types = CollectionUtils.createLinkedMap();
-        Item battery = nano ? IC2Items.ENERGY_CRYSTAL : IC2Items.LAPATRON_CRYSTAL;
+        Item battery = nano ? IC2Items.ENERGY_CRYSTAL : IC2Items.LAPOTRON_CRYSTAL;
         types.put(ModuleType.BATTERY, ObjectArrayList.wrap(new ItemStack[]{new ItemStack(battery)}));
         if (!nano) {
             types.put(ModuleType.GENERIC, ObjectArrayList.wrap(new ItemStack[]{new ItemStack(IC2Items.AUTO_FEED_MODULE), new ItemStack(IC2Items.AIR_REFILL_MODULE), new ItemStack(IC2Items.PROTECTION_MODULE)}));
