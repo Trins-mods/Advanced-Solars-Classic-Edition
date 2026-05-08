@@ -40,9 +40,9 @@ public class AdvancedSolarsRecipes {
     };
 
     public static void init() {
-        IC2.RECIPES.get(true).getLists().add(MOLECULAR_TRANSFORMER);
+        IC2.RECIPES.get(true).registerRecipeList(new ResourceLocation(AdvancedSolarsClassic.MODID, "molecular_transformer"), MOLECULAR_TRANSFORMER);
         if (FMLEnvironment.dist.isClient()) {
-            IC2.RECIPES.get(false).getLists().add(MOLECULAR_TRANSFORMER);
+            IC2.RECIPES.get(false).registerRecipeList(new ResourceLocation(AdvancedSolarsClassic.MODID, "molecular_transformer"), MOLECULAR_TRANSFORMER);
         }
         //hack till ic2c has a proper method of doing custom recipe maps
         IC2.RECIPES.get(true).electrolyzer.registerListener(r -> MOLECULAR_TRANSFORMER.reload());
